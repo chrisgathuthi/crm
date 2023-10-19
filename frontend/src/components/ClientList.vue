@@ -1,19 +1,16 @@
 <script setup>
 import { onMounted } from "vue";
-import axios from "axios";
-import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { useClientStore } from "../stores/client";
 
 const router = useRouter();
+
 // clients data
-const clients = ref();
-onMounted(() => {
-  axios
-    .get("/accounts/client/")
-    .then((resp) => {
-      clients.value = resp.data;
-    })
-    .catch((error) => console.log(error));
+const store = useClientStore()
+
+onMounted(async () => {
+  await store.getClientList()
+
 });
 
 </script>
@@ -44,12 +41,13 @@ onMounted(() => {
     </v-row>
     <v-row
       no-gutters
-      v-for="client in clients"
+      v-for="client in store.clients"
       :key="client.id"
-      @click="router.push(`/client/${client.id}`)"
+      @click="router.push({ name: 'client-detail', params: { id: client.id } })"
+      class="data-list"
     >
       <v-col>
-        <v-sheet class="ma-.4">
+        <v-sheet class="ma-1">
           {{ client.serial }}
         </v-sheet>
       </v-col>
@@ -83,5 +81,11 @@ onMounted(() => {
 <style scoped>
 .action-menu {
   background-color: green;
+}
+.data-list{
+  cursor: pointer;
+}
+.v-row:hover{
+  background-color: #dfdfdfef;
 }
 </style>

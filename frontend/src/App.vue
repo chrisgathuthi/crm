@@ -4,7 +4,7 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-  <VApp style="width: 100%;">
+  <VApp style="width: 100%; height: 100vh;" >
     <v-layout>
       <v-navigation-drawer class="bg-purple-darken-2" theme="dark" permanent>
         <v-list color="transparent">
@@ -32,7 +32,7 @@ import { RouterLink, RouterView } from 'vue-router'
         </template>
 
       </v-navigation-drawer>
-      <v-main >
+      <v-main>
         <RouterView />
       </v-main>
     </v-layout>
@@ -50,5 +50,8 @@ a:hover{
 }
 .active{
   color: #ffffff;
+}
+.v-main{
+  overflow: scroll;
 }
 </style>

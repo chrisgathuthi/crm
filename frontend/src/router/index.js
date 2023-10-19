@@ -9,7 +9,7 @@ import ServicesView from '../views/ServicesView.vue'
 import SignInView from '../views/SignInView.vue'
 import ClientsView from '../views/ClientsView.vue'
 import ClientDetail from '../components/ClientDetail.vue'
-
+import RegistrationView from '../views/RegistrationView.vue'
 
 
 const router = createRouter({
@@ -67,7 +67,13 @@ const router = createRouter({
       path: '/client/:id',
       name: 'client-detail',
       component: ClientDetail
+    },
+    {
+      path: '/registration',
+      name: 'registration',
+      component: RegistrationView
     }
+
   ]
 })
 

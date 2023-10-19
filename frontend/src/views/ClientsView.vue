@@ -7,7 +7,7 @@ import ClientList from '../components/ClientList.vue'
     <v-app-bar>
         <v-card variant="flat">
             <v-card-item>
-                <RouterLink to="/">
+                <RouterLink :to="{name: 'registration'}">
                     <v-icon size="large" color="green-darken-2" icon="mdi-plus"></v-icon> Clients
                 </RouterLink>
             </v-card-item>

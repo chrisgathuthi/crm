@@ -1,48 +1,43 @@
 <script setup>
-import axios from 'axios';
-import { ref, onBeforeMount, onMounted } from 'vue';
+import {  computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useClientStore } from "../stores/client";
+import ClientDeleteDialog from './Dialog/ClientDeleteDialog.vue';
 
-const client = ref()
 const route = useRoute()
 const router = useRouter()
-console.log("The route",route)
-console.log("The router",router)
+const store = useClientStore()
 
-const { id } = route.params
-
-onBeforeMount(() => {
-    axios.get(`/accounts/client/${id}`)
-        .then((resp) => client.value = resp.data)
-        .catch((error) => console.log(error))
+const selectedClient = computed(() =>{
+    return store.clients.find((item) => item.id === Number(route.params.id))
 })
 </script>
 <template>
     <v-card width="500">
         <v-card-item>
-            <v-card-tile style="font-weight: bold;">{{ client.first_name }} {{ client.last_name }}</v-card-tile>
+            <v-card-tile style="font-weight: bold;">{{ selectedClient.first_name }} {{ selectedClient.last_name }}</v-card-tile>
             <v-card-text>
                 <v-container>
                     <v-row>
-                        <v-col title="location">Location {{ client.location }}</v-col>
+                        <v-col title="location">Location {{ selectedClient.location }}</v-col>
                     </v-row>
                     <v-row>
-                        <v-col title="Phone number">Phone number {{ client.phone_number }}</v-col>
+                        <v-col title="Phone number">Phone number {{ selectedClient.phone_number }}</v-col>
                     </v-row>
                     <v-row>
-                        <v-col title="Password">Password {{ client.password }}</v-col>
+                        <v-col title="Password">Password {{ selectedClient.password }}</v-col>
                     </v-row>
                     <v-row>
-                        <v-col title="email">E-mail {{ client.email }}</v-col>
+                        <v-col title="email">E-mail {{ selectedClient.email }}</v-col>
                     </v-row>
                     <v-row>
-                        <v-col title="router">Router {{ client.router }}</v-col>
+                        <v-col title="router">Router {{ selectedClient.router }}</v-col>
                     </v-row>
                     <v-row>
-                        <v-col title="service plan">Service plan {{ client.service_plan }}</v-col>
+                        <v-col title="service plan">Service plan {{ selectedClient.service_plan }}</v-col>
                     </v-row>
                     <v-row>
-                        <v-col title="registration">Registration date {{ client.registration_date }}</v-col>
+                        <v-col title="registration">Registration date {{ selectedClient.registration_date }}</v-col>
                     </v-row>
                 </v-container>
             </v-card-text>
@@ -53,6 +48,7 @@ onBeforeMount(() => {
                 <v-icon icon="mdi-delete" style="color: #D50000;">
                 </v-icon>
                 Delete
+             <ClientDeleteDialog :id="selectedClient.id"/>
             </v-btn>
             <v-btn>
                 <v-icon icon="mdi-square-edit-outline" style="color: #00E676;">
