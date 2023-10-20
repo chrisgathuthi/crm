@@ -2,14 +2,16 @@
 import axios from 'axios';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useToastStore } from '../../stores/toast';
 
 const dialog = ref(false)
 const props = defineProps(["id"])
 const router = useRouter()
+const toast = useToastStore()
 
 const deleteClient = (id) => {
     axios.delete(`/accounts/client/${parseInt(id)}`)
-        .then((resp) => console.log(resp.data))
+        .then((resp) => toast.showToast(3000,"Deleted successfully","success") )
         .catch((error) => console.log(error))
 }
 
