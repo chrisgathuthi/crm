@@ -19,11 +19,24 @@ class Client(models.Model):
     email = models.EmailField(unique=True)
     location = models.CharField(max_length=20)
     router = models.CharField(max_length=15)
+    # bandwidth = models.IntegerField()
     service_plan = models.CharField(choices=SERVICE.choices, max_length=7)
-    registration_date = models.DateTimeField(auto_created=True)
+    # status = models.CharField(max_length=10)
+    registration_date = models.DateTimeField(auto_now=True,blank=True, null=True)#change this
 
 
     def __str__(self):
         return self.first_name +""+ self.last_name
     
 
+class FieldWork(models.Model):
+    """field work activities"""
+
+    task_name = models.CharField(max_length=200)
+    location = models.CharField(max_length=200)
+    activities = models.TextField()
+    assignee = models.CharField(max_length=30)
+    date = models.DateField()
+
+    def __str__(self):
+        return self.task_name + "by" + self.assignee
