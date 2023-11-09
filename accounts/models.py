@@ -1,6 +1,6 @@
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
-
+from django.contrib.auth.models import User
 
 class Client(models.Model):
 
@@ -35,7 +35,7 @@ class FieldWork(models.Model):
     task_name = models.CharField(max_length=200)
     location = models.CharField(max_length=200)
     activities = models.TextField()
-    assignee = models.CharField(max_length=30)
+    assignee = models.ForeignKey(to=User, on_delete=models.SET_NULL, null=True, related_name="worker")
     date = models.DateField()
 
     def __str__(self):
