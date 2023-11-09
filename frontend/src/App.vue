@@ -1,6 +1,20 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import Toast from '@/components/Toast.vue'
+import { useUserStore } from '@/stores/user';
+import axios from 'axios';
+import { onBeforeMount } from 'vue';
+const userStore = useUserStore()
+
+onBeforeMount(() => {
+  const token = userStore.user.access
+
+  if(token){
+    axios.defaults.headers.common['Authorization'] = "Bearer "+token
+  }else{
+    axios.defaults.headers.common['Authorization'] = ""
+  }
+})
 </script>
 
 <template>
