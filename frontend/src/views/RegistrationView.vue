@@ -4,10 +4,24 @@ import { useForm, useField } from 'vee-validate';
 import * as yup from 'yup';
 import { useToastStore } from '../stores/toast';
 import { useRouter } from 'vue-router';
+import { useBandwidth } from '../stores/bandwidth';
+import { onMounted, ref } from 'vue';
 
 const pageRouter = useRouter()
 const toast = useToastStore()
+const bandwidthStore = useBandwidth()
 
+// load bandwidth
+onMounted(() => {
+    bandwidthStore.getBandwith()
+})
+
+function itemProps(item) {
+    return {
+        title: item,
+    }
+}
+console.log(bandwidthStore.package)
 const { errors, values, setErrors, handleSubmit } = useForm({
     validationSchema: yup.object({
         firstname: yup.string().required('First name is required'),
@@ -28,6 +42,8 @@ const password = useField('password');
 const email = useField('email');
 const location = useField('location');
 const router = useField('router');
+const status = useField('status');
+const bandwidth = useField('bandwidth');
 const serviceplan = useField('serviceplan');
 
 const submit = handleSubmit(async () => {
@@ -39,12 +55,14 @@ const submit = handleSubmit(async () => {
         email: values.email,
         location: values.location,
         router: values.router,
+        status: values.status,
+        bandwidth: values.bandwidth,
         service_plan: values.serviceplan
     }
     await axios.post('/accounts/client/', data)
-        .then((resp) => { 
-            toast.showToast(3000, `${resp.data.first_name} registered successfully`, "success") 
-            pageRouter.push({name: 'clients'})
+        .then((resp) => {
+            toast.showToast(3000, `${resp.data.first_name} registered successfully`, "success")
+            pageRouter.push({ name: 'clients' })
         })
         .catch((errors) => {
             toast.showToast(3000, "An error occurred", "warning")
@@ -57,6 +75,7 @@ const submit = handleSubmit(async () => {
                 password: errors.response.data.password,
                 location: errors.response.data.location,
                 router: errors.response.data.router,
+                bandwidth: errors.response.data.bandwidth,
                 serviceplan: errors.response.data.service_plan
             })
         })
@@ -89,8 +108,10 @@ const submit = handleSubmit(async () => {
                     v-model="location.value.value" label=" location"></v-text-field>
                 <v-text-field clearable variant="underlined" :error-messages="errors.router" v-model="router.value.value"
                     label=" router"></v-text-field>
-                <v-select label="service plan" :items="['HOTSPOT', 'PPOE', 'STATIC']" :error-messages="errors.serviceplan"
-                    v-model="serviceplan.value.value" variant="underlined"></v-select>
+                <v-select label="status" :items="['ACTIVE', 'INACTIVE']" variant="underlined" v-model="status.value.value"></v-select>
+                <v-select label="service plan" :items="['STATIC','HOTSPOT', 'PPOE']" variant="underlined" v-model="serviceplan.value.value"></v-select>
+                <v-select label="bandwidth" :items="bandwidthStore.package" :error-messages="errors.bandwidth" v-model="bandwidth.value.value"
+                     :item-props="itemProps" variant="underlined"></v-select>
 
                 <v-container>
                     <v-btn type="submit" block class="mt-2">Submit</v-btn>

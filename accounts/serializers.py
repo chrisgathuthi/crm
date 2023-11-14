@@ -1,10 +1,16 @@
 from rest_framework import serializers
-from .models import Client, FieldWork
+from .models import Client, FieldWork, Bandwidth
 
 
+class BandwidthSerializer(serializers.ModelSerializer):
+    """Bandwidth class serializer class"""
+    class Meta:
+        model = Bandwidth
+        fields = "__all__"
 class ClientSerializer(serializers.ModelSerializer):
 
     """A model serializer for client model"""
+    bandwidth = serializers.StringRelatedField()
 
     class Meta:
         model = Client
@@ -17,4 +23,4 @@ class FieldWorkSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FieldWork
-        fields = "__all__" 
+        fields = "__all__"
