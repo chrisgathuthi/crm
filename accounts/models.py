@@ -54,6 +54,7 @@ class FieldWork(models.Model):
         to=User, on_delete=models.SET_NULL, null=True, related_name="worker"
     )
     date = models.DateField()
+    isclosed = models.BooleanField(default=True)
 
     def __str__(self):
         return self.task_name + "by" + self.assignee

@@ -20,7 +20,7 @@ class ClientSerializer(serializers.ModelSerializer):
 
 class FieldWorkSerializer(serializers.ModelSerializer):
     """serialier class for field workd"""
-
+    assignee = serializers.StringRelatedField()
     class Meta:
         model = FieldWork
         fields = "__all__"
