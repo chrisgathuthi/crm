@@ -6,10 +6,11 @@ export const useFieldWorkStore = defineStore("fieldwork", {
     fieldworks: [],
   }),
   actions: {
-    getFieldWorkList() {
-      axios.get("/accounts/fieldworks/")
+    async getFieldWorkList() {
+      await axios.get("/accounts/fieldwork/")
         .then((resp) => {
           this.fieldworks = resp.data;
+          console.log(this.fieldworks);
         })
         .catch((error) => console.log(error));
     },
