@@ -17,8 +17,8 @@ class Provider(models.Model):#company name
     org_email = models.EmailField()
     short_code = models.PositiveIntegerField()#activate short code
     join_date = models.DateTimeField(auto_now=True)
-    owner = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
-    logo = models.ImageField(upload_to=log_directory, null=True)#set default
+    owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    logo = models.ImageField(upload_to="logos", null=True)#set default
     is_activated = models.BooleanField(default=False)
 
     def __str__(self):
@@ -100,19 +100,19 @@ class ShortMessage(models.Model):
 
 class MpesaTransaction(models.Model):
     """mpesa transactions """
-    provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
+    provider = models.ForeignKey(Provider, on_delete=models.CASCADE, related_name="transactions")
+    client = models.ForeignKey(Client, on_delete=models.SET_NULL, null=True, related_name="payments")
     transaction_type = models.CharField(max_length=8)
     transaction_id = models.CharField(max_length=10)
     transaction_time = models.DateTimeField()
     transaction_amount = models.DecimalField(max_digits=10, decimal_places=2)
     short_code = models.PositiveIntegerField()
     invoice_number = models.CharField(max_length=12)#msdsin
-    bill_ref_number = models.CharField(max_length=10)#paybill only
-    phone_number = models.CharField(max_length=12)
-    first_name = models.CharField(max_length=20)
-    middle_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
-
+    bill_ref_number = models.CharField(max_length=10, null=True)#paybill only
+    phone_number = models.CharField(max_length=12, null=True)
+    first_name = models.CharField(max_length=20, null=True)
+    middle_name = models.CharField(max_length=20, null=True)
+    last_name = models.CharField(max_length=20, null=True)
 
     def __str__(self):
         return f"{self.first_name} {self.msdin}"

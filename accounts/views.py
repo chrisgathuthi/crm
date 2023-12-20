@@ -7,9 +7,14 @@ from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
 from django.core.serializers.json import DjangoJSONEncoder
 from rest_framework import status
-from .serializers import ClientSerializer, FieldWorkSerializer, BandwidthSerializer, ShortMessageSerializer, ProviderSerializer, UserSerializer, TokenSerializer
-from .models import Client, FieldWork, Bandwidth, ShortMessage, get_user_model
-
+from django.views import View
+from django.http import JsonResponse
+from rest_framework.authentication import TokenAuthentication
+from .serializers import ClientSerializer, FieldWorkSerializer, BandwidthSerializer, ShortMessageSerializer, ProviderSerializer, UserSerializer, TokenSerializer, ProviderSerializer
+from .models import Client, FieldWork, Bandwidth, ShortMessage, get_user_model, Provider
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from .utilities import save_mpesa_results
 # Create your views here.
 
 
@@ -58,4 +63,35 @@ class UserView(ViewSet):
             serializer.save()
             token = Token.objects.filter(user__email=serializer.validated_data["email"]).first()
             return Response(data={"token": str(token)}, status=status.HTTP_201_CREATED)
-    
+
+class ProviderView(ViewSet):
+
+    """provider view"""
+
+    def create(self, request):
+        """create provider profile"""
+        pprint.pprint(request.META)
+        user_token = request.META.get("HTTP_AUTHORIZATION").split()[1]        
+        
+        try:
+            user = Token.objects.get(key=user_token)
+        except Exception as e:
+            return Response(data={"message":"No token found proceed to login"}, status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            serializer = ProviderSerializer(data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save(owner = user.user)
+                return Response(data={"provider":"provider created successfully"}, status=status.HTTP_201_CREATED)
+
+
+@method_decorator(csrf_exempt, name="dispatch")
+class MpesaWebHook(View):
+
+    """mpesa callback"""
+
+    def post(self, request):
+        save_mpesa_results(results=json.loads(request.body))
+        return JsonResponse(data={"ResultCode":"0", "ResultDesc":"Success"})
+
+
+

@@ -40,7 +40,8 @@ class ProviderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Provider
-        fields = "__all__"
+        fields = ["serial_number", "name", "location", "phone_number", "org_email", "short_code",  "join_date", "join_date", "owner", "logo", "is_activated"]
+        read_only_fields = ["owner", "serial_number"]
 
 class UserSerializer(serializers.ModelSerializer):
     """serializer for creating new partner"""
