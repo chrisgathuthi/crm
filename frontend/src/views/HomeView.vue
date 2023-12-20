@@ -1,9 +1,22 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+import Navigation from '@/components/Navigation.vue';
+import {  RouterView } from 'vue-router'
 </script>
 
 <template>
-  <main>
-    <TheWelcome />
-  </main>
+    <v-layout>
+     <Navigation/>
+      <v-main>
+        <RouterView />
+      </v-main>
+    </v-layout>
 </template>
+<style >
+.v-layout{
+  background: red;
+  min-height: 100vh;
+}
+.v-main{
+  overflow: scroll;
+}
+</style>

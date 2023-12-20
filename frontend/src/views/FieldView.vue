@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref} from 'vue';
 import FieldWorkForm from '@/components/Dialog/FieldWorkForm.vue';
 import { useFieldWorkStore } from '@/stores/fieldwork.js'
 import { Converter } from '@/functions/DateConverter'
@@ -17,7 +17,6 @@ const expand = ref(false)
 // open/close ticket
 const model = ref('no')
 // show search
-const search = ref(false)
 </script>
 
 <template>
@@ -27,21 +26,12 @@ const search = ref(false)
             <v-toolbar-title>Field Tickets</v-toolbar-title>
 
             <v-spacer></v-spacer>
-            <v-expand-x-transition>
-                <div v-show="search" class="w-full">
-                    <v-text-field hide-details single-line></v-text-field>
-                </div>
-            </v-expand-x-transition>
 
-            <v-btn icon="mdi-magnify" @click="search = !search">
-            </v-btn>
             <v-divider vertical></v-divider>
 
-            <v-btn class="ml-2">
-                completed tickets
-            </v-btn>
+
             <v-divider vertical></v-divider>
-            <v-btn color="primary" @click="dialog = !dialog" prepend-icon="mdi-plus">
+            <v-btn color="primary" @click="dialog = !dialog" prepend-icon="mdi-plus" class="mr-3">
                 Tickets
                 <FieldWorkForm :dialog="dialog" />
             </v-btn>
@@ -52,6 +42,20 @@ const search = ref(false)
                     <v-icon>mdi-bell-outline</v-icon>
                 </v-badge>
             </v-btn>
+        </v-toolbar>
+        <v-toolbar density="comfortable" class="mt-2">
+            <v-sheet width="100%">
+                <v-row align="center">
+                    <v-col cols="6">
+                        <v-text-field clearable placeholder="search here" label="search"></v-text-field>
+                    </v-col>
+                    <v-col cols="4">
+                        <v-btn @click="store.completed()" class="bg-purple-darken-4 mr-2">closed</v-btn>
+                        <v-btn @click="store.open()" class="bg-purple-darken-4">open</v-btn>
+                    </v-col>
+                </v-row>
+
+            </v-sheet>
         </v-toolbar>
     </v-card>
 
@@ -93,7 +97,7 @@ const search = ref(false)
                                 <v-row>
                                     <v-col cols="auto">
 
-                                        <v-switch v-model="model" hide-details true-value="closed" false-value="open"
+                                        <v-switch v-model="model" hide-details true-value="closed" false-value="open" initial-value="open"
                                             color="green" :label="`${model}`"></v-switch>
                                     </v-col>
                                 </v-row>
