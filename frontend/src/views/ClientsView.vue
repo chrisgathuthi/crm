@@ -1,9 +1,13 @@
 <script setup>
-import {RouterLink, RouterView} from 'vue-router'
+import {RouterLink} from 'vue-router'
 
 import ClientList from '../components/ClientList.vue'
+import Navigation from '../components/Navigation.vue';
 </script>
 <template>
+    <!-- navigation -->
+    <Navigation/>
+    
     <v-app-bar>
         <v-card variant="flat" elevation="0">
             <v-card-item>

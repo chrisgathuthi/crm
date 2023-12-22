@@ -1,6 +1,7 @@
 <script setup>
 import {useRouter, RouterView} from 'vue-router'
 const router = useRouter()
+import Navigation from '@/components/Navigation.vue'
 
 </script>
 <template>
@@ -11,6 +12,8 @@ const router = useRouter()
         <v-btn @click="router.push({name: 'fees'})">Send sms</v-btn>
         <v-btn to="">Failed sms</v-btn>
     </v-toolbar>
+    <!-- navigation -->
+    <Navigation/>
     <RouterView/>
 
 </template>

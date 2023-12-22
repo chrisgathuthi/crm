@@ -3,6 +3,7 @@ import { ref} from 'vue';
 import FieldWorkForm from '@/components/Dialog/FieldWorkForm.vue';
 import { useFieldWorkStore } from '@/stores/fieldwork.js'
 import { Converter } from '@/functions/DateConverter'
+import Navigation from '../components/Navigation.vue';
 
 const dialog = ref(false)
 
@@ -20,6 +21,8 @@ const model = ref('no')
 </script>
 
 <template>
+    <!-- navigation -->
+    <Navigation/>
     <v-card color="grey-lighten-4" flat height="auto" rounded="0">
         <v-toolbar density="comfortable">
 
