@@ -50,6 +50,11 @@ class UserSerializer(serializers.ModelSerializer):
         model = get_user_model()
         fields = ["username", "email", "password"]
 
+    def create(self, validated_data):
+        # password = validated_data.pop("password")
+        user = get_user_model().objects.create_user(**validated_data)
+        return user
+
 
 class TokenSerializer(serializers.ModelSerializer):
 

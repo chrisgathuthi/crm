@@ -70,7 +70,6 @@ class ProviderView(ViewSet):
 
     def create(self, request):
         """create provider profile"""
-        pprint.pprint(request.META)
         user_token = request.META.get("HTTP_AUTHORIZATION").split()[1]        
         
         try:
