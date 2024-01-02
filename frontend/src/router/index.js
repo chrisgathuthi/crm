@@ -12,7 +12,7 @@ import MonthlyBillingForm from '../components/MonthlyBillingForm.vue'
 import RegistrationView from '../views/RegistrationView.vue'
 import SignupView from '../views/SignupView.vue'
 import PartnerSetup from '../views/PartnerSetupView.vue'
-
+import PaymentDetail from '../components/PaymentDetail.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +44,11 @@ const router = createRouter({
           path: '/billing-form',
           name: 'fees',
           component: MonthlyBillingForm
+        },
+        {
+          path: "payment",
+          name: "payment",
+          component: PaymentDetail
         }
       ]
     },

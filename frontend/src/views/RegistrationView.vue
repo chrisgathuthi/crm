@@ -59,7 +59,7 @@ const submit = handleSubmit(async () => {
         bandwidth: values.bandwidth,
         service_plan: values.serviceplan
     }
-    await axios.post('/accounts/client/', data)
+    await axios.post('/accounts/client/', data, {headers: {"Authorization":`Token ${localStorage.getItem("token")}`}})
         .then((resp) => {
             toast.showToast(3000, `${resp.data.first_name} registered successfully`, "success")
             pageRouter.push({ name: 'clients' })

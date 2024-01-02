@@ -8,7 +8,7 @@ import Navigation from '@/components/Navigation.vue'
     <v-toolbar>
         <v-toolbar-title>Billing</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn @click="router.push({ name: 'fees' })">Payments</v-btn>
+        <v-btn @click="router.push({ name: 'payment' })">Payments</v-btn>
         <v-btn @click="router.push({ name: 'fees' })">Send sms</v-btn>
         <v-btn @click="router.push({ name: 'fees' })">Monthly sms</v-btn>
     </v-toolbar>
