@@ -10,11 +10,11 @@ from rest_framework import status
 from django.views import View
 from django.http import JsonResponse
 from rest_framework.authentication import TokenAuthentication
-from .serializers import ClientSerializer, FieldWorkSerializer, BandwidthSerializer, ShortMessageSerializer, ProviderSerializer, UserSerializer, TokenSerializer, ProviderSerializer
-from .models import Client, FieldWork, Bandwidth, ShortMessage, get_user_model, Provider
+from .serializers import ClientSerializer, FieldWorkSerializer, BandwidthSerializer, ShortMessageSerializer, ProviderSerializer, UserSerializer, TokenSerializer, ProviderSerializer, ShortMessageSerializer, MpesaTransactionSerializer
+from .models import Client, FieldWork, Bandwidth, ShortMessage, get_user_model, Provider, ShortMessage, MpesaTransaction
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-from .utilities import save_mpesa_results
+from .utilities import save_mpesa_results, get_provider_from_token
 # Create your views here.
 
 
@@ -23,6 +23,10 @@ class ClientView(ModelViewSet):
 
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
+    
+    def perform_create(self, serializer):
+        provider = get_provider_from_token(header=self.request.META)
+        serializer.save(provider = provider )
 
 
 class FieldWorkView(ModelViewSet):
@@ -41,16 +45,22 @@ class BandwidthView(ModelViewSet):
 class ShortMessageView(ViewSet):
 
     """short message view"""
-    queryset = ShortMessage.objects.all()
+
+    authentication_classes = [TokenAuthentication]
 
     def create(self, request):
+        
+        provider = get_provider_from_token(header=request.META)
         serialzer = ShortMessageSerializer(data=request.data)
         if serialzer.is_valid(raise_exception=True):
-            serialzer.save()
+            serialzer.save(provider = provider)
             return Response(data=serialzer.data, status=status.HTTP_201_CREATED)
     
     def list(self, request):
-        serializer = ShortMessageSerializer(self.queryset, many=True)
+
+        provider = get_provider_from_token(header=request.META)
+        queryset = ShortMessage.objects.filter(provider=provider).order_by("-timestamp")
+        serializer = ShortMessageSerializer(queryset, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
   
 class UserView(ViewSet):
@@ -82,6 +92,18 @@ class ProviderView(ViewSet):
                 serializer.save(owner = user.user)
                 return Response(data={"provider":"provider created successfully"}, status=status.HTTP_201_CREATED)
 
+class MpesaTransactions(ViewSet):
+
+    """mpesa transaction endpoint view"""
+
+    authentication_classes = [TokenAuthentication]
+    
+    queryset = MpesaTransaction.objects.all()
+
+    def list(self, request):
+        serilizer = MpesaTransactionSerializer(self.queryset, many=True)
+        return Response(data=serilizer.data, status=status.HTTP_200_OK)
+
 
 @method_decorator(csrf_exempt, name="dispatch")
 class MpesaWebHook(View):
@@ -93,4 +115,4 @@ class MpesaWebHook(View):
         return JsonResponse(data={"ResultCode":"0", "ResultDesc":"Success"})
 
 
-
+    

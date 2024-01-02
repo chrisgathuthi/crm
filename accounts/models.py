@@ -2,6 +2,7 @@ from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 import uuid
 
 class Provider(models.Model):#company name
@@ -17,7 +18,7 @@ class Provider(models.Model):#company name
     org_email = models.EmailField()
     short_code = models.PositiveIntegerField()#activate short code
     join_date = models.DateTimeField(auto_now=True)
-    owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    owner = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
     logo = models.ImageField(upload_to="logos", null=True)#set default
     is_activated = models.BooleanField(default=False)
 
@@ -50,7 +51,7 @@ class Client(models.Model):
         inactive = "INACTIVE"
 
     provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
-    serial = models.CharField(unique=True, max_length=4, blank=True)
+    serial = models.CharField(unique=True, max_length=7, blank=True)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     phone_number = PhoneNumberField()
@@ -92,7 +93,8 @@ class ShortMessage(models.Model):
     to = models.CharField(max_length=3, default="all")#to client instance
     sender = models.CharField(max_length=10, default='chris', editable=False)#tenant
     message = models.TextField()
-    schedule_time = models.DateTimeField(null=True)
+    schedule_time = models.DateTimeField(default=timezone.now)
+    is_sent = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now=True)
 
     def __str__(self):

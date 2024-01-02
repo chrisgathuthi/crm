@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Client, FieldWork, Bandwidth, ShortMessage, Provider
+from .models import Client, FieldWork, Bandwidth, ShortMessage, Provider, ShortMessage, MpesaTransaction
 from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
 
@@ -16,7 +16,7 @@ class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
         fields = "__all__"
-        read_only_fields = ["serial", "registration_date"]
+        read_only_fields = ["serial", "registration_date", "provider"]
 
 
 class FieldWorkSerializer(serializers.ModelSerializer):
@@ -33,7 +33,8 @@ class ShortMessageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ShortMessage
-        fields = "__all__"
+        fields = ["to", "sender", "message", "schedule_time", "is_sent"]
+        read_only_fields = ["provider", "timestamp"]
 
 class ProviderSerializer(serializers.ModelSerializer):
     """provider serialiser """
@@ -51,7 +52,6 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ["username", "email", "password"]
 
     def create(self, validated_data):
-        # password = validated_data.pop("password")
         user = get_user_model().objects.create_user(**validated_data)
         return user
 
@@ -62,3 +62,12 @@ class TokenSerializer(serializers.ModelSerializer):
     class Meta:
         model = Token
         fields = "__all__"
+
+class MpesaTransactionSerializer(serializers.ModelSerializer):
+
+    """mpesa serializer"""
+
+    class Meta:
+        model = MpesaTransaction
+        fields = "__all__"
+        read_only_fields = ["provider"]
