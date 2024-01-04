@@ -69,5 +69,4 @@ class MpesaTransactionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MpesaTransaction
-        fields = "__all__"
-        read_only_fields = ["provider"]
+        fields = ["id","transaction_id","transaction_time","transaction_amount","bill_ref_number","phone_number","full_name"]

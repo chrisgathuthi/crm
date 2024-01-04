@@ -109,7 +109,7 @@ class MpesaTransaction(models.Model):
     transaction_time = models.DateTimeField()
     transaction_amount = models.DecimalField(max_digits=10, decimal_places=2)
     short_code = models.PositiveIntegerField()
-    invoice_number = models.CharField(max_length=12)#msdsin
+    invoice_number = models.CharField(max_length=12)
     bill_ref_number = models.CharField(max_length=10, null=True)#paybill only
     phone_number = models.CharField(max_length=12, null=True)
     first_name = models.CharField(max_length=20, null=True)
@@ -117,4 +117,9 @@ class MpesaTransaction(models.Model):
     last_name = models.CharField(max_length=20, null=True)
 
     def __str__(self):
-        return f"{self.first_name} {self.msdin}"
+        return f"{self.first_name} {self.middle_name}"    
+    
+    @property
+    def full_name(self):
+        """full client name"""
+        return f"{self.first_name} {self.last_name}"
