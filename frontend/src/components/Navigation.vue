@@ -5,11 +5,11 @@ import { RouterLink } from 'vue-router'
 <template>
     <v-navigation-drawer class="bg-purple-darken-2" theme="dark" permanent>
         <v-list color="transparent">
-            <v-list-item prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg" title="Fastech"
-                subtitle="fast secure internet">
+            <v-list-item prepend-avatar="mdi-lightbulb-on-70" title="Lamp"
+                subtitle="crm">
             </v-list-item>
 
-            <v-divider></v-divider>
+            <v-divider inset></v-divider>
 
             <RouterLink active-class="active" :to="{ name: 'clients' }"><v-list-item prepend-icon="mdi-account-multiple"
                     title="Clients"></v-list-item></RouterLink>
