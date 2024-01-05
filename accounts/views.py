@@ -91,6 +91,16 @@ class ProviderView(ViewSet):
             if serializer.is_valid(raise_exception=True):
                 serializer.save(owner = user.user)
                 return Response(data={"provider":"provider created successfully"}, status=status.HTTP_201_CREATED)
+    
+    def retrieve(self, request):
+
+        """get provider year joined"""
+        provider = get_provider_from_token(header=request.META)
+        provider_instance = Provider.objects.get(id=provider.id)
+        serializer = ProviderSerializer(provider_instance)
+        return Response(data={"yearJoined":serializer.data["join_date"]})
+
+
 
 class MpesaTransactions(ViewSet):
 
@@ -98,11 +108,25 @@ class MpesaTransactions(ViewSet):
 
     authentication_classes = [TokenAuthentication]
     
-    queryset = MpesaTransaction.objects.all()
-
     def list(self, request):
-        serilizer = MpesaTransactionSerializer(self.queryset, many=True)
+        provider = get_provider_from_token(request.META)
+        queryset = MpesaTransaction.objects.filter(provider__serial_number =provider.serial_number)
+        serilizer = MpesaTransactionSerializer(queryset, many=True)
         return Response(data=serilizer.data, status=status.HTTP_200_OK)
+    
+    def retrieve(self, request):
+
+        """filtering mpesa transactions using client serial"""
+
+        if request.query_params is not None:
+            queryset = MpesaTransaction.objects.filter(client__serial = request.query_params.get("search"))
+            serializer = MpesaTransactionSerializer(queryset, many=True)
+            return Response(data=serializer.data,status=status.HTTP_200_OK)
+        else:  
+            queryset = MpesaTransaction.objects.none()
+            serializer = MpesaTransactionSerializer(queryset, many=True)
+            return Response(data=serializer.data, status=status.HTTP_404_NOT_FOUND)
+
 
 
 @method_decorator(csrf_exempt, name="dispatch")
