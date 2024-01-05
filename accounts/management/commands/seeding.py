@@ -1,19 +1,23 @@
-from django.core.management.base import BaseCommand
-from accounts.models import Client, Bandwidth
-from faker import Faker
-from random import choice
-from faker.providers import BaseProvider
-from django.utils.timezone import now
 from datetime import datetime
+from random import choice
+
+from django.core.management.base import BaseCommand
+from django.utils.timezone import now
+from faker import Faker
+from faker.providers import BaseProvider
+
+from accounts.models import Bandwidth, Client
 
 
 class BandwidthProvider(BaseProvider):
-
     def seed_bandwidth(self):
         faker = Faker()
-        results = Bandwidth.objects.create(name=faker.first_name(),size=faker.random_digit(), expiry=faker.date())
+        results = Bandwidth.objects.create(
+            name=faker.first_name(), size=faker.random_digit(), expiry=faker.date()
+        )
         return results
-        
+
+
 class Command(BaseCommand):
     help = "creating client instance"
 

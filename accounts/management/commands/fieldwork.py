@@ -1,12 +1,14 @@
-from django.core.management.base import BaseCommand
-from accounts.models import FieldWork
-from faker import Faker
-from django.contrib.auth import get_user_model
-from random import choice
-from faker.providers import BaseProvider
-from django.utils.timezone import now
 from datetime import datetime
+from random import choice
 from typing import List
+
+from django.contrib.auth import get_user_model
+from django.core.management.base import BaseCommand
+from django.utils.timezone import now
+from faker import Faker
+from faker.providers import BaseProvider
+
+from accounts.models import FieldWork
 
 
 class UserProvider(BaseProvider):
@@ -20,12 +22,12 @@ class UserProvider(BaseProvider):
             first_name=fake.first_name(),
             last_name=fake.last_name(),
             email=fake.email(),
-            password=fake.password()
+            password=fake.password(),
         )
         return users
 
-class Command(BaseCommand):
 
+class Command(BaseCommand):
     help = "creating field workd instances"
 
     def handle(self, *args, **kwargs):
@@ -39,6 +41,5 @@ class Command(BaseCommand):
                 location=fake.street_name(),
                 activities=fake.paragraph(nb_sentences=5),
                 assignee=fake.seeding_user(),
-                date=fake.date_this_year()
+                date=fake.date_this_year(),
             )
-
