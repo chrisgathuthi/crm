@@ -5,17 +5,8 @@ export const useTransactionStore = defineStore("transaction", {
   state: () => ({
     transactions: [],
     search: "",
+    yearJoined: ""
   }),
-  getters: {
-    getTransactionDetail(state) {
-        if (state.search != "") {
-            this.transactions = this.transactions.filter((transaction) => {transaction.bill_ref_number = state.search});
-
-        }else {
-            this.getTransactionDetail()
-        }
-    },
-  },
   actions: {
     async getTransactions() {
       await axios
@@ -27,5 +18,24 @@ export const useTransactionStore = defineStore("transaction", {
         })
         .catch((response) => console.log(response));
     },
+    async getYearJoined(){
+        await axios.get("/accounts/provider-detail/",{headers:{Authorization: `Token ${localStorage.getItem("token")}`}})
+        .then((response) =>{
+            this.yearJoined = response.data["yearJoined"]
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    },
+    async searchTransaction(){
+      await axios.get("/accounts/mpesatransaction/",{params: {search:this.search}},{headers:{Authorization: `Token ${localStorage.getItem("token")}`}})
+      .then((response) =>{
+        console.log(response.data);
+        this.transactions = response.data
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+    }
   },
 });

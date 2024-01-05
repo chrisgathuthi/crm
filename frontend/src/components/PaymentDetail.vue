@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, watchEffect} from 'vue';
 import { Converter } from '@/functions/DateConverter'
 import { useTransactionStore } from '@/stores/transaction'
 
@@ -7,8 +7,26 @@ const store = useTransactionStore()
 
 onMounted(async () => {
     await store.getTransactions()
+    await store.getYearJoined()
 
 });
+const yearArray = () =>{
+    const dateJoined = new Date(store.yearJoined)
+    const yearJoined =  dateJoined.getFullYear()
+
+    const yearRange = []
+    for (let year = yearJoined; year <= yearJoined; year++){
+        yearRange.push(year)
+    }
+    return yearRange
+
+}
+// call function
+const years = yearArray()
+
+watchEffect(()=>{
+    store.searchTransaction(store.search)
+})
 </script>
 <template>
     <div class="my-10">
@@ -64,12 +82,21 @@ onMounted(async () => {
         <v-toolbar class="bg-white box-shadow border">
 
             <div class="w-50 px-2">
-                <v-text-field variant="underlined" label="search"
-                    placeholder="search by name serial ..." color="primary" clearable  v-model="store.getTransactionDetail"></v-text-field>
+                <v-text-field variant="underlined" label="search" placeholder="search by name serial ..." color="primary"
+                    clearable v-model="store.search"></v-text-field>
             </div>
             <v-spacer></v-spacer>
-            <div class="w-75">
+            <div class="w-75 d-flex justify-end">
+                <div class="w-25 mx-2">
+                    <v-select clearable label="Year" variant="underlined" 
+                        :items="years"></v-select>
+                </div>
 
+                <div class="w-25 mx-2">
+                    <v-select clearable label="Month" variant="underlined"
+                        :items="['Jan','Feb','Mar','Apr','May','Jun','Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']"
+                        ></v-select>
+                </div>
             </div>
         </v-toolbar>
     </v-row>
