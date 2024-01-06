@@ -7,6 +7,7 @@ from django.shortcuts import HttpResponse, render
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import authenticate
 from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
@@ -18,7 +19,7 @@ from .models import (Bandwidth, Client, FieldWork, MpesaTransaction, Provider,
 from .serializers import (BandwidthSerializer, ClientSerializer,
                           FieldWorkSerializer, MpesaTransactionSerializer,
                           ProviderSerializer, ShortMessageSerializer,
-                          TokenSerializer, UserSerializer)
+                          TokenSerializer, UserSerializer, AuthenticationSerializer)
 from .utilities import get_provider_from_token, save_mpesa_results
 
 # Create your views here.
@@ -81,8 +82,18 @@ class UserView(ViewSet):
                 user__email=serializer.validated_data["email"]
             ).first()
             return Response(data={"token": str(token)}, status=status.HTTP_201_CREATED)
+import pprint
+class UserAuthenticateView(ViewSet):
 
-
+    def create(self, request):
+        serializer = AuthenticationSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            user = authenticate(username=serializer.data["username"], password=serializer.data["password"])
+            if user is not None:
+                token = Token.objects.get(user=user)
+                return Response(data={"token":token}, status=status.HTTP_200_OK)
+            return Response(data={"error":"invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)
+            
 class ProviderView(ViewSet):
 
     """provider view"""

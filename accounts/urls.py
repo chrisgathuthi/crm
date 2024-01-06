@@ -3,7 +3,7 @@ from rest_framework import routers
 
 from .views import (BandwidthView, ClientView, FieldWorkView,
                     MpesaTransactions, MpesaWebHook, ProviderView,
-                    ShortMessageView, UserView)
+                    ShortMessageView, UserView, UserAuthenticateView)
 
 route = routers.DefaultRouter()
 route.register("client", ClientView, basename="client")
@@ -40,4 +40,5 @@ urlpatterns = [
         MpesaTransactions.as_view({"get": "retrieve"}),
         name="mpesatransactions",
     ),
+    path("login/",UserAuthenticateView.as_view({"post":"create"}),name="login")
 ]

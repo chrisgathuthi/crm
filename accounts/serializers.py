@@ -79,6 +79,12 @@ class UserSerializer(serializers.ModelSerializer):
         user = get_user_model().objects.create_user(**validated_data)
         return user
 
+class AuthenticationSerializer(serializers.Serializer):
+
+    """password, username serializer"""
+    
+    username = serializers.CharField(required=True)
+    password = serializers.CharField(required=True)
 
 class TokenSerializer(serializers.ModelSerializer):
 
