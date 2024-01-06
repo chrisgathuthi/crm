@@ -1,5 +1,4 @@
 <script setup>
-import { VDatePicker } from 'vuetify/labs/VDatePicker';
 import { useField, useForm } from 'vee-validate';
 import * as yup from 'yup';
 import { useToastStore } from '@/stores/toast';

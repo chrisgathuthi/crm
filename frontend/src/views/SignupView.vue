@@ -74,6 +74,15 @@ const submit = handleSubmit(async () => {
                                     <v-btn block type="submit" color="purple-accent-3">Register</v-btn>
                                 </v-col>
                             </v-row>
+                            <V-row>
+                            <v-col cols="auto">
+                                    <div class="text-body1">
+                                        Already have an account? <span @click="router.push({name:'signin'})" class="text-primary">login</span>
+                                    </div>
+
+                                </v-col>
+                            </v-row>
+
                         </v-form>
                 </v-card>
             </v-col>
