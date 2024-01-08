@@ -8,7 +8,6 @@ from .views import (BandwidthView, ClientView, FieldWorkView,
 route = routers.DefaultRouter()
 route.register("client", ClientView, basename="client")
 route.register("fieldwork", FieldWorkView, basename="fieldwork")
-route.register("bandwidth", BandwidthView, basename="bandwidth")
 route.register("sms", ShortMessageView, basename="sms")
 route.register("registration", UserView, basename="registration")
 urlpatterns = [
@@ -40,5 +39,8 @@ urlpatterns = [
         MpesaTransactions.as_view({"get": "retrieve"}),
         name="mpesatransactions",
     ),
-    path("login/",UserAuthenticateView.as_view({"post":"create"}),name="login")
+    path("login/",UserAuthenticateView.as_view({"post":"create"}),name="login"),
+    path("bandwidth/",BandwidthView.as_view({"post":"create"}),name="bandwith"),
+    path("bandwidthdestroy/",BandwidthView.as_view({"delete":"destroy"}),name="bandwith"),
+    path("bandwidths/",BandwidthView.as_view({"get":"list"}),name="bandwith")
 ]

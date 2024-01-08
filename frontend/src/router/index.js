@@ -13,6 +13,8 @@ import RegistrationView from '../views/RegistrationView.vue'
 import SignupView from '../views/SignupView.vue'
 import PartnerSetup from '../views/PartnerSetupView.vue'
 import PaymentDetail from '../components/PaymentDetail.vue'
+import ServiceForm from '../components/ServiceForm.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -70,7 +72,14 @@ const router = createRouter({
     {
       path: '/services',
       name: 'services',
-      component: ServicesView
+      component: ServicesView,
+      children: [
+        {
+          path:'/serviceform',
+          name: 'service-form',
+          component: ServiceForm
+        }
+      ]
     },
     {
       path: '/signin',

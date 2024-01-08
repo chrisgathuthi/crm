@@ -20,7 +20,7 @@ class Provider(models.Model):  # company name
     org_email = models.EmailField()
     short_code = models.PositiveIntegerField()  # activate short code
     join_date = models.DateTimeField(auto_now=True)
-    owner = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
+    owner = models.OneToOneField(get_user_model(), on_delete=models.SET_NULL, null=True)
     logo = models.ImageField(upload_to="logos", null=True)  # set default
     is_activated = models.BooleanField(default=False)
 
@@ -31,10 +31,10 @@ class Provider(models.Model):  # company name
 class Bandwidth(models.Model):
     """internet bandwidth"""
 
-    provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
-    name = models.CharField(max_length=20)
+    provider = models.ForeignKey(Provider, on_delete=models.SET_NULL, null=True)
+    name = models.CharField(max_length=20, unique=True)
     size = models.PositiveIntegerField()
-    expiry = models.DateField()
+    timestamp = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return str(self.size) + "mbs"
@@ -53,7 +53,7 @@ class Client(models.Model):
         active = "ACTIVE"
         inactive = "INACTIVE"
 
-    provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
+    provider = models.ForeignKey(Provider, on_delete=models.SET_NULL, null=True)
     serial = models.CharField(unique=True, max_length=7, blank=True)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
@@ -76,7 +76,7 @@ class Client(models.Model):
 class FieldWork(models.Model):
     """field work activities"""
 
-    provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
+    provider = models.ForeignKey(Provider, on_delete=models.SET_NULL, null=True)
     task_name = models.CharField(max_length=200)
     location = models.CharField(max_length=200)
     activities = models.TextField()
@@ -93,7 +93,7 @@ class FieldWork(models.Model):
 class ShortMessage(models.Model):
     """sms sent to clients"""
 
-    provider = models.ForeignKey(Provider, on_delete=models.CASCADE)
+    provider = models.ForeignKey(Provider, on_delete=models.SET_NULL, null=True)
     to = models.CharField(max_length=3, default="all")  # to client instance
     sender = models.CharField(max_length=10, default="chris", editable=False)  # tenant
     message = models.TextField()
@@ -109,7 +109,7 @@ class MpesaTransaction(models.Model):
     """mpesa transactions"""
 
     provider = models.ForeignKey(
-        Provider, on_delete=models.CASCADE, related_name="transactions"
+        Provider, on_delete=models.SET_NULL, null=True, related_name="transactions"
     )
     client = models.ForeignKey(
         Client, on_delete=models.SET_NULL, null=True, related_name="payments"

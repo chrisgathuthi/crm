@@ -19,7 +19,7 @@ from .models import (Bandwidth, Client, FieldWork, MpesaTransaction, Provider,
 from .serializers import (BandwidthSerializer, ClientSerializer,
                           FieldWorkSerializer, MpesaTransactionSerializer,
                           ProviderSerializer, ShortMessageSerializer,
-                          TokenSerializer, UserSerializer, AuthenticationSerializer)
+                          TokenSerializer, UserSerializer, AuthenticationSerializer, BandwidthSerializer)
 from .utilities import get_provider_from_token, save_mpesa_results
 
 # Create your views here.
@@ -42,12 +42,6 @@ class FieldWorkView(ModelViewSet):
     queryset = FieldWork.objects.all()
     serializer_class = FieldWorkSerializer
 
-
-class BandwidthView(ModelViewSet):
-    """Band word view class"""
-
-    queryset = Bandwidth.objects.all()
-    serializer_class = BandwidthSerializer
 
 
 class ShortMessageView(ViewSet):
@@ -153,6 +147,31 @@ class MpesaTransactions(ViewSet):
             queryset = MpesaTransaction.objects.none()
             serializer = MpesaTransactionSerializer(queryset, many=True)
             return Response(data=serializer.data, status=status.HTTP_404_NOT_FOUND)
+
+class BandwidthView(ViewSet):
+
+    def create(self, request):
+        provider = get_provider_from_token(header=request.META)
+        serializer = BandwidthSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(provider = provider)
+            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+        
+    def destroy(self, request):
+        provider = get_provider_from_token(header=request.META)
+        serializer = BandwidthSerializer(data=serializer.data)
+        bandwidth = Bandwidth.objects.get(id=serializer.data.name)
+        del bandwidth
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    def list(self, request):
+        provider = get_provider_from_token(header=request.META)
+        queryset = Bandwidth.objects.filter(provider=provider.id)
+        serializer = BandwidthSerializer(queryset,many=True)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
+
 
 
 @method_decorator(csrf_exempt, name="dispatch")

@@ -23,8 +23,6 @@ import { RouterLink } from 'vue-router'
                     title="Invoices"></v-list-item></RouterLink>
             <RouterLink active-class="active" :to="{ name: 'services' }"><v-list-item prepend-icon="mdi-face-agent"
                     title="Services"></v-list-item></RouterLink>
-            <RouterLink active-class="active" :to="{ name: 'signin' }"><v-list-item prepend-icon="mdi-login"
-                    title="Signin"></v-list-item></RouterLink>
 
         </v-list>
 

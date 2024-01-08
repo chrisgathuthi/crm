@@ -3,7 +3,7 @@ from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
 from .models import (Bandwidth, Client, FieldWork, MpesaTransaction, Provider,
-                     ShortMessage)
+                     ShortMessage, Bandwidth)
 
 
 class BandwidthSerializer(serializers.ModelSerializer):
@@ -12,6 +12,7 @@ class BandwidthSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bandwidth
         fields = "__all__"
+        read_only_fields = ["provider"]
 
 
 class ClientSerializer(serializers.ModelSerializer):
