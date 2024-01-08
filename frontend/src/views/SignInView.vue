@@ -23,7 +23,7 @@ const password = useField('password')
 
 const submit = handleSubmit(async () => {
 
-    await axios.post('/token/', { username: values.username, password: values.password })
+    await axios.post('/accounts/login/', { username: values.username, password: values.password })
         .then((response) => {
             localStorage.setItem("token", response.data.token)
             toast.showToast(2000, 'login successful', 'success')
@@ -32,10 +32,9 @@ const submit = handleSubmit(async () => {
         })
         .catch((error) => {
             toast.showToast(3000, 'Login unsuccessful', 'warning')
-            console.log(error);
             setErrors({
-                username: error.reponse.data.username,
-                password: error.reponse.data.password
+                username: error.response.data.username,
+                password: error.response.data.password
             })
 
         })
@@ -56,7 +55,7 @@ ref
                     type="password" clearable></v-text-field>
                     <v-btn type="submit" color="purple-accent-3" class="w-25" elevation-1  block>Login
                     </v-btn>
-                    <div class="forgot mt-2 bg-amber">
+                    <div class="forgot mt-2">
                         <span role="link" class="text-green">forgot password?</span>
                     </div>
             </v-form>

@@ -92,7 +92,7 @@ class UserAuthenticateView(ViewSet):
             if user is not None:
                 token = Token.objects.get(user=user)
                 return Response(data={"token":token}, status=status.HTTP_200_OK)
-            return Response(data={"error":"invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(data={"password":"invalid credential","username":"invalid username"}, status=status.HTTP_400_BAD_REQUEST)
             
 class ProviderView(ViewSet):
 
