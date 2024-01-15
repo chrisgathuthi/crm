@@ -7,6 +7,6 @@ export const Converter = (isoTime) => {
   const month = date.getMonth();
   const year = date.getFullYear();
 
-  const results = day + "/" + month + "/" + year;
+  const results = day + "/" + `${month + 1}` + "/" + year;
   return results;
 };

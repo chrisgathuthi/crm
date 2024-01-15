@@ -7,7 +7,9 @@ export const useBandwidth = defineStore("bandwidth", {
     }),
     actions:{
         getBandwith(){
-            axios.get("/accounts/bandwidth/")
+            axios.get("/accounts/bandwidths/",{
+                headers: { Authorization: `Token ${localStorage.getItem("token")}` },
+            })
             .then((response) => {
                 response.data.forEach(element => {
                     this.package.push(element.name)

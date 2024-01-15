@@ -8,7 +8,9 @@ export const useClientStore = defineStore('clients',{
 
   actions: {
     getClientList(){
-      axios.get("/accounts/client/")
+      axios.get("/accounts/client/",{
+        headers: { Authorization: `Token ${localStorage.getItem("token")}` },
+    })
       .then((resp) => {
         this.clients = resp.data;
       })

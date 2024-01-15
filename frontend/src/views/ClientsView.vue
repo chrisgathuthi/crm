@@ -1,29 +1,39 @@
 <script setup>
-import {RouterLink} from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 
 import ClientList from '../components/ClientList.vue'
 import Navigation from '../components/Navigation.vue';
+
+const router = useRouter()
 </script>
 <template>
     <!-- navigation -->
-    <Navigation/>
-    
-    <v-app-bar>
-        <v-card variant="flat" elevation="0">
-            <v-card-item>
-                <RouterLink :to="{name: 'registration'}">
-                    <v-icon size="large" color="green-darken-2" icon="mdi-plus"></v-icon> Clients
-                </RouterLink>
-            </v-card-item>
-        </v-card>
-    </v-app-bar>
+    <v-row>
+        <v-col cols="3">
+            <Navigation />
+        </v-col>
+        <v-col cols="9">
+            <v-toolbar density="comfortable">
 
-    <v-divider></v-divider>
-    <ClientList/>
-    
+                <v-toolbar-title>Clients</v-toolbar-title>
+
+                <v-spacer></v-spacer>
+
+                <v-btn color="primary" @click="router.push({ name: 'registration' })" prepend-icon="mdi-plus" class="mr-3">
+                    add client
+                </v-btn>
+            </v-toolbar>
+
+            <!-- view -->
+
+            <ClientList />
+
+
+        </v-col>
+    </v-row>
 </template>
 <style scoped>
-a{
+a {
     text-decoration: none;
 
 }

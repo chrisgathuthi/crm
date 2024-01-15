@@ -16,61 +16,41 @@ onMounted(async () => {
 
 </script>
 <template>
-  <v-container>
-    <v-row no-gutters style="font-weight: bold">
-      <v-col>
-        <v-sheet class="ma-1"> serial no </v-sheet>
-      </v-col>
-      <v-col>
-        <v-sheet class="ma-1">Names</v-sheet>
-      </v-col>
-      <v-col>
-        <v-sheet class="ma-1">Location</v-sheet>
-      </v-col>
-      <v-col>
-        <v-sheet class="ma-1">Phone Number</v-sheet>
-      </v-col>
-      <v-col>
-        <v-sheet class="ma-1"> Plan </v-sheet>
-      </v-col>
-      <v-col>
-        <v-sheet class="ma-1"> Router </v-sheet>
-      </v-col>
-      <v-col>
-        <v-sheet class="ma-1"> Reg date </v-sheet>
-      </v-col>
-    </v-row>
-    <v-row no-gutters v-for="client in store.clients" :key="client.id"
-      @click="router.push({ name: 'client-detail', params: { id: client.id } })" class="data-list">
-      <v-col>
-        <v-sheet class="ma-1">
-          {{ client.serial }}
-        </v-sheet>
-      </v-col>
-      <v-col>
-        <v-sheet class="ma-1">{{ client.first_name }} {{ client.last_name }}</v-sheet>
-      </v-col>
-      <v-col>
-        <v-sheet class="ma-1">{{ client.location }}</v-sheet>
-      </v-col>
-      <v-col>
-        <v-sheet class="ma-1">{{ client.phone_number }}</v-sheet>
-      </v-col>
-      <v-col>
-        <v-sheet class="ma-1">
-          {{ client.service_plan }}
-        </v-sheet>
-      </v-col>
-      <v-col>
-        <v-sheet class="ma-1">{{ client.router }}</v-sheet>
-      </v-col>
-      <v-col>
-        <v-sheet class="ma-1">
-          {{ Converter(client.registration_date) }}
-        </v-sheet>
-      </v-col>
-    </v-row>
-  </v-container>
+  <v-row class="mt-5">
+    <v-col cols="12">
+      <v-table fixed-header>
+        <thead class="text-bold">
+          <tr>
+            <th>Serial no:</th>
+            <th>Names</th>
+            <th>Location</th>
+            <th>Phone Number</th>
+            <th>Service</th>
+            <th>Router</th>
+            <th>Bandwith</th>
+            <th>Status</th>
+            <th>Reg date</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="client in store.clients" :key="client.id"
+            @click="router.push({ name: 'client-detail', params: { id: client.id } })">
+            <td>{{ client.serial }}</td>
+            <td>{{ client.full_name }}</td>
+            <td>{{ client.location }}</td>
+            <td>{{ client.phone_number }}</td>
+            <td>{{ client.service_plan }}</td>
+            <td>{{ client.router }}</td>
+            <td>{{ client.bandwidth }}</td>
+            <td>{{ client.status }}</td>
+            <td>{{ Converter(client.registration_date) }}</td>
+          </tr>
+        </tbody>
+      </v-table>
+
+    </v-col>
+  </v-row>
 </template>
 <style scoped>
 .action-menu {

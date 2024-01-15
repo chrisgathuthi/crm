@@ -35,6 +35,7 @@ class ClientView(ModelViewSet):
         provider = get_provider_from_token(header=self.request.META)
         serializer.save(provider=provider)
     
+    
 class FieldWorkView(ModelViewSet):
     """field word view class"""
 
