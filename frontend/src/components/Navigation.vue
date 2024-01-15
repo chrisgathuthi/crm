@@ -5,8 +5,8 @@ import { RouterLink } from 'vue-router'
 <template>
     <v-navigation-drawer class="bg-purple-darken-2" theme="dark" permanent>
         <v-list color="transparent">
-            <v-list-item prepend-avatar="mdi-lightbulb-on-70" title="Lamp"
-                subtitle="crm">
+            <v-list-item prepend-avatar="../../public/logo.png" title="Lamp"
+                subtitle="we deliver">
             </v-list-item>
 
             <v-divider inset></v-divider>
