@@ -34,15 +34,30 @@ class ClientView(ModelViewSet):
     def perform_create(self, serializer):
         provider = get_provider_from_token(header=self.request.META)
         serializer.save(provider=provider)
-
-
+    
 class FieldWorkView(ModelViewSet):
     """field word view class"""
 
     queryset = FieldWork.objects.all()
     serializer_class = FieldWorkSerializer
+     
+    def list(self, request):
+        provider = get_provider_from_token(header=self.request.META)
+        queryset = FieldWork.objects.filter(provider=provider).filter(isclosed=False)
+        serializer = FieldWorkSerializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-
+    def perform_create(self, serializer):
+        provider = get_provider_from_token(header=self.request.META)
+        serializer.save(provider=provider)
+    
+    def partial_update(self, request,  pk):
+        # provider = get_provider_from_token(header=self.request.META)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)        
+        self.perform_update(serializer)
+        return Response(serializer.data)
 
 class ShortMessageView(ViewSet):
 

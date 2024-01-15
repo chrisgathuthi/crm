@@ -21,7 +21,7 @@ export const useFieldWorkStore = defineStore("fieldwork", {
   actions: {
     async getFieldWorkList() {
       await axios
-        .get("/accounts/fieldwork/")
+        .get("/accounts/fieldwork/",{headers:{Authorization: `Token ${localStorage.getItem("token")}`}})
         .then((resp) => {
           this.fieldworks = resp.data;
           console.log(this.fieldworks);

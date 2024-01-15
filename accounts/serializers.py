@@ -31,10 +31,12 @@ class FieldWorkSerializer(serializers.ModelSerializer):
     """serialier class for field workd"""
 
     assignee = serializers.StringRelatedField()
+    material = serializers.StringRelatedField()
 
     class Meta:
         model = FieldWork
         fields = "__all__"
+        read_only_fields = ["provider", "material"]
 
 
 class ShortMessageSerializer(serializers.ModelSerializer):

@@ -40,7 +40,7 @@ const submit = handleSubmit(async () => {
         assignee: values.assignee,
         date: values.date,
     }
-    await axios.post('/accounts/fieldwork/', data)
+    await axios.post('/accounts/fieldwork/', data, {headers:{Authorization: `Token ${localStorage.getItem("token")}`}})
         .then((resp) => {
             toast.showToast(3000, `${resp.data.task_name} created successfully`, 'success')
             dialog.value = false

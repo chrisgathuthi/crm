@@ -9,17 +9,17 @@ const toast = useToastStore()
 const bandwidths = ref([])
 const isLoading = ref(true)
 onMounted(async () => {
-    await axios.get("/accounts/bandwidths/",{ headers: { Authorization: `Token ${localStorage.getItem("token")}` } })
+    await axios.get("/accounts/bandwidths/", { headers: { Authorization: `Token ${localStorage.getItem("token")}` } })
         .then((response) => {
             bandwidths.value = response.data
             isLoading.value = false
         })
         .catch((error) => {
             console.log(error);
-    })
+        })
 })
 // creating plan
-const {errors, handleSubmit, values, resetForm, setErrors} = useForm({
+const { errors, handleSubmit, values, resetForm, setErrors } = useForm({
     validationSchema: yup.object({
         name: yup.string().required(),
         size: yup.string().required()
@@ -28,21 +28,21 @@ const {errors, handleSubmit, values, resetForm, setErrors} = useForm({
 const name = useField("name")
 const size = useField("size")
 
-const sumbit = handleSubmit(async ()=>{
-    await axios.post("/accounts/bandwidth/",{name:values.name, size:values.size},{headers:{Authorization:`Token ${localStorage.getItem("token")}`}})
-            .then((response)=>{
-                toast.showToast(3000,"plan created successfully", "success")
-                resetForm()
-                bandwidths.value.push(response.data)
+const sumbit = handleSubmit(async () => {
+    await axios.post("/accounts/bandwidth/", { name: values.name, size: values.size }, { headers: { Authorization: `Token ${localStorage.getItem("token")}` } })
+        .then((response) => {
+            toast.showToast(3000, "plan created successfully", "success")
+            resetForm()
+            bandwidths.value.push(response.data)
+        })
+        .catch((error) => {
+            console.log(error);
+            setErrors({
+                name: error.response.data.name,
+                size: error.response.data.size
             })
-            .catch((error)=>{
-                console.log(error);
-                setErrors({
-                    name: error.response.data.name,
-                    size: error.response.data.size
-                })
 
-            })
+        })
 
 })
 
@@ -78,10 +78,12 @@ const sumbit = handleSubmit(async ()=>{
         <v-form @submit.prevent="sumbit">
             <v-row>
                 <v-col cols="4">
-                    <v-text-field variant="outlined" v-model="name.value.value" :error-messages="errors.name" label="name" type="text"></v-text-field>
+                    <v-text-field variant="outlined" v-model="name.value.value" :error-messages="errors.name" label="name"
+                        type="text"></v-text-field>
                 </v-col>
                 <v-col cols="4">
-                    <v-text-field variant="outlined" v-model="size.value.value" :error-messages="errors.size" label="size" type="number"></v-text-field>
+                    <v-text-field variant="outlined" v-model="size.value.value" :error-messages="errors.size" label="size"
+                        type="number"></v-text-field>
                 </v-col>
                 <v-col cols="auto" class="justify-center">
                     <v-btn block type="submit" variant="elevated" size="medium">Add</v-btn>
