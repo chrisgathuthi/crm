@@ -5,12 +5,14 @@ import { RouterLink } from 'vue-router'
 <template>
     <v-navigation-drawer class="bg-purple-darken-2" theme="dark" permanent>
         <v-list color="transparent">
-            <v-list-item prepend-avatar="../../public/logo.png" title="Lamp"
+            <v-list-item prepend-avatar="logo.png" title="Lamp"
                 subtitle="we deliver">
             </v-list-item>
 
             <v-divider inset></v-divider>
 
+            <RouterLink active-class="active" :to="{ name: 'admin' }"><v-list-item prepend-icon="mdi-account-multiple"
+                    title="Admin"></v-list-item></RouterLink>
             <RouterLink active-class="active" :to="{ name: 'clients' }"><v-list-item prepend-icon="mdi-account-multiple"
                     title="Clients"></v-list-item></RouterLink>
             <RouterLink active-class="active" :to="{ name: 'billing' }"><v-list-item
@@ -23,6 +25,8 @@ import { RouterLink } from 'vue-router'
                     title="Invoices"></v-list-item></RouterLink>
             <RouterLink active-class="active" :to="{ name: 'services' }"><v-list-item prepend-icon="mdi-face-agent"
                     title="Services"></v-list-item></RouterLink>
+        <RouterLink active-class="active" :to="{ name: 'staff' }"><v-list-item prepend-icon="mdi-account-circle"
+                    title="Staff"></v-list-item></RouterLink>
 
         </v-list>
 

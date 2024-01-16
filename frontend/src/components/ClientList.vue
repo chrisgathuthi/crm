@@ -34,8 +34,7 @@ onMounted(async () => {
           </tr>
         </thead>
         <tbody>
-          <tr v-for="client in store.clients" :key="client.id"
-            @click="router.push({ name: 'client-detail', params: { id: client.id } })">
+          <tr v-for="client in store.clients" :key="client.id" @click="router.push({ name: 'client-detail', params: { id: client.id } })" @mouseover="style={backgroundColor: 'green'}">
             <td>{{ client.serial }}</td>
             <td>{{ client.full_name }}</td>
             <td>{{ client.location }}</td>

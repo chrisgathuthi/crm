@@ -14,7 +14,9 @@ import SignupView from '../views/SignupView.vue'
 import PartnerSetup from '../views/PartnerSetupView.vue'
 import PaymentDetail from '../components/PaymentDetail.vue'
 import ServiceForm from '../components/ServiceForm.vue'
-
+import EmployeePage from '../components/Admin/Employee.vue'
+import Admin from '../views/AdminView.vue'
+import Staff from '../views/StaffView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -105,6 +107,23 @@ const router = createRouter({
       path: '/',
       name: 'signup',
       component: SignupView
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: Admin,
+      children:[
+        {
+          path: "/employee",
+          name: 'employee',
+          component: EmployeePage
+        },{
+          path: "/staff",
+          name: "staff",
+          component: Staff
+        }
+
+      ]
     }
 
   ]

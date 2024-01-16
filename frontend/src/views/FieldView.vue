@@ -27,7 +27,7 @@ const expand = ref(false)
 
 // update the status
 async function closeTicket(id) {
-    await axios.patch(`/accounts/fieldwork/${id}/`,{isclosed: true}, { headers: { Authorization: `Token ${localStorage.getItem("token")}` } })
+    await axios.patch(`/accounts/fieldwork/${id}/`, { isclosed: true }, { headers: { Authorization: `Token ${localStorage.getItem("token")}` } })
         .then((response) => {
             console.log(response);
             toast.showToast(3000, "ticket closed", "success")
@@ -70,6 +70,13 @@ async function closeTicket(id) {
                 </v-btn>
             </v-toolbar>
             <!-- fieldwork data grid -->
+            <v-row class="mt-8">
+                <v-col>
+                    <div class="subtitle">
+                        Open Tickets
+                    </div>
+                </v-col>
+            </v-row>
 
             <v-container v-for="(item, index) in store.fieldworks" :key="index" v-if="store.fieldworks.length > 0">
                 <v-card max-width="350" elevation="4">
@@ -104,13 +111,11 @@ async function closeTicket(id) {
                             <div class="summary" v-show="expand">
                                 <v-card-text>
                                     {{ item.activities }}
-                                    <v-row>
-                                        <v-col>
-                                            <button @click="closeTicket(item.id)" type="button" block
-                                                color="primary">close</button>
-                                        </v-col>
-                                    </v-row>
+
                                 </v-card-text>
+                                <v-card-action class="w-25">
+                                    <button @click="closeTicket(item.id)" type="button" block size="large" variant="outlined" elevation-1 class="border">close</button>
+                                </v-card-action>
                             </div>
                         </v-expand-transition>
                     </v-card-item>
