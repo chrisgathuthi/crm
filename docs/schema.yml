@@ -1,0 +1,761 @@
+openapi: 3.0.3
+info:
+  title: Lamp ISP CRM
+  version: 0.0.0
+paths:
+  /api/accounts/bandwidth/:
+    post:
+      operationId: accounts_bandwidth_create
+      tags:
+      - accounts
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          description: No response body
+  /api/accounts/bandwidthdestroy/:
+    delete:
+      operationId: accounts_bandwidthdestroy_destroy
+      tags:
+      - accounts
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/accounts/bandwidths/:
+    get:
+      operationId: accounts_bandwidths_retrieve
+      tags:
+      - accounts
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/accounts/client/:
+    get:
+      operationId: accounts_client_list
+      description: client endpoint view class
+      tags:
+      - accounts
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Client'
+          description: ''
+    post:
+      operationId: accounts_client_create
+      description: client endpoint view class
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Client'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Client'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Client'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+          description: ''
+  /api/accounts/client/{id}/:
+    get:
+      operationId: accounts_client_retrieve
+      description: client endpoint view class
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this client.
+        required: true
+      tags:
+      - accounts
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+          description: ''
+    put:
+      operationId: accounts_client_update
+      description: client endpoint view class
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this client.
+        required: true
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Client'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Client'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Client'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+          description: ''
+    patch:
+      operationId: accounts_client_partial_update
+      description: client endpoint view class
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this client.
+        required: true
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedClient'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedClient'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedClient'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+          description: ''
+    delete:
+      operationId: accounts_client_destroy
+      description: client endpoint view class
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this client.
+        required: true
+      tags:
+      - accounts
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/accounts/employee/:
+    post:
+      operationId: accounts_employee_create
+      description: creating partner instance view
+      tags:
+      - accounts
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          description: No response body
+  /api/accounts/fieldwork/:
+    get:
+      operationId: accounts_fieldwork_list
+      description: field word view class
+      tags:
+      - accounts
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FieldWork'
+          description: ''
+    post:
+      operationId: accounts_fieldwork_create
+      description: field word view class
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FieldWork'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FieldWork'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FieldWork'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FieldWork'
+          description: ''
+  /api/accounts/fieldwork/{id}/:
+    get:
+      operationId: accounts_fieldwork_retrieve
+      description: field word view class
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this field work.
+        required: true
+      tags:
+      - accounts
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FieldWork'
+          description: ''
+    put:
+      operationId: accounts_fieldwork_update
+      description: field word view class
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this field work.
+        required: true
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FieldWork'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/FieldWork'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/FieldWork'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FieldWork'
+          description: ''
+    patch:
+      operationId: accounts_fieldwork_partial_update
+      description: field word view class
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this field work.
+        required: true
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedFieldWork'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedFieldWork'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedFieldWork'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FieldWork'
+          description: ''
+    delete:
+      operationId: accounts_fieldwork_destroy
+      description: field word view class
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this field work.
+        required: true
+      tags:
+      - accounts
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /api/accounts/login/:
+    post:
+      operationId: accounts_login_create
+      tags:
+      - accounts
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          description: No response body
+  /api/accounts/mpesatransaction/:
+    get:
+      operationId: accounts_mpesatransaction_retrieve
+      description: filtering mpesa transactions using client serial
+      tags:
+      - accounts
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/accounts/mpesatransactions/:
+    get:
+      operationId: accounts_mpesatransactions_retrieve
+      description: mpesa transaction endpoint view
+      tags:
+      - accounts
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/accounts/provider/:
+    post:
+      operationId: accounts_provider_create
+      description: create provider profile
+      tags:
+      - accounts
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          description: No response body
+  /api/accounts/provider-detail/:
+    get:
+      operationId: accounts_provider_detail_retrieve
+      description: get provider year joined
+      tags:
+      - accounts
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/accounts/registration/:
+    post:
+      operationId: accounts_registration_create
+      description: creating partner instance view
+      tags:
+      - accounts
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          description: No response body
+  /api/accounts/shortmessage/:
+    post:
+      operationId: accounts_shortmessage_create
+      description: short message view
+      tags:
+      - accounts
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '201':
+          description: No response body
+  /api/accounts/shortmessages/:
+    get:
+      operationId: accounts_shortmessages_retrieve
+      description: short message view
+      tags:
+      - accounts
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api/accounts/sms/:
+    get:
+      operationId: accounts_sms_retrieve
+      description: short message view
+      tags:
+      - accounts
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: accounts_sms_create
+      description: short message view
+      tags:
+      - accounts
+      security:
+      - tokenAuth: []
+      - {}
+      responses:
+        '201':
+          description: No response body
+  /api/token/:
+    post:
+      operationId: token_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+  /api/token/refresh/:
+    post:
+      operationId: token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+components:
+  schemas:
+    Client:
+      type: object
+      description: A model serializer for client model
+      properties:
+        serial:
+          type: string
+          readOnly: true
+        full_name:
+          type: string
+          readOnly: true
+        phone_number:
+          type: string
+          maxLength: 128
+        password:
+          type: string
+          readOnly: true
+        location:
+          type: string
+          maxLength: 20
+        router:
+          type: string
+          maxLength: 15
+        bandwidth:
+          type: string
+          readOnly: true
+        service_plan:
+          $ref: '#/components/schemas/ServicePlanEnum'
+        status:
+          $ref: '#/components/schemas/StatusEnum'
+        registration_date:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+      required:
+      - bandwidth
+      - full_name
+      - location
+      - password
+      - phone_number
+      - registration_date
+      - router
+      - serial
+      - service_plan
+      - status
+    FieldWork:
+      type: object
+      description: serialier class for field workd
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        assignee:
+          type: string
+          readOnly: true
+        material:
+          type: string
+          readOnly: true
+        task_name:
+          type: string
+          maxLength: 200
+        location:
+          type: string
+          maxLength: 200
+        activities:
+          type: string
+        date:
+          type: string
+          format: date
+        isclosed:
+          type: boolean
+        provider:
+          type: integer
+          readOnly: true
+          nullable: true
+      required:
+      - activities
+      - assignee
+      - date
+      - id
+      - location
+      - material
+      - provider
+      - task_name
+    PatchedClient:
+      type: object
+      description: A model serializer for client model
+      properties:
+        serial:
+          type: string
+          readOnly: true
+        full_name:
+          type: string
+          readOnly: true
+        phone_number:
+          type: string
+          maxLength: 128
+        password:
+          type: string
+          readOnly: true
+        location:
+          type: string
+          maxLength: 20
+        router:
+          type: string
+          maxLength: 15
+        bandwidth:
+          type: string
+          readOnly: true
+        service_plan:
+          $ref: '#/components/schemas/ServicePlanEnum'
+        status:
+          $ref: '#/components/schemas/StatusEnum'
+        registration_date:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+    PatchedFieldWork:
+      type: object
+      description: serialier class for field workd
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        assignee:
+          type: string
+          readOnly: true
+        material:
+          type: string
+          readOnly: true
+        task_name:
+          type: string
+          maxLength: 200
+        location:
+          type: string
+          maxLength: 200
+        activities:
+          type: string
+        date:
+          type: string
+          format: date
+        isclosed:
+          type: boolean
+        provider:
+          type: integer
+          readOnly: true
+          nullable: true
+    ServicePlanEnum:
+      enum:
+      - PPOE
+      - STATIC
+      - HOTSPOT
+      type: string
+      description: |-
+        * `PPOE` - Ppoe
+        * `STATIC` - Static
+        * `HOTSPOT` - Hotspot
+    StatusEnum:
+      enum:
+      - ACTIVE
+      - INACTIVE
+      type: string
+      description: |-
+        * `ACTIVE` - Active
+        * `INACTIVE` - Inactive
+    TokenObtainPair:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - password
+      - refresh
+      - username
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          writeOnly: true
+      required:
+      - access
+      - refresh
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"
