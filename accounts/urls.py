@@ -1,6 +1,5 @@
 from django.urls import include, path
 from rest_framework import routers
-
 from .views import (BandwidthView, ClientView, FieldWorkView,
                     MpesaTransactions, MpesaWebHook, ProviderView,
                     ShortMessageView, UserView, UserAuthenticateView)
@@ -42,5 +41,6 @@ urlpatterns = [
     path("login/",UserAuthenticateView.as_view({"post":"create"}),name="login"),
     path("bandwidth/",BandwidthView.as_view({"post":"create"}),name="bandwith"),
     path("bandwidthdestroy/",BandwidthView.as_view({"delete":"destroy"}),name="bandwith"),
-    path("bandwidths/",BandwidthView.as_view({"get":"list"}),name="bandwith")
+    path("bandwidths/",BandwidthView.as_view({"get":"list"}),name="bandwith"),
+    path("employee/",UserView.as_view({"post":"create"}),name="employee"),
 ]

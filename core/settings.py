@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "phonenumber_field",
     "corsheaders",
+    'django_celery_results',
+    'django_celery_beat',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -77,11 +80,11 @@ TEMPLATES = [
 WSGI_APPLICATION = "core.wsgi.application"
 
 REST_FRAMEWORK = {
-    # "DEFAULT_AUTHENTICATION_CLASSES": (
-    #     "rest_framework_simplejwt.authentication.JWTAuthentication",
-    # )
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
-
+SPECTACULAR_SETTINGS = {
+    "TITLE":"Lamp ISP CRM"
+}
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -133,3 +136,8 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# celery settings
+CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
+CELERY_RESULT_BACKEND = "django-db"
+# CELERY_BEAT_SCHEDULE = "django-cache"
