@@ -94,7 +94,7 @@ class FieldWork(models.Model):
     location = models.CharField(max_length=200)
     activities = models.TextField()
     assignee = models.ForeignKey(
-        to=User, on_delete=models.SET_NULL, null=True, related_name="worker"
+        to="Staff", on_delete=models.SET_NULL, null=True, related_name="worker"
     )
     date = models.DateField()
     isclosed = models.BooleanField(default=False)
@@ -146,3 +146,13 @@ class MpesaTransaction(models.Model):
     def full_name(self):
         """full client name"""
         return f"{self.first_name} {self.last_name}"
+
+class Staff(models.Model):
+
+    """staff users model"""
+    provider = models.ForeignKey(Provider, on_delete=models.CASCADE, related_name="employee")
+    first_name = models.CharField(max_length=20)
+    last_name = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.first_name

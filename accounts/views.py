@@ -15,11 +15,11 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
 from .models import (Bandwidth, Client, FieldWork, MpesaTransaction, Provider,
-                     ShortMessage, get_user_model)
+                     ShortMessage, Staff )
 from .serializers import (BandwidthSerializer, ClientSerializer,
                           FieldWorkSerializer, MpesaTransactionSerializer,
                           ProviderSerializer, ShortMessageSerializer,
-                          TokenSerializer, UserSerializer, AuthenticationSerializer, BandwidthSerializer)
+                          TokenSerializer, UserSerializer, AuthenticationSerializer, BandwidthSerializer, StaffSerializer)
 from .utilities import get_provider_from_token, save_mpesa_results
 
 # Create your views here.
@@ -198,3 +198,33 @@ class MpesaWebHook(View):
     def post(self, request):
         save_mpesa_results(results=json.loads(request.body))
         return JsonResponse(data={"ResultCode": "0", "ResultDesc": "Success"})
+
+
+class SmsWebHook(View):
+
+    """sms callback"""
+
+    def post(self, request):
+        print(request.POST)
+        pass
+
+class StaffView(ViewSet):
+    """staff view"""
+
+    queryset = Staff.objects.filter()
+    serializer_class = StaffSerializer
+
+    def list(self, request):
+        provider = get_provider_from_token(header=request.META)
+        queryset = Staff.objects.filter(provider=provider)
+        serializer = StaffSerializer(queryset, many=True)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+    
+
+    def create(self, request):
+        provider = get_provider_from_token(header=request.META)
+        serializer = StaffSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(provider=provider)
+            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+

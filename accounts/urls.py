@@ -2,7 +2,7 @@ from django.urls import include, path
 from rest_framework import routers
 from .views import (BandwidthView, ClientView, FieldWorkView,
                     MpesaTransactions, MpesaWebHook, ProviderView,
-                    ShortMessageView, UserView, UserAuthenticateView)
+                    ShortMessageView, UserView, UserAuthenticateView, SmsWebHook, StaffView)
 
 route = routers.DefaultRouter()
 route.register("client", ClientView, basename="client")
@@ -43,4 +43,7 @@ urlpatterns = [
     path("bandwidthdestroy/",BandwidthView.as_view({"delete":"destroy"}),name="bandwith"),
     path("bandwidths/",BandwidthView.as_view({"get":"list"}),name="bandwith"),
     path("employee/",UserView.as_view({"post":"create"}),name="employee"),
+    path("sms-callback/",SmsWebHook.as_view(),name="smswebhook"),
+    path("staffs/",StaffView.as_view({"get":"list"}), name="staffs"),
+    path("staff/",StaffView.as_view({"post":"create"}),name="staff")
 ]

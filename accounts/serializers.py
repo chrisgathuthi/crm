@@ -3,7 +3,7 @@ from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
 from .models import (Bandwidth, Client, FieldWork, MpesaTransaction, Provider,
-                     ShortMessage, Bandwidth)
+                     ShortMessage, Bandwidth, Staff)
 
 
 class BandwidthSerializer(serializers.ModelSerializer):
@@ -113,3 +113,20 @@ class MpesaTransactionSerializer(serializers.ModelSerializer):
             "phone_number",
             "full_name",
         ]
+
+class ClientPhoneNumberSerializer(serializers.ModelSerializer):
+    """serialize clients phone numbers to send sms"""
+
+    class Meta:
+        model = Client
+        fields = ["phone_number"]
+
+
+class StaffSerializer(serializers.ModelSerializer):
+
+    """serialize staff models"""
+
+    class Meta:
+        model = Staff
+        fields = "__all__"
+        read_only_fields = ["provider"]
