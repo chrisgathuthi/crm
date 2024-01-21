@@ -3,8 +3,17 @@ from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
 from .models import (Bandwidth, Client, FieldWork, MpesaTransaction, Provider,
-                     ShortMessage, Bandwidth, Staff)
+                     ShortMessage, Bandwidth, Staff, Material)
 
+
+class MaterialSerializer(serializers.ModelSerializer):
+
+    """serializer for materials"""
+
+    class Meta:
+        model = Material
+        fields = "__all__"
+        read_only_fields = ["provider"]
 
 class BandwidthSerializer(serializers.ModelSerializer):
     """Bandwidth class serializer class"""
@@ -27,16 +36,25 @@ class ClientSerializer(serializers.ModelSerializer):
         read_only_fields = ["serial", "registration_date", "provider", "password"]
 
 
+class StaffSerializer(serializers.ModelSerializer):
+
+    """serialize staff models"""
+
+    class Meta:
+        model = Staff
+        fields = "__all__"
+        read_only_fields = ["provider"]
+
 class FieldWorkSerializer(serializers.ModelSerializer):
     """serialier class for field workd"""
 
-    assignee = serializers.StringRelatedField()
+    assignee = StaffSerializer(read_only=True)
     material = serializers.StringRelatedField()
 
     class Meta:
         model = FieldWork
         fields = "__all__"
-        read_only_fields = ["provider", "material"]
+        read_only_fields = ["provider"]
 
 
 class ShortMessageSerializer(serializers.ModelSerializer):
@@ -121,12 +139,3 @@ class ClientPhoneNumberSerializer(serializers.ModelSerializer):
         model = Client
         fields = ["phone_number"]
 
-
-class StaffSerializer(serializers.ModelSerializer):
-
-    """serialize staff models"""
-
-    class Meta:
-        model = Staff
-        fields = "__all__"
-        read_only_fields = ["provider"]

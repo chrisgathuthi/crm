@@ -15,11 +15,11 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
 from .models import (Bandwidth, Client, FieldWork, MpesaTransaction, Provider,
-                     ShortMessage, Staff )
+                     ShortMessage, Staff, Material )
 from .serializers import (BandwidthSerializer, ClientSerializer,
                           FieldWorkSerializer, MpesaTransactionSerializer,
                           ProviderSerializer, ShortMessageSerializer,
-                          TokenSerializer, UserSerializer, AuthenticationSerializer, BandwidthSerializer, StaffSerializer)
+                          TokenSerializer, UserSerializer, AuthenticationSerializer, BandwidthSerializer, StaffSerializer, MaterialSerializer)
 from .utilities import get_provider_from_token, save_mpesa_results
 
 # Create your views here.
@@ -228,3 +228,12 @@ class StaffView(ViewSet):
             serializer.save(provider=provider)
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 
+class MaterialView(ViewSet):
+
+    def create(self, request):
+        provider = get_provider_from_token(header=self.request.META)
+        serializer = MaterialSerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(provider=provider)
+            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+        

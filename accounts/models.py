@@ -75,21 +75,11 @@ class Client(models.Model):
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
 
-class Meterial(models.Model):
-    """field work materils"""
-
-    provider = models.ForeignKey(Provider, on_delete=models.SET_NULL, null=True)
-    name = models.CharField(max_length=50)
-    quantity = models.PositiveIntegerField()
-
-    def __str__(self):
-        return self.name
 
 class FieldWork(models.Model):
     """field work activities"""
 
     provider = models.ForeignKey(Provider, on_delete=models.SET_NULL, null=True)
-    material = models.ForeignKey(Meterial, on_delete=models.SET_NULL, null=True)
     task_name = models.CharField(max_length=200)
     location = models.CharField(max_length=200)
     activities = models.TextField()
@@ -102,6 +92,16 @@ class FieldWork(models.Model):
     def __str__(self):
         return self.task_name + "by" + self.assignee
 
+class Material(models.Model):
+    """field work materils"""
+
+    provider = models.ForeignKey(Provider, on_delete=models.SET_NULL, null=True)
+    name = models.CharField(max_length=50)
+    quantity = models.PositiveIntegerField()
+    fieldwork = models.ForeignKey(FieldWork, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return self.name
 
 class ShortMessage(models.Model):
     """sms sent to clients"""
