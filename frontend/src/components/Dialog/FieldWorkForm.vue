@@ -4,12 +4,35 @@ import * as yup from 'yup';
 import { useToastStore } from '@/stores/toast';
 import { useFieldWorkStore } from '@/stores/fieldwork.js';
 import axios from 'axios';
+import { onMounted, ref } from 'vue';
+
+// toaster
+const toast = useToastStore()
 
 // dilog
 const props = defineProps(["dialog"])
 
-// toaster
-const toast = useToastStore()
+// load staff from api
+const staff = ref([])
+function unpackObjectToArray(object) {
+    let array = []
+    for (let element of object){
+        array.push(`${element.first_name} ${element.last_name}`)
+    }
+    return array
+}
+
+onMounted(()=>{
+    axios.get("/accounts/staffs/",{headers:{Authorization: `Token ${localStorage.getItem('token')}`}})
+    .then((response)=>{
+    //   staff.value = response.data  
+      staff.value = unpackObjectToArray(response.data)
+    })
+    .catch((error)=>{
+        toast.showToast(2000, `${error.response.data}`,'warning')
+    })
+})
+console.log(staff.value);
 
 // fieldwork store
 const store = useFieldWorkStore()
@@ -92,7 +115,7 @@ const submit = handleSubmit(async () => {
                             </v-row>
                             <v-row>
                                 <v-col cols="12">
-                                    <v-select :items="['John Doe', 'Jane Doe', 'Tim Marshall']" label="Assignee*" required
+                                    <v-select :items="staff" label="Assignee*" required
                                         :error-messages="errors.assignee" v-model="assignee.value.value"></v-select>
                                 </v-col>
 

@@ -117,13 +117,13 @@ const router = createRouter({
           path: "/employee",
           name: 'employee',
           component: EmployeePage
-        },{
-          path: "/staff",
-          name: "staff",
-          component: Staff
         }
 
       ]
+    },{
+      path: "/staff",
+      name: "staff",
+      component: Staff
     }
 
   ]
