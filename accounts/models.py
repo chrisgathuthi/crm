@@ -57,9 +57,9 @@ class Client(models.Model):
     serial = models.CharField(unique=True, max_length=7, blank=True)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    phone_number = PhoneNumberField()
+    phone_number = PhoneNumberField(unique=True)
     password = models.CharField(max_length=50)
-    email = models.EmailField(unique=True)
+    email = models.EmailField(unique=True, error_messages={'unique':"This email has already been registered."})
     location = models.CharField(max_length=20)
     router = models.CharField(max_length=15)
     bandwidth = models.ForeignKey(to=Bandwidth, on_delete=models.SET_NULL, null=True)
@@ -71,7 +71,8 @@ class Client(models.Model):
 
     def __str__(self):
         return self.first_name + "" + self.last_name
-    
+
+    @property
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
 

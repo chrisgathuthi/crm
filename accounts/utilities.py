@@ -1,5 +1,7 @@
+import json
 from datetime import datetime
 import requests
+from decouple import config
 
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import status
@@ -66,16 +68,3 @@ def get_provider_from_token(header=None):
     else:
         provider = Provider.objects.get(owner=user.user)
         return provider
-
-
-def send_invoice_sms():
-    payload = {
-    "from": "Lamp",
-    "to": "254757164343",
-    "message": "Test SMS",
-    "refId": "09wiwu088e"}
-
-    response = requests.post("https://api.tiaraconnect.io/api/messaging/sendsms/",headers={"Authorization":"Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIzMjUiLCJvaWQiOjMyNSwidWlkIjoiY2JiYjdhYzItNTJkYy00Y2IyLTgzYWMtNWEyNTQwOWVjMTVjIiwiYXBpZCI6MjIzLCJpYXQiOjE3MDUzOTM4NjcsImV4cCI6MjA0NTM5Mzg2N30.e0hoaRg8nH-HWh98mMOsqX5QdzzFcpSi5aYCAHKvfrmiqo9a-Nq5ow44hB8kFGN_TQGWkIqyDd47ikPzlZhjrw"}, json=payload
-    )
-    print(response.text)
-    
