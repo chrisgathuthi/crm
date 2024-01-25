@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import { useToastStore } from '../stores/toast';
 import { useRouter } from 'vue-router';
 import { useBandwidth } from '../stores/bandwidth';
-import { onMounted, ref } from 'vue';
+import { onMounted} from 'vue';
 
 const pageRouter = useRouter()
 const toast = useToastStore()
@@ -31,14 +31,12 @@ const { errors, values, setErrors, handleSubmit } = useForm({
         router: yup.string().required('Router is required'),
         serviceplan: yup.string().required('Service plan is required'),
         email: yup.string().email().required('Email is required'),
-        password: yup.string().min(6, 'Password should be atleast 6 characters').required('Password is required'),
     })
 });
 
 const firstname = useField('firstname');
 const lastname = useField('lastname');
 const phonenumber = useField('phonenumber');
-const password = useField('password');
 const email = useField('email');
 const location = useField('location');
 const router = useField('router');
@@ -51,7 +49,6 @@ const submit = handleSubmit(async () => {
         first_name: values.firstname,
         last_name: values.lastname,
         phone_number: values.phonenumber,
-        password: values.password,
         email: values.email,
         location: values.location,
         router: values.router,
@@ -72,7 +69,6 @@ const submit = handleSubmit(async () => {
                 lastname: errors.response.data.last_name,
                 phonenumber: errors.response.data.phone_number,
                 email: errors.response.data.email,
-                password: errors.response.data.password,
                 location: errors.response.data.location,
                 router: errors.response.data.router,
                 bandwidth: errors.response.data.bandwidth,
@@ -102,8 +98,6 @@ const submit = handleSubmit(async () => {
                     v-model="phonenumber.value.value" label="Phone number"></v-text-field>
                 <v-text-field clearable variant="underlined" :error-messages="errors.email" v-model="email.value.value"
                     label=" Email"></v-text-field>
-                <v-text-field clearable variant="underlined" :error-messages="errors.password"
-                    v-model="password.value.value" label=" password"></v-text-field>
                 <v-text-field clearable variant="underlined" :error-messages="errors.location"
                     v-model="location.value.value" label=" location"></v-text-field>
                 <v-text-field clearable variant="underlined" :error-messages="errors.router" v-model="router.value.value"
