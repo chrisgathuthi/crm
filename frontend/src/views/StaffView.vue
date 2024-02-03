@@ -2,10 +2,12 @@
 import Navigation from '@/components/Navigation.vue';
 import StaffNavigation from '@/components/Navigation/StaffNavigation.vue';
 import { onMounted, ref } from 'vue';
-import {Converter} from '@/functions/DateConverter'
-import axios from 'axios';
+import { Converter } from '@/functions/DateConverter'
+import MaterialForm from '../components/Staff/MaterialForm.vue';
 import { useFieldWorkStore } from '../stores/fieldwork'
-
+import axios from 'axios'
+import { useToastStore } from '../stores/toast';
+const toast = useToastStore()
 // show summary
 const expand = ref(false)
 
@@ -13,7 +15,26 @@ const store = useFieldWorkStore()
 onMounted(async () => {
     await store.getFieldWorkList()
 })
+// function appendTableRow() {
+//     var tableBody = document.getElementById('tbody')
+//     var tableRow = document.createElement("tr");
+//     tableRow.innerHTML = '<td><input type="text" name="" id=""></td> <td><input type="text" name="" id=""></td>'
+//     tableBody.appendChild(tableRow)
+//     console.log(tableBody);
+// }
+// update the status
+async function closeTicket(id) {
+    await axios.patch(`/accounts/fieldwork/${id}/`, { isclosed: true }, { headers: { Authorization: `Token ${localStorage.getItem("token")}` } })
+        .then((response) => {
+            console.log(response);
+            toast.showToast(3000, "ticket closed", "success")
+        })
+        .catch((error) => {
+            console.log(error);
+            toast.showToast(3000, "an error occurred", "warning")
+        })
 
+}
 </script>
 <template>
     <v-row>
@@ -31,8 +52,9 @@ onMounted(async () => {
                     </div>
                 </v-col>
             </v-row>
-
-            <v-container v-for="(item, index) in store.fieldworks" :key="index" v-if="store.fieldworks.length > 0">
+           
+            <div v-if="store.fieldworks.length > 0">
+            <v-container v-for="(item, index) in store.fieldworks" :key="index" >
                 <v-card max-width="350" elevation="4">
                     <v-card-item>
                         <v-card-title>
@@ -69,24 +91,28 @@ onMounted(async () => {
                             <div class="summary" v-show="expand">
                                 <v-card-text>
                                     {{ item.activities }}
-                                    
+
+                                        <MaterialForm :fieldwork-i-d="item.id"/>
+
                                 </v-card-text>
                                 <v-card-action>
-                                    <v-btn elevation-1 block variant="outlined" class="w-50 my-3" prepend-icon="mdi-paperclip-plus">Materials</v-btn>
-                                    
-                                    <v-btn @click="closeTicket(item.id)" class="my-3" type="button" block 
-                                        variant="outlined" >complete</v-btn>
-                                    
+                                    <v-btn @click="closeTicket(item.id)" class="my-3" type="button" block
+                                        variant="outlined">complete</v-btn>
+
                                 </v-card-action>
                             </div>
                         </v-expand-transition>
                     </v-card-item>
                 </v-card>
             </v-container>
-            <v-container v-else>
+           </div>
+
+           <div v-else>
+            <v-container >
                 <h3>Hoorah! no Fieldwork Tickets</h3>
 
             </v-container>
+           </div>
         </v-col>
     </v-row>
 </template>

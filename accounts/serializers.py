@@ -56,6 +56,13 @@ class FieldWorkSerializer(serializers.ModelSerializer):
         fields = "__all__"
         read_only_fields = ["provider"]
 
+class FieldWorkMaterialSerializer(serializers.ModelSerializer):
+    """serialier class for field workd"""
+
+    class Meta:
+        model = Material
+        fields = "__all__"
+        read_only_fields = ["provider"]
 
 class ShortMessageSerializer(serializers.ModelSerializer):
     """short message model serializer"""

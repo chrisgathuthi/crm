@@ -91,8 +91,6 @@ const submit = handleSubmit(async () => {
                 <v-form @submit.prevent="submit">
                     <v-responsive>
                         <v-container>
-
-
                             <v-row>
                                 <v-col cols="12">
                                     <v-text-field label="Task Name*" clearable :error-messages="errors.taskname"

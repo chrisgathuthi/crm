@@ -23,21 +23,6 @@ onMounted(async () => {
 // show summary
 const expand = ref(false)
 
-// show search
-
-// update the status
-async function closeTicket(id) {
-    await axios.patch(`/accounts/fieldwork/${id}/`, { isclosed: true }, { headers: { Authorization: `Token ${localStorage.getItem("token")}` } })
-        .then((response) => {
-            console.log(response);
-            toast.showToast(3000, "ticket closed", "success")
-        })
-        .catch((error) => {
-            console.log(error);
-            toast.showToast(3000, "an error occurred", "warning")
-        })
-
-}
 </script>
 
 <template>
@@ -113,9 +98,6 @@ async function closeTicket(id) {
                                     {{ item.activities }}
 
                                 </v-card-text>
-                                <v-card-action class="w-25">
-                                    <button @click="closeTicket(item.id)" type="button" block size="large" variant="outlined" elevation-1 class="border">close</button>
-                                </v-card-action>
                             </div>
                         </v-expand-transition>
                     </v-card-item>

@@ -19,7 +19,7 @@ from .models import (Bandwidth, Client, FieldWork, MpesaTransaction, Provider,
 from .serializers import (BandwidthSerializer, ClientSerializer,
                           FieldWorkSerializer, MpesaTransactionSerializer,
                           ProviderSerializer, ShortMessageSerializer,
-                          TokenSerializer, UserSerializer, AuthenticationSerializer, BandwidthSerializer, StaffSerializer, MaterialSerializer)
+                          TokenSerializer, UserSerializer, AuthenticationSerializer, BandwidthSerializer, StaffSerializer, MaterialSerializer, FieldWorkMaterialSerializer)
 from .utilities import get_provider_from_token, save_mpesa_results
 
 # Create your views here.
@@ -231,8 +231,9 @@ class StaffView(ViewSet):
 class MaterialView(ViewSet):
 
     def create(self, request):
+        print(request.data)
         provider = get_provider_from_token(header=self.request.META)
-        serializer = MaterialSerializer(data=request.data)
+        serializer = FieldWorkMaterialSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save(provider=provider)
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
