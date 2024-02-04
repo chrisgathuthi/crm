@@ -136,7 +136,7 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requireAuth)) {
     // this route requires auth, check if logged in
     // if not, login page.
-    const token = JSON.parse(localStorage.getItem("token"));
+    const token = localStorage.getItem("token");
     if (!token) {
       next({ path: "/login" });
     } else {

@@ -3,12 +3,9 @@ import { useForm, useField } from 'vee-validate';
 import * as yup from 'yup'
 import { useToastStore } from '@/stores/toast';
 import axios from 'axios';
-import { useUserStore } from '@/stores/user';
 import { useRouter } from 'vue-router';
-import {ref} from 'vue'
 
 const toast = useToastStore()
-const userStore = useUserStore()
 
 const router = useRouter()
 
@@ -40,7 +37,6 @@ const submit = handleSubmit(async () => {
         })
 
 })
-ref
 </script>
 <template>
     <v-row justify="center" class="align-center" >
