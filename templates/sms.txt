@@ -1,6 +1,6 @@
 Your Monthly Bill Reminder
 
-Dear John Doe,
+Dear {{client.full_name}},
 
 We hope this message finds you well. As part of our commitment to transparency and to keep you informed, we wanted to remind you that your monthly bill is due soon.
 
@@ -9,7 +9,7 @@ We hope this message finds you well. As part of our commitment to transparency a
 - Due Date: Feb 5 23.04
 
 **Payment Options:**
-Mpesa - Paybill 234567 a/c number HT3333
+Mpesa - Paybill 234567 a/c number {{client.serial}}
 
 Please ensure that your payment is made by the due date to avoid any potential service interruptions. If you have already made the payment, we sincerely thank you for your promptness.
 
