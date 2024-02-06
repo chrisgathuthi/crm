@@ -45,13 +45,13 @@ class Client(models.Model):
     """client table model"""
 
     class SERVICE(models.TextChoices):
-        PPOE = "PPOE"
-        STATIC = "STATIC"
-        HOTSPOT = "HOTSPOT"
+        PPOE = "ppoe"
+        STATIC = "static"
+        HOTSPOT = "hotspot"
 
     class STATUS(models.TextChoices):  # user status
-        active = "ACTIVE"
-        inactive = "INACTIVE"
+        active = "active"
+        inactive = "inactive"
 
     provider = models.ForeignKey(Provider, on_delete=models.SET_NULL, null=True)
     serial = models.CharField(unique=True, max_length=7, blank=True)
