@@ -18,6 +18,9 @@ const vuetify = createVuetify({
   directives,
   icons: {
     defaultSet: 'mdi'
+  },
+  theme:{
+    burgundy: "#800020"
   }
 })
 

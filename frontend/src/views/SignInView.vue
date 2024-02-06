@@ -52,7 +52,7 @@ const submit = handleSubmit(async () => {
                     <v-btn type="submit" color="purple-accent-3" class="w-25" elevation-1  block>Login
                     </v-btn>
                     <div class="forgot mt-2">
-                        <span role="link" class="text-green">forgot password?</span>
+                        <span role="link" class="text-gray">forgot password?</span>
                     </div>
             </v-form>
 

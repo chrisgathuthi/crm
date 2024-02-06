@@ -51,10 +51,10 @@ const submit = handleSubmit(async () => {
                     <Timeline />
                 </v-col>
                 <v-col cols="6" class="gap-3">
-                    <v-card class="bg-white pa-2" min-height="80vh" rounded>
+                    <v-card class="bg-white pa-2" min-height="80vh" rounded variant="flat">
                         <div>
-                            <div class="text-h5 justify-center ">Welcome to Lamp connect</div>
-                            <div class="text-h6 justify-center mt-2">Your trusted ISP CRM software</div>
+                            <h3>Lamp </h3>
+                            <div class="mt-2">your trusted ISP CRM software</div>
                         </div>
                         <v-form class="bg-white mt-6" @submit.prevent="submit">
                             <v-text-field clearable color="primary" v-model="username.value.value"
@@ -67,7 +67,7 @@ const submit = handleSubmit(async () => {
                                 :type="show ? 'text' : 'password'" label="Password" hint="At least 8 characters" counter
                                 @click="show = !show" variant="outlined"></v-text-field>
                             <v-text-field v-model="password2.value.value" :error-messages="errors.password2" color="primary"
-                                :type="show ? 'text' : 'password'" label="Password" hint="At least 8 characters" counter
+                                :type="show ? 'text' : 'password'" label="Confirm password" hint="At least 8 characters" counter
                                 variant="outlined"></v-text-field>
                             <v-row justify="center">
                                 <v-col cols="6">

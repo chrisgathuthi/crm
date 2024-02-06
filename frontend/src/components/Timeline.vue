@@ -1,40 +1,36 @@
 <template>
-    <v-timeline align="start" class="bg-white">
-        <v-timeline-item dot-color="primary">
-            <template v-slot:opposite>
-                Opposite content
-            </template>
+    <v-timeline class="align-start">
+        <v-timeline-item dot-color="primary" fill-dot>
             <div>
-                <div class="text-h6">Content title</div>
+                <h3 class="text-green">Billing & collection</h3>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua.
+                    Customers are automatically sent invoices and payments are prompty processed and recoreded
                 </p>
             </div>
         </v-timeline-item>
 
-        <v-timeline-item>
-            <template v-slot:opposite>
-                Opposite content
-            </template>
+        <v-timeline-item dot-color="green" >
             <div>
-                <div class="text-h6">Content title</div>
+                <h3 class="text-amber">Inventory management</h3>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua.
+                    Monitor company inventory
                 </p>
             </div>
         </v-timeline-item>
 
-        <v-timeline-item dot-color="pink">
-            <template v-slot:opposite>
-                Opposite content
-            </template>
+        <v-timeline-item dot-color="pink" fill-dot>
             <div>
-                <div class="text-h6">Content title</div>
+                <h3 class="text-blue">Field services</h3>
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua.
+                    Effectively manage fieldwork operations by issuing tickets and record materials used.
+                </p>
+            </div>
+        </v-timeline-item>
+        <v-timeline-item dot-color="purple" fill-dot>
+            <div>
+                <h3 class="text-purple">Customer support</h3>
+                <p>
+                    Carry out customer support through sms and WhatsApp.
                 </p>
             </div>
         </v-timeline-item>

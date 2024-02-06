@@ -1,17 +1,23 @@
-
 <script setup>
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
+
+const router = useRouter()
+
+const deleteToken = () =>{
+        localStorage.removeItem("token")
+        router.push({name:"login"})
+}
 </script>
 <template>
     <v-navigation-drawer class="navigation" theme="dark" permanent>
         <v-list color="transparent">
-            <v-list-item prepend-avatar="logo.png" title="Lamp"
-                subtitle="we deliver">
+            <v-list-item prepend-avatar="logo.svg" title="Lamp"
+                subtitle="......">
             </v-list-item>
 
             <v-divider class="mt-2"></v-divider>
 
-            <RouterLink active-class="active" :to="{ name: 'admin' }"><v-list-item prepend-icon="mdi-security"
+            <RouterLink active-class="active" color="#27248C" :to="{ name: 'admin' }"><v-list-item prepend-icon="mdi-security"
                     title="Admin"></v-list-item></RouterLink>
             <RouterLink active-class="active" :to="{ name: 'clients' }"><v-list-item prepend-icon="mdi-account-multiple"
                     title="Clients"></v-list-item></RouterLink>
@@ -32,7 +38,7 @@ import { RouterLink } from 'vue-router'
 
         <template v-slot:append>
             <div class="pa-2">
-                <v-btn block> Logout </v-btn>
+                <v-btn block color="primary" @click="deleteToken"> Logout </v-btn>
             </div>
         </template>
 
