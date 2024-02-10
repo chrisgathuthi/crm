@@ -16,40 +16,41 @@ onMounted(async () => {
 
 </script>
 <template>
-  <v-row class="mt-5">
-    <v-col cols="12">
-      <v-table fixed-header>
-        <thead class="text-bold">
-          <tr>
-            <th>Serial no:</th>
-            <th>Names</th>
-            <th>Location</th>
-            <th>Phone Number</th>
-            <th>Service</th>
-            <th>Router</th>
-            <th>Bandwith</th>
-            <th>Status</th>
-            <th>Reg date</th>
+  <section>
 
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="client in store.clients" :key="client.id" @click="router.push({ name: 'client-detail', params: { id: client.id } })" @mouseover="style={backgroundColor: 'green'}">
-            <td>{{ client.serial }}</td>
-            <td>{{ client.full_name }}</td>
-            <td>{{ client.location }}</td>
-            <td>{{ client.phone_number }}</td>
-            <td>{{ client.service_plan }}</td>
-            <td>{{ client.router }}</td>
-            <td>{{ client.bandwidth }}</td>
-            <td>{{ client.status }}</td>
-            <td>{{ Converter(client.registration_date) }}</td>
-          </tr>
-        </tbody>
-      </v-table>
+    <v-table fixed-header>
+      <thead class="text-bold">
+        <tr>
+          <th>Serial no:</th>
+          <th>Names</th>
+          <th>Location</th>
+          <th>Phone Number</th>
+          <th>Service</th>
+          <th>Router</th>
+          <th>Bandwith</th>
+          <th>Status</th>
+          <th>Reg date</th>
 
-    </v-col>
-  </v-row>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="client in store.clients" :key="client.id"
+          @click="router.push({ name: 'client-detail', params: { id: client.id } })"
+          @mouseover="style = { backgroundColor: 'green' }" class="pointer">
+          <td>{{ client.serial }}</td>
+          <td>{{ client.full_name }}</td>
+          <td>{{ client.location }}</td>
+          <td>{{ client.phone_number }}</td>
+          <td>{{ client.service_plan }}</td>
+          <td>{{ client.router }}</td>
+          <td>{{ client.bandwidth }}</td>
+          <td>{{ client.status }}</td>
+          <td>{{ Converter(client.registration_date) }}</td>
+        </tr>
+      </tbody>
+    </v-table>
+
+  </section>
 </template>
 <style scoped>
 .action-menu {

@@ -1,5 +1,5 @@
 <script setup>
-import { RouterLink, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 
 import ClientList from '../components/ClientList.vue'
 import Navigation from '../components/Navigation.vue';
