@@ -101,7 +101,7 @@ class UserAuthenticateView(ViewSet):
             user = authenticate(username=serializer.data["username"], password=serializer.data["password"])
             if user is not None:
                 token = Token.objects.get(user=user)
-                return Response(data={"token":token}, status=status.HTTP_200_OK)
+                return Response(data={"token":json.dumps(str(token))}, status=status.HTTP_200_OK)
             return Response(data={"password":"invalid credential","username":"invalid username"}, status=status.HTTP_400_BAD_REQUEST)
             
 class ProviderView(ViewSet):
@@ -231,7 +231,6 @@ class StaffView(ViewSet):
 class MaterialView(ViewSet):
 
     def create(self, request):
-        print(request.data)
         provider = get_provider_from_token(header=self.request.META)
         serializer = FieldWorkMaterialSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):

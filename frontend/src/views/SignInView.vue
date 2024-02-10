@@ -29,7 +29,7 @@ const submit = handleSubmit(async () => {
             localStorage.setItem("token", response.data.token)
             toast.showToast(2000, 'login successful', 'success')
             resetForm()
-            router.push('/')
+            router.push({name:"dashboard"})
         })
         .catch((error) => {
             toast.showToast(3000, 'Login unsuccessful', 'warning')
