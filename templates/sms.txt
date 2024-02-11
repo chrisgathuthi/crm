@@ -9,7 +9,7 @@ We hope this message finds you well. As part of our commitment to transparency a
 - Due Date: Feb 5 23.04
 
 **Payment Options:**
-Mpesa - Paybill 234567 a/c number {{client.serial}}
+Mpesa - Paybill {{client.provider.short_code}} a/c number {{client.serial}}
 
 Please ensure that your payment is made by the due date to avoid any potential service interruptions. If you have already made the payment, we sincerely thank you for your promptness.
 
