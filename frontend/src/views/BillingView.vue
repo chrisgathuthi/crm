@@ -16,7 +16,7 @@ import Navigation from '@/components/Navigation.vue'
                 <v-spacer></v-spacer>
                 <v-btn @click="router.push({ name: 'payment' })">Payments</v-btn>
                 <v-btn @click="router.push({ name: 'fees' })">Send sms</v-btn>
-                <v-btn @click="router.push({ name: 'fees' })">Monthly sms</v-btn>
+                <v-btn @click="router.push({ name: 'smsReports' })">Sms Reports</v-btn>
             </v-toolbar>
             <RouterView />
 

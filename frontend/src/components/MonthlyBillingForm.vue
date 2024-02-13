@@ -101,7 +101,7 @@ const submit = handleSubmit(async () => {
         <div class="continer border-l">
             <div class="text-body">
                 <h4>Message history</h4>
-                <v-infinite-scroll :height="300">
+                <div style="height: 300px;" >
                     <v-timeline side="end">
                         <v-timeline-item v-for="item in store.messages" :key="item.id"
                             dot-color="primary" size="small">
@@ -124,7 +124,7 @@ const submit = handleSubmit(async () => {
                         </v-timeline-item>
                     </v-timeline>
 
-                </v-infinite-scroll>
+                </div>
 
 
 

@@ -15,6 +15,7 @@ import PartnerSetup from "../views/PartnerSetupView.vue";
 import PaymentDetail from "../components/PaymentDetail.vue";
 import ServiceForm from "../components/ServiceForm.vue";
 import EmployeePage from "../components/Admin/Employee.vue";
+import SmsReport from "../components/Billing/SmsReport.vue";
 import Admin from "../views/AdminView.vue";
 import Staff from "../views/StaffView.vue";
 
@@ -53,9 +54,14 @@ const router = createRouter({
           component: MonthlyBillingForm,
         },
         {
-          path: "payment",
+          path: "/payment",
           name: "payment",
           component: PaymentDetail,
+        },
+        {
+          path: "/sms-reports",
+          name: "smsReports",
+          component: SmsReport,
         },
       ],
     },
