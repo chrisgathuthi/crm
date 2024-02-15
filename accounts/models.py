@@ -157,3 +157,16 @@ class Staff(models.Model):
 
     def __str__(self):
         return self.first_name
+
+class SmsGatewayResponse(models.Model):
+
+    """sms request responses from Tiara gateway"""
+
+    sms_cost = models.CharField(max_length=5)
+    receiver = models.CharField(max_length=12)
+    message_id = models.CharField(max_length=40)
+    status = models.CharField(max_length=7)
+    status_code = models.CharField(max_length=3)
+
+    def __str__(self):
+        return self.receiver
