@@ -148,13 +148,11 @@ class MpesaTransaction(models.Model):
         """full client name"""
         return f"{self.first_name} {self.last_name}"
 
-class Staff(models.Model):
+class Staff(User):
 
     """staff users model"""
     provider = models.ForeignKey(Provider, on_delete=models.CASCADE, related_name="employee")
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
-
+    
     def __str__(self):
         return self.first_name
 
