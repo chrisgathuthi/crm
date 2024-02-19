@@ -70,7 +70,7 @@ const submit = handleSubmit(async () => {
                             variant="outlined" label="email" type="email"></v-text-field>
                         <v-text-field v-model="password.value.value" :error-messages="errors.password"
                             :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'" color="primary"
-                            :type="show ? 'text' : 'password'" label="Password" hint="At least 8 characters" counter
+                            :type="show ? 'password' : 'text'" label="Password" hint="At least 8 characters" counter
                             @click="show = !show" variant="outlined"></v-text-field>
                         <v-text-field v-model="password2.value.value" :error-messages="errors.password2" color="primary"
                             :type="show ? 'password' : 'text'" label="Confirm password" hint="At least 8 characters" counter

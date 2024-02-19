@@ -1,13 +1,10 @@
 <script setup>
-import { ref } from 'vue'
 import { useForm, useField } from 'vee-validate'
 import axios from 'axios'
 import * as yup from 'yup'
 import { useRouter } from 'vue-router'
 import { useToastStore } from '../stores/toast.js'
-import { storeToRefs } from 'pinia'
 
-const show = ref(false)
 
 const router = useRouter()
 // toast store
@@ -15,13 +12,13 @@ const toast = useToastStore()
 
 // form validation
 
-const { errors, handleSubmit, values, resetForm, setErrors } = useForm({
+const { errors, handleSubmit, values, resetForm} = useForm({
     validationSchema: yup.object({
         name: yup.string().max(100).required("co. name is required"),
         location: yup.string().max(100).required("location phone number is required"),
         phonenumber: yup.string().matches(/^\+(?:[0-9] ?){6,14}[0-9]$/, "Start with +254").required('co. phone number is required'),
         orgEmail: yup.string().email().required("org. email is required"),
-        shortCode: yup.string().min(7).max(7).required("your organisation short code is required"),
+        shortCode: yup.string().min(6).max(7).required("your organisation short code is required"),
 
     })
 
@@ -45,7 +42,7 @@ const submit = handleSubmit(async () => {
         // "Token": `Token ${localStorage.getItem('token')}`
     }
     await axios.post("/accounts/provider/", data, {headers:headers})
-        .then((response) => {
+        .then(() => {
             toast.showToast(3000,"ISP profile created successfully","success")
             router.push({name: "dashboard"})
             resetForm()

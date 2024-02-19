@@ -11,26 +11,27 @@ const toast = useToastStore()
 
 // dilog
 const props = defineProps(["dialog"])
-
+// toggle modal off
+const dialog = ref(props.dialog)
 // load staff from api
 const staff = ref([])
 function unpackObjectToArray(object) {
     let array = []
-    for (let element of object){
+    for (let element of object) {
         array.push(`${element.first_name} ${element.last_name}`)
     }
     return array
 }
 
-onMounted(()=>{
-    axios.get("/accounts/staffs/",{headers:{Authorization: `Token ${localStorage.getItem('token')}`}})
-    .then((response)=>{
-    //   staff.value = response.data  
-      staff.value = unpackObjectToArray(response.data)
-    })
-    .catch((error)=>{
-        toast.showToast(2000, `${error.response.data}`,'warning')
-    })
+onMounted(() => {
+    axios.get("/accounts/staffs/", { headers: { Authorization: `Token ${localStorage.getItem('token')}` } })
+        .then((response) => {
+            //   staff.value = response.data  
+            staff.value = unpackObjectToArray(response.data)
+        })
+        .catch((error) => {
+            toast.showToast(2000, `${error.response.data}`, 'warning')
+        })
 })
 console.log(staff.value);
 
@@ -63,7 +64,7 @@ const submit = handleSubmit(async () => {
         assignee: values.assignee,
         date: values.date,
     }
-    await axios.post('/accounts/fieldwork/', data, {headers:{Authorization: `Token ${localStorage.getItem("token")}`}})
+    await axios.post('/accounts/fieldwork/', data, { headers: { Authorization: `Token ${localStorage.getItem("token")}` } })
         .then((resp) => {
             toast.showToast(3000, `${resp.data.task_name} created successfully`, 'success')
             dialog.value = false
@@ -113,8 +114,8 @@ const submit = handleSubmit(async () => {
                             </v-row>
                             <v-row>
                                 <v-col cols="12">
-                                    <v-select :items="staff" label="Assignee*" required
-                                        :error-messages="errors.assignee" v-model="assignee.value.value"></v-select>
+                                    <v-select :items="staff" label="Assignee*" required :error-messages="errors.assignee"
+                                        v-model="assignee.value.value"></v-select>
                                 </v-col>
 
                             </v-row>
