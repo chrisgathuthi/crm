@@ -15,11 +15,11 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
 
 from .models import (Bandwidth, Client, FieldWork, MpesaTransaction, Provider,
-                     ShortMessage, Staff, Material )
+                     ShortMessage, Staff, Material, SmsGatewayResponse )
 from .serializers import (BandwidthSerializer, ClientSerializer,
                           FieldWorkSerializer, MpesaTransactionSerializer,
                           ProviderSerializer, ShortMessageSerializer,
-                          TokenSerializer, UserSerializer, AuthenticationSerializer, BandwidthSerializer, StaffSerializer, MaterialSerializer, FieldWorkMaterialSerializer)
+                          TokenSerializer, UserSerializer, AuthenticationSerializer, BandwidthSerializer, StaffSerializer, MaterialSerializer, FieldWorkMaterialSerializer, SmsGatewayResponseSerializer)
 from .utilities import get_provider_from_token, save_mpesa_results
 
 # Create your views here.
@@ -131,7 +131,7 @@ class ProviderView(ViewSet):
     def retrieve(self, request):
         """get provider year joined"""
         provider = get_provider_from_token(header=request.META)
-        provider_instance = Provider.objects.get(id=provider.id)
+        provider_instance = Provider.objects.get(id=provider["id"])
         serializer = ProviderSerializer(provider_instance)
         return Response(data={"yearJoined": serializer.data["join_date"]})
 
@@ -237,3 +237,9 @@ class MaterialView(ViewSet):
             serializer.save(provider=provider)
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
         
+
+class SmsGatewayResponseView(ModelViewSet):
+
+    queryset = SmsGatewayResponse.objects.all()
+    
+    

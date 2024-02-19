@@ -3,7 +3,7 @@ from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
 from .models import (Bandwidth, Client, FieldWork, MpesaTransaction, Provider,
-                     ShortMessage, Bandwidth, Staff, Material)
+                     ShortMessage, Bandwidth, Staff, Material, SmsGatewayResponse)
 
 
 class MaterialSerializer(serializers.ModelSerializer):
@@ -146,3 +146,11 @@ class ClientPhoneNumberSerializer(serializers.ModelSerializer):
         model = Client
         fields = ["phone_number"]
 
+
+class SmsGatewayResponseSerializer(serializers.ModelSerializer):
+
+    """serialize the responses from the gateway"""
+
+    class Meta:
+        model = SmsGatewayResponse
+        fields = "__all__"

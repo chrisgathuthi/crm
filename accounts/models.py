@@ -151,16 +151,16 @@ class MpesaTransaction(models.Model):
 class Staff(User):
 
     """staff users model"""
-    provider = models.ForeignKey(Provider, on_delete=models.CASCADE, related_name="employee")
-    
+    provider_information = models.ForeignKey(Provider, on_delete=models.CASCADE, related_name="employee", null=True)
+
     def __str__(self):
         return self.first_name
 
 class SmsGatewayResponse(models.Model):
 
     """sms request responses from Tiara gateway"""
-
-    sms_cost = models.CharField(max_length=5)
+    sms_message = models.ForeignKey(ShortMessage,on_delete=models.SET_NULL, null=True, related_name="messages")
+    sms_cost = models.CharField(max_length=5, null=True)
     receiver = models.CharField(max_length=12)
     message_id = models.CharField(max_length=40)
     status = models.CharField(max_length=7)

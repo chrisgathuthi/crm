@@ -64,7 +64,8 @@ def get_provider_from_token(header=None):
     try:
         user = Token.objects.get(key=user_token)
     except Token.DoesNotExist:
-        return {"message": "No token found proceed to login"}
+        # return {"message": "No token found proceed to login"}
+        return None
     else:
         provider = Provider.objects.get(owner=user.user)
         return provider

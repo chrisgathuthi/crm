@@ -2,13 +2,14 @@ from django.urls import include, path
 from rest_framework import routers
 from .views import (BandwidthView, ClientView, FieldWorkView,
                     MpesaTransactions, MpesaWebHook, ProviderView,
-                    ShortMessageView, UserView, UserAuthenticateView, SmsWebHook, StaffView, MaterialView)
+                    ShortMessageView, UserView, UserAuthenticateView, SmsWebHook, StaffView, MaterialView, SmsGatewayResponseView)
 
 route = routers.DefaultRouter()
 route.register("client", ClientView, basename="client")
 route.register("fieldwork", FieldWorkView, basename="fieldwork")
 route.register("sms", ShortMessageView, basename="sms")
 route.register("registration", UserView, basename="registration")
+route.register("sms-gateway-response",SmsGatewayResponseView, basename="smsgatewayresponse")
 urlpatterns = [
     path("", include(route.urls)),
     path("provider/", ProviderView.as_view({"post": "create"}), name="create-provider"),
