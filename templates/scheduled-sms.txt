@@ -1,0 +1,6 @@
+Dear {{client.full_name}},
+
+{{message.message}}
+
+Best Regard,
+Lamp

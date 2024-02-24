@@ -7,7 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
-
+from django.utils import timezone
 from .models import Client, MpesaTransaction, Provider
 
 
@@ -69,3 +69,10 @@ def get_provider_from_token(header=None):
     else:
         provider = Provider.objects.get(owner=user.user)
         return provider
+
+
+def clients_with_due_date():
+    """clients with due dates"""
+
+    payment_due = Client.objects.filter(is_paid=False)
+    return payment_due

@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+from celery.schedules import crontab
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -140,4 +141,14 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # celery settings
 CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
 CELERY_RESULT_BACKEND = "django-db"
-# CELERY_BEAT_SCHEDULE = "django-cache"
+CELERY_TIMEZONE = "Africa/Nairobi"
+CELERY_BEAT_SCHEDULE = {
+    "monthly_billing_invoice": {
+        "task":"accounts.tasks.execute_notification",
+        "schedule":crontab(minute=0, hour="6", day_of_month="3-10")
+    },
+    "scheduled_sms": {
+        "task":"accounts.tasks.send_scheduled_sms",
+        "schedule":crontab(minute="*/15")
+    },
+}

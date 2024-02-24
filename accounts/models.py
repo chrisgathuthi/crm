@@ -65,6 +65,7 @@ class Client(models.Model):
     bandwidth = models.ForeignKey(to=Bandwidth, on_delete=models.SET_NULL, null=True)
     service_plan = models.CharField(choices=SERVICE.choices, max_length=7)
     status = models.CharField(max_length=8, choices=STATUS.choices)
+    is_paid=models.BooleanField(default=False)
     registration_date = models.DateTimeField(
         auto_now=True, blank=True, null=True
     )  # change this

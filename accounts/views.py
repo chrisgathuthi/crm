@@ -131,7 +131,7 @@ class ProviderView(ViewSet):
     def retrieve(self, request):
         """get provider year joined"""
         provider = get_provider_from_token(header=request.META)
-        provider_instance = Provider.objects.get(id=provider["id"])
+        provider_instance = Provider.objects.get(id=provider.id)
         serializer = ProviderSerializer(provider_instance)
         return Response(data={"yearJoined": serializer.data["join_date"]})
 
