@@ -9,7 +9,7 @@ const deleteToken = () =>{
 }
 </script>
 <template>
-    <v-navigation-drawer class="navigation" theme="dark" permanent>
+    <v-navigation-drawer class="navigation d-xs-none" theme="dark">
         <v-list color="transparent">
             <v-list-item prepend-avatar="logo.svg" title="Lamp"
                 subtitle="......">

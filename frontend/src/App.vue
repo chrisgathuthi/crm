@@ -1,10 +1,13 @@
 <script setup>
 import { RouterView } from 'vue-router'
 import Toast from '@/components/Toast.vue'
+import MobileNavigation from './components/Navigation/MobileNavigation.vue';
+
 </script>
 
 <template>
   <VApp style="width: 100%; height: 100vh;">
+    <MobileNavigation />
     <RouterView />
     <Toast />
   </VApp>
