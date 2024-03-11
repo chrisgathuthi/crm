@@ -1,20 +1,7 @@
 <script setup>
-import Navigation from '@/components/Navigation.vue';
-import {  RouterView } from 'vue-router'
+import BaseLayout from '../components/Layout/BaseLayout.vue';
 </script>
 
 <template>
-     <Navigation/>
-      <v-main>
-        <RouterView />
-      </v-main>
+  <BaseLayout/>
 </template>
-<style >
-.v-layout{
-  background: red;
-  min-height: 100vh;
-}
-.v-main{
-  overflow: scroll;
-}
-</style>

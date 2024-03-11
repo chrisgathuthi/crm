@@ -1,5 +1,4 @@
 <script setup>
-import Navigation from '@/components/Navigation.vue';
 import StaffNavigation from '@/components/Navigation/StaffNavigation.vue';
 import { onMounted, ref } from 'vue';
 import { Converter } from '@/functions/DateConverter'
@@ -7,6 +6,7 @@ import MaterialForm from '../components/Staff/MaterialForm.vue';
 import { useFieldWorkStore } from '../stores/fieldwork'
 import axios from 'axios'
 import { useToastStore } from '../stores/toast';
+import BaseLayout from '../components/Layout/BaseLayout.vue';
 const toast = useToastStore()
 // show summary
 const expand = ref(false)
@@ -37,22 +37,16 @@ async function closeTicket(id) {
 }
 </script>
 <template>
-    <v-row>
-        <v-col cols="3">
-            <Navigation />
+    <BaseLayout>
+        <template v-slot:pageMenu>
 
-        </v-col>
-        <v-col cols="9">
             <StaffNavigation />
 
-            <v-row class="mt-8">
-                <v-col>
-                    <div class="subtitle">
+        </template>
+        <template v-slot:childComponent>
+            <div class="subtitle">
                         Your tickets
-                    </div>
-                </v-col>
-            </v-row>
-           
+            </div>
             <div v-if="store.fieldworks.length > 0">
             <v-container v-for="(item, index) in store.fieldworks" :key="index" >
                 <v-card max-width="350" elevation="4">
@@ -113,6 +107,7 @@ async function closeTicket(id) {
 
             </v-container>
            </div>
-        </v-col>
-    </v-row>
+
+        </template>
+    </BaseLayout>
 </template>

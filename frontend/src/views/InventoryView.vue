@@ -1,8 +1,11 @@
 
 <script setup>
-import Navigation from '../components/Navigation.vue';
+import BaseLayout from '../components/Layout/BaseLayout.vue';
 
 </script>
 <template>
     <Navigation/>
+    <BaseLayout>
+    </BaseLayout>
+    
 </template>

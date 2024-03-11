@@ -2,6 +2,7 @@ a{
     text-decoration: none;
 
 }
-.v-main{
-    padding: 0px
+.main-content{
+    padding-left: 4px;
+    background-color: red;
 }

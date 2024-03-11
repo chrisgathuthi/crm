@@ -1,15 +1,18 @@
 <script setup>
 import { RouterView } from 'vue-router'
 import Toast from '@/components/Toast.vue'
-import MobileNavigation from './components/Navigation/MobileNavigation.vue';
 
 </script>
 
 <template>
-  <VApp style="width: 100%; height: 100vh;">
-    <MobileNavigation />
-    <RouterView />
-    <Toast />
+  <VApp class="h-screen">
+    <v-layout>
+      <v-main class="w-100 h-100">
+        <RouterView />
+      </v-main>
+      <Toast />
+
+    </v-layout>
   </VApp>
 </template>
 
@@ -25,5 +28,9 @@ a:hover {
 
 .active {
   color: #ffffff;
+}
+
+.v-app {
+  height: 100vh;
 }
 </style>

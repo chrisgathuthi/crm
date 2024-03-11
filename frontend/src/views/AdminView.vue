@@ -1,17 +1,11 @@
 <script setup>
-import { RouterView } from 'vue-router';
-import Navigation from '../components/Navigation.vue';
 import AdminNavigtion from '../components/Navigation/AdminNavigtion.vue';
-
+import BaseLayout from '../components/Layout/BaseLayout.vue';
 </script>
 <template>
-    <v-row>
-        <v-col cols="3">
-            <Navigation />
-        </v-col>
-        <v-col cols="9">
+    <BaseLayout>
+        <template v-slot:pageMenu>
             <AdminNavigtion/>
-            <RouterView/>
-        </v-col>
-    </v-row>
+        </template>
+    </BaseLayout>
 </template>

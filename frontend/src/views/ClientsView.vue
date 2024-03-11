@@ -2,35 +2,34 @@
 import { useRouter } from 'vue-router'
 
 import ClientList from '../components/ClientList.vue'
-import Navigation from '../components/Navigation.vue';
+import BaseLayout from '../components/Layout/BaseLayout.vue';
 
 const router = useRouter()
 </script>
 <template>
-    <!-- navigation -->
-    <v-row>
-        <v-col cols="3">
-            <Navigation />
-        </v-col>
-        <v-col cols="9">
-            <v-toolbar density="comfortable">
+    <BaseLayout>
+        <template v-slot:pageMenu>
+            <div>
+                <v-toolbar density="comfortable">
 
-                <v-toolbar-title>Clients</v-toolbar-title>
+                    <v-toolbar-title>Clients</v-toolbar-title>
 
-                <v-spacer></v-spacer>
+                    <v-spacer></v-spacer>
 
-                <v-btn color="primary" @click="router.push({ name: 'registration' })" prepend-icon="mdi-plus" class="mr-3">
-                    add client
-                </v-btn>
-            </v-toolbar>
+                    <v-btn color="primary" @click="router.push({ name: 'registration' })" prepend-icon="mdi-plus"
+                        class="mr-3">
+                        add client
+                    </v-btn>
+                </v-toolbar>
 
-            <!-- view -->
+            </div>
 
+        </template>
+        <template v-slot:childComponent>
             <ClientList />
 
-
-        </v-col>
-    </v-row>
+        </template>
+    </BaseLayout>
 </template>
 <style scoped>
 a {
