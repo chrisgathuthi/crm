@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
-
+from .utilities import convert_iso_to_mmddyyyy
 from .models import (Bandwidth, Client, FieldWork, MpesaTransaction, Provider,
                      ShortMessage, Bandwidth, Staff, Material, SmsGatewayResponse)
 
@@ -34,7 +34,29 @@ class ClientSerializer(serializers.ModelSerializer):
         model = Client
         fields = ["id","serial", "full_name","first_name","last_name","email", "phone_number", "password", "location", "router", "bandwidth", "service_plan", "status", "registration_date"]
         read_only_fields = ["serial", "registration_date", "provider", "password", "is_paid"]
+    
+    # def to_internal_value(self, data):
+    #     print("The data",data)
+    #     """
+    #     change string representation of bandwidth name to primary key
+    #     """
 
+    #     if "bandwidth" in data:
+    #         bandwidth_name = data["bandwidth"]
+    #         try:
+    #             bandwidth_instance = Bandwidth.objects.get(bandwidth=bandwidth_name)
+    #             data["bandwidth_name"] = bandwidth_instance.id
+    #         except Bandwidth.DoesNotExist:
+    #             raise serializers.ValidationError("The bandwidth is invalid")
+    #     return super().to_internal_value(data)
+    
+
+    # def to_representation(self, instance):
+    #     """change bandwidth from primary key to string value"""
+
+    #     representation = super().to_representation(instance)
+    #     representation["bandwidth"] = instance.bandwidth.name
+    #     return representation
 
 class StaffSerializer(serializers.ModelSerializer):
 
@@ -138,6 +160,11 @@ class MpesaTransactionSerializer(serializers.ModelSerializer):
             "phone_number",
             "full_name",
         ]
+    
+    def to_representation(self, data):
+        representation = super().to_representation(data)
+        representation["transaction_time"] = convert_iso_to_mmddyyyy(str(data.transaction_time))
+        return representation
 
 class ClientPhoneNumberSerializer(serializers.ModelSerializer):
     """serialize clients phone numbers to send sms"""

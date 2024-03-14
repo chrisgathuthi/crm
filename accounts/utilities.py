@@ -76,3 +76,14 @@ def clients_with_due_date():
 
     payment_due = Client.objects.filter(is_paid=False)
     return payment_due
+
+
+def convert_iso_to_mmddyyyy(iso_date):
+    # Function to convert ISO format date to mm/dd/yyyy format
+
+    # Parse ISO format date string
+    date_obj = datetime.fromisoformat(iso_date)
+    # Format date as mm/dd/yyyy
+    mmddyyyy_date = date_obj.strftime('%m/%d/%Y')
+
+    return mmddyyyy_date
