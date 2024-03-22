@@ -2,6 +2,7 @@
 import { onMounted, watchEffect} from 'vue';
 import { Converter } from '@/functions/DateConverter'
 import { useTransactionStore } from '@/stores/transaction'
+import MpesaTransactions from './Billing/MpesaTransactions.vue';
 
 const store = useTransactionStore()
 
@@ -100,59 +101,9 @@ watchEffect(()=>{
             </div>
         </v-toolbar>
     </v-row>
-
-    <v-table fixed-header height="300px" class="mt-5">
-        <thead>
-            <tr>
-                <th class="text-left">
-                    #
-                </th>
-                <th class="text-left">
-                    serial no: <!--Bill ref number--->
-                </th>
-                <th class="text-left">
-                    Mpesa code
-                </th>
-                <th class="text-left">
-                    Full name
-                </th>
-                <th class="text-left">
-                    Date
-                </th>
-                <th class="text-left">
-                    Phone number
-                </th>
-                <th class="text-left">
-                    Amount
-                </th>
-                <th class="text-left">
-                    Balance
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="transaction in store.transactions" :key="transaction.id">
-                <td>{{ transaction.id }}</td>
-                <td>{{ transaction.bill_ref_number }}</td>
-                <td>{{ transaction.transaction_id }}</td>
-                <td>{{ transaction.full_name }}</td>
-                <td>{{ Converter(transaction.transaction_time) }}</td>
-                <td>{{ transaction.phone_number }}</td>
-                <td>{{ transaction.transaction_amount }}</td>
-                <td>0</td>
-            </tr>
-            <tr v-if="store.transactions.length < 1">
-                <td colspan="8">
-                    <v-col cols="auto">
-                        <div class="text-h4">
-                            <v-icon icon="mdi-emoticon-sad-outline"></v-icon>
-                            No Transaction
-                        </div>
-                    </v-col>
-
-                </td>
-
-            </tr>
-        </tbody>
-    </v-table>
+    <v-row class="bg-red">
+        <v-col>
+            <MpesaTransactions/>
+        </v-col>
+    </v-row>
 </template>

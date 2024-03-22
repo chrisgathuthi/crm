@@ -5,9 +5,9 @@ import Toast from '@/components/Toast.vue'
 </script>
 
 <template>
-  <VApp class="h-screen">
+  <VApp class="h-screen ">
     <v-layout>
-      <v-main class="w-100 h-100">
+      <v-main class="w-100">
         <RouterView />
       </v-main>
       <Toast />
@@ -32,5 +32,9 @@ a:hover {
 
 .v-app {
   height: 100vh;
+}
+.v-main{
+  min-height: 100vh;
+  overflow-y: scroll;
 }
 </style>

@@ -14,7 +14,7 @@ export const useTransactionStore = defineStore("transaction", {
           headers: { Authorization: `Token ${localStorage.getItem("token")}` },
         })
         .then((response) => {
-          this.transactions = response.data;
+          this.transactions = response.data.results;
         })
         .catch((response) => console.log(response));
     },
