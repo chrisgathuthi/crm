@@ -60,7 +60,7 @@ const submit = handleSubmit(async () => {
                     </v-col>
                 </v-row>
                 <div class="forgot mt-2">
-                    <span role="link" class="text-gray">forgot password?</span>
+                    <RouterLink>forgot password?</RouterLink>
                 </div>
             </v-form>
 

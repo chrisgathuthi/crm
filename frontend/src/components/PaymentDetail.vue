@@ -1,6 +1,5 @@
 <script setup>
 import { onMounted, watchEffect} from 'vue';
-import { Converter } from '@/functions/DateConverter'
 import { useTransactionStore } from '@/stores/transaction'
 import MpesaTransactions from './Billing/MpesaTransactions.vue';
 
@@ -31,7 +30,7 @@ watchEffect(()=>{
 </script>
 <template>
     <div class="my-10">
-        <v-row>
+        <v-row justify="space-around">
             <v-col cols="auto">
                 <v-card height="100" width="200">
                     <v-card-title>
@@ -76,14 +75,14 @@ watchEffect(()=>{
     </div>
     <!-- data grid -->
     <div class="info my-4 text-subtitle-1">
-        These are payment records for <span class="text-body-1 text-purple-accent-4">{{ new Date().toDateString() }}</span>
+        Payment as of <span class="text-body-1 text-grey-accent-4">{{ new Date().toDateString() }}</span>
     </div>
     <!-- table controls -->
     <v-row>
         <v-toolbar class="bg-white box-shadow border">
 
             <div class="w-50 px-2">
-                <v-text-field variant="underlined" label="search" placeholder="search by name serial ..." color="primary"
+                <v-text-field variant="underlined" label="search" placeholder="search by name or serial ..." color="primary"
                     clearable v-model="store.search"></v-text-field>
             </div>
             <v-spacer></v-spacer>
@@ -101,7 +100,7 @@ watchEffect(()=>{
             </div>
         </v-toolbar>
     </v-row>
-    <v-row class="bg-red">
+    <v-row>
         <v-col>
             <MpesaTransactions/>
         </v-col>

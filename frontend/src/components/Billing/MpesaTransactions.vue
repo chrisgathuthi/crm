@@ -18,13 +18,17 @@ onMounted(async () => {
     await store.getTransactions()
     await store.getYearJoined()
 });
-const itemsPerPage = 20
 
-function loadNewData() {
-    
-}
+
+// function loadNewData(page) {
+//     console.log("load more data", page);
+
+// }
+
 </script>
 <template>
-    <v-data-table-server :headers="headers" :items="store.transactions" v-model:items-per-page="itemsPerPage" @update:options="loadNewData">
+    <v-data-table-server :headers="headers" :loading="store.loading" :items="store.transactions" :items-value="id"
+        v-model:items-per-page="store.itemsPerPage" :items-length="store.dataCount" @update:page="store.loadMoreData"
+        hover="true" items-per-page-text="transcations" loading-text="loading more transactions">
     </v-data-table-server>
 </template>

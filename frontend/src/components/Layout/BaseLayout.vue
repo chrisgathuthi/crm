@@ -12,7 +12,7 @@ import NavigationMenu from '../NavigationMenu.vue';
             </aside>
         </section>
 
-        <section class="main-content">
+        <section class="main-content px-5">
             <div>
                 <slot name="pageMenu"></slot>
             </div>

@@ -83,8 +83,8 @@ const submit = handleSubmit(async () => {
                         <V-row>
                             <v-col cols="auto">
                                 <div class="text-body1">
-                                    Already have an account? <span @click="router.push({ name: 'signin' })"
-                                        class="text-primary cursor-pointer">login</span>
+                                    Already have an account? <button @click="router.push({ name: 'signin' })"
+                                        class="text-primary cursor-pointer">login</button>
                                 </div>
 
                             </v-col>
