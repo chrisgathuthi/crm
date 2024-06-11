@@ -2,6 +2,9 @@ import json
 from datetime import datetime
 import requests
 from decouple import config
+from django.http import JsonResponse
+from rest_framework import status
+from rest_framework.response import Response
 
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import status
@@ -51,7 +54,8 @@ def get_user_from_token(header=None):
     try:
         user = Token.objects.get(key=user_token)
     except Token.DoesNotExist:
-        return {"message": "No token found proceed to login"}
+        # return {"message": "No token found proceed to login"}
+        return JsonResponse(data={"message": "No token found proceed to login"})
     else:
         return user
 
@@ -65,7 +69,7 @@ def get_provider_from_token(header=None):
         user = Token.objects.get(key=user_token)
     except Token.DoesNotExist:
         # return {"message": "No token found proceed to login"}
-        return None
+        return JsonResponse(data={"message": "No token found proceed to login"})
     else:
         provider = Provider.objects.get(owner=user.user)
         return provider
@@ -87,3 +91,9 @@ def convert_iso_to_mmddyyyy(iso_date):
     mmddyyyy_date = date_obj.strftime('%m/%d/%Y')
 
     return mmddyyyy_date
+
+
+def check_token_validation(header=None):
+    if header.get("HTTP_AUTHORIZATION") is None:
+        return True
+    

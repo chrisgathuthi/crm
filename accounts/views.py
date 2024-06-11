@@ -13,6 +13,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
+from rest_framework.pagination import PageNumberPagination
 
 from .models import (Bandwidth, Client, FieldWork, MpesaTransaction, Provider,
                      ShortMessage, Staff, Material, SmsGatewayResponse )
@@ -20,7 +21,7 @@ from .serializers import (BandwidthSerializer, ClientSerializer,
                           FieldWorkSerializer, MpesaTransactionSerializer,
                           ProviderSerializer, ShortMessageSerializer,
                           TokenSerializer, UserSerializer, AuthenticationSerializer, BandwidthSerializer, StaffSerializer, MaterialSerializer, FieldWorkMaterialSerializer, SmsGatewayResponseSerializer)
-from .utilities import get_provider_from_token, save_mpesa_results
+from .utilities import get_provider_from_token, save_mpesa_results,check_token_validation
 
 # Create your views here.
 
@@ -130,6 +131,9 @@ class ProviderView(ViewSet):
 
     def retrieve(self, request):
         """get provider year joined"""
+        if check_token_validation(header=request.META):
+            return Response(data={"error":"No token provided, proceed to login or register"},status=status.HTTP_403_FORBIDDEN)
+
         provider = get_provider_from_token(header=request.META)
         provider_instance = Provider.objects.get(id=provider.id)
         serializer = ProviderSerializer(provider_instance)
@@ -141,14 +145,19 @@ class MpesaTransactions(ViewSet):
     """mpesa transaction endpoint view"""
 
     authentication_classes = [TokenAuthentication]
+    pagination_class = PageNumberPagination
 
     def list(self, request):
+        if check_token_validation(header=request.META):
+            return Response(data={"error":"No token provided, proceed to login or register"},status=status.HTTP_403_FORBIDDEN)
         provider = get_provider_from_token(request.META)
         queryset = MpesaTransaction.objects.filter(
             provider__serial_number=provider.serial_number
         )
-        serilizer = MpesaTransactionSerializer(queryset, many=True)
-        return Response(data=serilizer.data, status=status.HTTP_200_OK)
+        paginator = self.pagination_class()
+        paginated_queryset = paginator.paginate_queryset(queryset=queryset,request=self.request)
+        serializer = MpesaTransactionSerializer(paginated_queryset, many=True)
+        return paginator.get_paginated_response(serializer.data)
 
     def retrieve(self, request):
         """filtering mpesa transactions using client serial"""
@@ -167,6 +176,9 @@ class MpesaTransactions(ViewSet):
 class BandwidthView(ViewSet):
 
     def create(self, request):
+        if check_token_validation(header=request.META):
+            return Response(data={"error":"No token provided, proceed to login or register"},status=status.HTTP_403_FORBIDDEN)
+
         provider = get_provider_from_token(header=request.META)
         serializer = BandwidthSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
@@ -174,6 +186,9 @@ class BandwidthView(ViewSet):
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
         
     def destroy(self, request):
+        if check_token_validation(header=request.META):
+            return Response(data={"error":"No token provided, proceed to login or register"},status=status.HTTP_403_FORBIDDEN)
+
         provider = get_provider_from_token(header=request.META)
         serializer = BandwidthSerializer(data=serializer.data)
         bandwidth = Bandwidth.objects.get(id=serializer.data.name)
@@ -181,6 +196,9 @@ class BandwidthView(ViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
     
     def list(self, request):
+        if check_token_validation(header=request.META):
+            return Response(data={"error":"No token provided, proceed to login or register"},status=status.HTTP_403_FORBIDDEN)
+
         provider = get_provider_from_token(header=request.META)
         queryset = Bandwidth.objects.filter(provider=provider.id)
         serializer = BandwidthSerializer(queryset,many=True)
@@ -215,6 +233,9 @@ class StaffView(ViewSet):
     serializer_class = StaffSerializer
 
     def list(self, request):
+        if check_token_validation(header=request.META):
+            return Response(data={"error":"No token provided, proceed to login or register"},status=status.HTTP_403_FORBIDDEN)
+
         provider = get_provider_from_token(header=request.META)
         queryset = Staff.objects.filter(provider=provider)
         serializer = StaffSerializer(queryset, many=True)
@@ -222,6 +243,9 @@ class StaffView(ViewSet):
     
 
     def create(self, request):
+        if check_token_validation(header=request.META):
+            return Response(data={"error":"No token provided, proceed to login or register"},status=status.HTTP_403_FORBIDDEN)
+
         provider = get_provider_from_token(header=request.META)
         serializer = StaffSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
@@ -231,6 +255,9 @@ class StaffView(ViewSet):
 class MaterialView(ViewSet):
 
     def create(self, request):
+        if check_token_validation(header=request.META):
+            return Response(data={"error":"No token provided, proceed to login or register"},status=status.HTTP_403_FORBIDDEN)
+
         provider = get_provider_from_token(header=self.request.META)
         serializer = FieldWorkMaterialSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):

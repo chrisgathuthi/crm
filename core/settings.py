@@ -58,8 +58,17 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1"]
+# CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1"]
 CORS_ALLOWED_ORIGINS = ["http://127.0.0.1:5173"]
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
 ROOT_URLCONF = "core.urls"
 
 TEMPLATES = [
@@ -82,6 +91,8 @@ WSGI_APPLICATION = "core.wsgi.application"
 
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_PAGINATION_CLASS':'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 20
 }
 SPECTACULAR_SETTINGS = {
     "TITLE":"Lamp ISP CRM"
@@ -152,3 +163,4 @@ CELERY_BEAT_SCHEDULE = {
         "schedule":crontab(minute="*/15")
     },
 }
+
