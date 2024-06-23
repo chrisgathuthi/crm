@@ -33,7 +33,7 @@ def send_invoice_sms(client=None):
         return 1
 
 @shared_task(name="send scheduled messages")
-def send_scheduled_sms(client=None, message=None):
+def send_message(client=None, message=None):
     """send scheduled messages"""
 
     data = {
@@ -54,7 +54,7 @@ def send_scheduled_sms(client=None, message=None):
         return 1
 
 @shared_task(name="disseminate monthly billing invoices")
-def execute_notification():
+def send_monthly_sms_invoices():
 
     queryset = clients_with_due_date()
     
@@ -79,3 +79,7 @@ def send_scheduled_sms():
     message.save()
 
     return 1
+
+@shared_task(name="test beat")
+def test_beat():
+    print("Hello world today")

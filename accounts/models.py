@@ -21,7 +21,6 @@ class Provider(models.Model):  # company name
     short_code = models.PositiveIntegerField()  # activate short code
     join_date = models.DateTimeField(auto_now=True)
     owner = models.OneToOneField(get_user_model(), on_delete=models.SET_NULL, null=True)
-    logo = models.ImageField(upload_to="logos", null=True)  # set default
     is_activated = models.BooleanField(default=False)
 
     def __str__(self):
@@ -156,6 +155,14 @@ class Staff(User):
 
     def __str__(self):
         return self.first_name
+
+class StaffProfile(models.Model):
+    
+    staff = models.OneToOneField(Staff, on_delete=models.CASCADE)
+    identification_number = models.CharField(max_length=128)
+    job_title = models.CharField(max_length=128)
+    salary = models.DecimalField(max_digits=10,decimal_places=2)
+
 
 class SmsGatewayResponse(models.Model):
 

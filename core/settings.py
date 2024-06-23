@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from celery.schedules import crontab
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -153,14 +154,20 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
 CELERY_RESULT_BACKEND = "django-db"
 CELERY_TIMEZONE = "Africa/Nairobi"
+# CELERY_IMPORTS = ("tasks",)
 CELERY_BEAT_SCHEDULE = {
-    "monthly_billing_invoice": {
-        "task":"accounts.tasks.execute_notification",
-        "schedule":crontab(minute=0, hour="6", day_of_month="3-10")
-    },
-    "scheduled_sms": {
-        "task":"accounts.tasks.send_scheduled_sms",
-        "schedule":crontab(minute="*/15")
-    },
+    # "monthly_billing_invoice": {
+    #     "task":"accounts.tasks.execute_notification",
+    #     "schedule":crontab(minute=0, hour="6", day_of_month="3-10")
+    # },
+    # "send_scheduled_sms": {
+    #     "task":"accounts.tasks.send_scheduled_sms",
+    #     "schedule":crontab(minute="*/15")
+    # },
+    "test_beat": {
+        "task":"accounts.tasks.test_beat",
+        "schedule":crontab(minute="*/1")
+    }
 }
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 

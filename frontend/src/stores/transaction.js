@@ -56,10 +56,10 @@ export const useTransactionStore = defineStore("transaction", {
         });
     },
     async loadMoreData(page){
-      await axios.get(`/api/accounts/mpesatransactions/?page=${page}`,{headers: { Authorization: `Token ${localStorage.getItem("token")}`}})
+      await axios.get(`/accounts/mpesatransactions/?page=${page}`,{headers: { Authorization: `Token ${localStorage.getItem("token")}`}})
       .then((response)=>{
         console.log("load more data");
-        console.log(response.data);
+        this.transactions = response.data
       })
       .catch((error)=>{
         console.log(error);

@@ -9,6 +9,8 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate
 from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAdminUser
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
@@ -16,11 +18,11 @@ from rest_framework.viewsets import ModelViewSet, ViewSet
 from rest_framework.pagination import PageNumberPagination
 
 from .models import (Bandwidth, Client, FieldWork, MpesaTransaction, Provider,
-                     ShortMessage, Staff, Material, SmsGatewayResponse )
+                     ShortMessage, Staff, Material, SmsGatewayResponse, StaffProfile )
 from .serializers import (BandwidthSerializer, ClientSerializer,
                           FieldWorkSerializer, MpesaTransactionSerializer,
                           ProviderSerializer, ShortMessageSerializer,
-                          TokenSerializer, UserSerializer, AuthenticationSerializer, BandwidthSerializer, StaffSerializer, MaterialSerializer, FieldWorkMaterialSerializer, SmsGatewayResponseSerializer)
+                          TokenSerializer, UserSerializer, AuthenticationSerializer, BandwidthSerializer, StaffSerializer, MaterialSerializer, FieldWorkMaterialSerializer, SmsGatewayResponseSerializer, StaffProfileSerializer)
 from .utilities import get_provider_from_token, save_mpesa_results,check_token_validation
 
 # Create your views here.
@@ -269,4 +271,24 @@ class SmsGatewayResponseView(ModelViewSet):
 
     queryset = SmsGatewayResponse.objects.all()
     
+
+class StaffProfileView(ModelViewSet):
     
+    queryset = StaffProfile.objects.all()
+    serializer_class = StaffProfileSerializer
+    # authentication_classes = [TokenAuthentication]
+    # permission_classes = [IsAdminUser]
+
+ 
+
+
+    # def list(self, request):
+    #     queryset = StaffProfile.objects.all()
+    #     serializer = StaffProfileSerializer(queryset, many=True)
+    #     return Response(data=serializer.data, status=status.HTTP_200_OK)
+    
+    # def create(self, request):
+    #     serializer = StaffProfileSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #     return Response(data=serializer.data, status=status.HTTP_201_CREATED)
