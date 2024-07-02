@@ -3,55 +3,57 @@ import { useForm, useField } from 'vee-validate';
 import * as yup from 'yup'
 import { useToastStore } from '@/stores/toast';
 import axios from 'axios';
-import { useUserStore } from '@/stores/user';
-import { useRouter } from 'vue-router';
-import {ref} from 'vue'
+import { onMounted, ref } from 'vue';
+
 
 const toast = useToastStore()
-const userStore = useUserStore()
 
-const router = useRouter()
+const userData = ref([])
 
-const { errors, values, handleSubmit, resetForm, setErrors } = useForm({
-    validationSchema: yup.object({
-        username: yup.string().required('username required'),
-        password: yup.string().min(6, 'your password should be atleast 6 characters').required('password required'),
-    })
+onMounted(async ()=>{
+    await axios.get("/accounts/staffs/", {headers: {Authorization: `Token ${localStorage.getItem("token")}`}})
+            .then(response =>{
+                userData.value = response.data
+            })
+            .catch(error =>{
+                console.log(error);
+                toast.showToast(4000, "An error occured", "warning")
+            })
 })
-const username = useField('username')
-const password = useField('password')
 
-const submit = handleSubmit(async () => {
-
-    await axios.post('/accounts/employee/', { username: values.username, password: values.password })
-        .then((response) => {
-            toast.showToast(2000, 'login successful', 'success')
-            resetForm()
-        })
-        .catch((error) => {
-            toast.showToast(3000, 'Login unsuccessful', 'warning')
-            setErrors({
-                username: error.response.data.username,
-                password: error.response.data.password
-        })
-
-    })
-
-})
-ref
 </script>
 <template>
-    <v-row justify="center" class="align-center" >
-        <v-col cols="6" class="elevation-1">
-            <v-form @submit.prevent="submit" class="py-4">
-                <v-text-field label="username*" :error-messages="errors.username" v-model="username.value.value" clearable prepend-icon="mdi-account" variant="underlined"
-                    required></v-text-field>
-                <v-text-field label="password*" :error-messages="errors.password" v-model="password.value.value" prepend-icon="mdi-lock" variant="underlined"
-                    type="password" clearable></v-text-field>
-                    <v-btn type="submit" color="purple-accent-3" class="w-25" elevation-1  block>save
-                    </v-btn>
-            </v-form>
-
+    <v-row>
+        <v-col>
+            <div class="table">
+                <v-table fixed-header>
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>ID no</th>
+                            <th>Job title</th>
+                            <th>Salary</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="data in userData" :key="data.id">
+                            <td>{{ data.employee.username }}</td>
+                            <td>{{ data.employee.email }}</td>
+                            <td>{{ data.identification_number }}</td>
+                            <td>{{ data.job_title }}</td>
+                            <td>{{ data.salary }}</td>
+                        </tr>
+                    </tbody>
+                </v-table>
+            </div>
         </v-col>
     </v-row>
 </template>
+<style scoped>
+tr:hover{
+    background-color: aqua;
+    cursor: pointer;
+
+}
+</style>

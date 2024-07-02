@@ -1,16 +1,14 @@
 <script setup>
-import { useRouter} from 'vue-router';
+import { useRouter } from 'vue-router';
 const router = useRouter()
 </script>
 <template>
-    <v-toolbar density="comfortable">
+    <div>
+        <v-app-bar prominent class="bg-grey-lighten-5 static" tag="div">
+            <v-toolbar-title>Admin</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-btn @click="router.push({ name: 'employee' })">Employees</v-btn>
+        </v-app-bar>
+    </div>
 
-        <v-toolbar-title>Admin</v-toolbar-title>
-
-        <v-spacer></v-spacer>
-
-        <v-btn color="primary" @click="router.push({ name: 'employee' })" class="mr-3">
-            Employees
-        </v-btn>
-    </v-toolbar>
 </template>
