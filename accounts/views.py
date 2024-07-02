@@ -18,11 +18,11 @@ from rest_framework.viewsets import ModelViewSet, ViewSet
 from rest_framework.pagination import PageNumberPagination
 
 from .models import (Bandwidth, Client, FieldWork, MpesaTransaction, Provider,
-                     ShortMessage, Staff, Material, SmsGatewayResponse, StaffProfile )
+                     ShortMessage, Employee, Material, SmsGatewayResponse)
 from .serializers import (BandwidthSerializer, ClientSerializer,
                           FieldWorkSerializer, MpesaTransactionSerializer,
                           ProviderSerializer, ShortMessageSerializer,
-                          TokenSerializer, UserSerializer, AuthenticationSerializer, BandwidthSerializer, StaffSerializer, MaterialSerializer, FieldWorkMaterialSerializer, SmsGatewayResponseSerializer, StaffProfileSerializer)
+                          TokenSerializer, UserSerializer, AuthenticationSerializer, BandwidthSerializer,  MaterialSerializer, FieldWorkMaterialSerializer, SmsGatewayResponseSerializer, EmployeeSerializer)
 from .utilities import get_provider_from_token, save_mpesa_results,check_token_validation
 
 # Create your views here.
@@ -228,19 +228,18 @@ class SmsWebHook(View):
         print(request.POST)
         pass
 
-class StaffView(ViewSet):
+class EmployeeView(ViewSet):
     """staff view"""
 
-    queryset = Staff.objects.filter()
-    serializer_class = StaffSerializer
+    queryset = Employee.objects.all()
 
     def list(self, request):
         if check_token_validation(header=request.META):
             return Response(data={"error":"No token provided, proceed to login or register"},status=status.HTTP_403_FORBIDDEN)
 
         provider = get_provider_from_token(header=request.META)
-        queryset = Staff.objects.filter(provider=provider)
-        serializer = StaffSerializer(queryset, many=True)
+        queryset = Employee.objects.filter(provider=provider)
+        serializer = EmployeeSerializer(queryset, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
     
 
@@ -249,7 +248,7 @@ class StaffView(ViewSet):
             return Response(data={"error":"No token provided, proceed to login or register"},status=status.HTTP_403_FORBIDDEN)
 
         provider = get_provider_from_token(header=request.META)
-        serializer = StaffSerializer(data=request.data)
+        serializer = EmployeeSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save(provider=provider)
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
@@ -272,23 +271,3 @@ class SmsGatewayResponseView(ModelViewSet):
     queryset = SmsGatewayResponse.objects.all()
     
 
-class StaffProfileView(ModelViewSet):
-    
-    queryset = StaffProfile.objects.all()
-    serializer_class = StaffProfileSerializer
-    # authentication_classes = [TokenAuthentication]
-    # permission_classes = [IsAdminUser]
-
- 
-
-
-    # def list(self, request):
-    #     queryset = StaffProfile.objects.all()
-    #     serializer = StaffProfileSerializer(queryset, many=True)
-    #     return Response(data=serializer.data, status=status.HTTP_200_OK)
-    
-    # def create(self, request):
-    #     serializer = StaffProfileSerializer(data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #     return Response(data=serializer.data, status=status.HTTP_201_CREATED)

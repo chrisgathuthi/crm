@@ -85,7 +85,7 @@ class FieldWork(models.Model):
     location = models.CharField(max_length=200)
     activities = models.TextField()
     assignee = models.ForeignKey(
-        to="Staff", on_delete=models.SET_NULL, null=True, related_name="worker"
+        to="Employee", on_delete=models.SET_NULL, null=True, related_name="worker"
     )
     date = models.DateField()
     isclosed = models.BooleanField(default=False)
@@ -148,20 +148,21 @@ class MpesaTransaction(models.Model):
         """full client name"""
         return f"{self.first_name} {self.last_name}"
 
-class Staff(User):
+from django.contrib.auth.models import AbstractUser
+class Employee(models.Model):
 
     """staff users model"""
-    provider_information = models.ForeignKey(Provider, on_delete=models.CASCADE, related_name="employee", null=True)
+    USER = get_user_model()
 
-    def __str__(self):
-        return self.first_name
-
-class StaffProfile(models.Model):
-    
-    staff = models.OneToOneField(Staff, on_delete=models.CASCADE)
+    provider = models.ForeignKey(Provider, on_delete=models.CASCADE, related_name="employee", null=True)    
+    employee = models.OneToOneField(to= USER, on_delete=models.SET_NULL, null=True)
     identification_number = models.CharField(max_length=128)
     job_title = models.CharField(max_length=128)
     salary = models.DecimalField(max_digits=10,decimal_places=2)
+
+    
+    def __str__(self):
+        return self.employee.get_username()
 
 
 class SmsGatewayResponse(models.Model):

@@ -2,7 +2,7 @@ from django.urls import include, path
 from rest_framework import routers
 from .views import (BandwidthView, ClientView, FieldWorkView,
                     MpesaTransactions, MpesaWebHook, ProviderView,
-                    ShortMessageView, UserView, UserAuthenticateView, SmsWebHook, StaffView, MaterialView, SmsGatewayResponseView, StaffProfileView)
+                    ShortMessageView, UserView, UserAuthenticateView, SmsWebHook, EmployeeView, MaterialView, SmsGatewayResponseView)
 
 route = routers.DefaultRouter()
 route.register("client", ClientView, basename="client")
@@ -45,9 +45,7 @@ urlpatterns = [
     path("bandwidths/",BandwidthView.as_view({"get":"list"}),name="bandwith"),
     path("employee/",UserView.as_view({"post":"create"}),name="employee"),
     path("sms-callback/",SmsWebHook.as_view(),name="smswebhook"),
-    path("staffs/",StaffView.as_view({"get":"list"}), name="staffs"),
-    path("staff/",StaffView.as_view({"post":"create"}),name="staff"),
+    path("staffs/",EmployeeView.as_view({"get":"list"}), name="employees"),
+    path("staff/",EmployeeView.as_view({"post":"create"}),name="employee"),
     path("material/",MaterialView.as_view({"post":"create"}),name="material"),
-    path("staff-registration/",StaffProfileView.as_view({"post":"create"}),name="staff-registration"),
-    path("staff-records/",StaffProfileView.as_view({"get":"list"}),name="staff-registration"),
 ]

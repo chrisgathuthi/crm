@@ -4,7 +4,7 @@ from rest_framework.authtoken.models import Token
 from .utilities import convert_iso_to_mmddyyyy
 from django.db import transaction
 from .models import (Bandwidth, Client, FieldWork, MpesaTransaction, Provider,
-                     ShortMessage, Bandwidth, Staff, Material, SmsGatewayResponse, StaffProfile)
+                     ShortMessage, Bandwidth, Employee, Material, SmsGatewayResponse)
 
 
 class MaterialSerializer(serializers.ModelSerializer):
@@ -61,20 +61,35 @@ class ClientSerializer(serializers.ModelSerializer):
     #     return representation
 
 
-class StaffSerializer(serializers.ModelSerializer):
-
-    """serialize staff models"""
+class UserSerializer(serializers.ModelSerializer):
+    """serializer for creating new partner"""
 
     class Meta:
-        model = Staff
-        fields = ["username", "first_name", "last_name", "email", "provider_information"]
+        model = get_user_model()
+        fields = ["username", "email", "password"]
+        extra_kwargs = {
+            "password":{"write_only":True}
+        }
+
+    def create(self, validated_data):
+        user = get_user_model().objects.create_user(**validated_data)
+        return user
+
+class EmployeeSerializer(serializers.ModelSerializer):
+
+    """serialize staff models"""
+    employee = UserSerializer(many=False)
+
+    class Meta:
+        model = Employee
+        fields = ["provider", "employee", "identification_number", "job_title", "salary"]
         read_only_fields = ["provider"]
 
 
 class FieldWorkSerializer(serializers.ModelSerializer):
     """serialier class for field workd"""
 
-    assignee = StaffSerializer(read_only=True)
+    assignee = EmployeeSerializer(read_only=True)
     material = serializers.StringRelatedField()
 
     class Meta:
@@ -118,25 +133,11 @@ class ProviderSerializer(serializers.ModelSerializer):
             "join_date",
             "join_date",
             "owner",
-            "logo",
             "is_activated",
         ]
         read_only_fields = ["owner", "serial_number"]
 
 
-class UserSerializer(serializers.ModelSerializer):
-    """serializer for creating new partner"""
-
-    class Meta:
-        model = get_user_model()
-        fields = ["username", "email", "password"]
-        extra_kwargs = {
-            "password":{"write_only":True}
-        }
-
-    def create(self, validated_data):
-        user = get_user_model().objects.create_user(**validated_data)
-        return user
 
 
 class AuthenticationSerializer(serializers.Serializer):
@@ -195,18 +196,4 @@ class SmsGatewayResponseSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class StaffProfileSerializer(serializers.ModelSerializer):
-    staff = StaffSerializer()
 
-    class Meta:
-        model = StaffProfile
-        fields = ["staff", "identification_number", "job_title", "salary"]
-
-    def create(self, validated_data):
-        # staff_data = validated_data.get("staff")
-        print("validated data",validated_data)
-
-        with transaction.atomic():    
-            staff_instance = Staff.objects.create(**validated_data["staff"])                
-            staff_profile = StaffProfile.objects.create(staff=staff_instance, **validated_data)
-        return staff_profile
