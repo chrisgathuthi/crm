@@ -47,5 +47,7 @@ urlpatterns = [
     path("sms-callback/",SmsWebHook.as_view(),name="smswebhook"),
     path("staffs/",EmployeeView.as_view({"get":"list"}), name="employees"),
     path("staff/",EmployeeView.as_view({"post":"create"}),name="employee"),
+    path("staff/<int:pk>/",EmployeeView.as_view({"get":"retrieve"}),name="employee-detail"),
+    path("staff/change/<int:pk>/",EmployeeView.as_view({"patch":"partial_update"}),name="employee-detail"),
     path("material/",MaterialView.as_view({"post":"create"}),name="material"),
 ]

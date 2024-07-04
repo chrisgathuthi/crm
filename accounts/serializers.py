@@ -66,9 +66,10 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ["username", "email", "password"]
+        fields = ["id","username", "email", "password", "first_name", "last_name"]
         extra_kwargs = {
-            "password":{"write_only":True}
+            "password":{"write_only":True},
+            "id":{"read_only":True}
         }
 
     def create(self, validated_data):
@@ -82,9 +83,34 @@ class EmployeeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Employee
-        fields = ["provider", "employee", "identification_number", "job_title", "salary"]
-        read_only_fields = ["provider"]
+        fields = ["id", "provider", "employee", "identification_number", "job_title", "salary"]
+        read_only_fields = ["provider", "id"]
+    
+    def create(self, validated_data):
+        employee_credentials = validated_data.pop("employee")
 
+        with transaction.atomic():
+            user = get_user_model().objects.create(**employee_credentials)
+            employee = Employee.objects.create(employee=user, **validated_data)
+        return employee
+    
+    def update(self, instance, validated_data):
+        
+        employee_credentials = validated_data.pop("employee")
+
+        print("what is instance", instance)
+
+        user = instance.employee #user = employee
+
+        for attr, value in employee_credentials.items():
+            setattr(user,  attr, value)
+        user.save()
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        
+        return instance
 
 class FieldWorkSerializer(serializers.ModelSerializer):
     """serialier class for field workd"""

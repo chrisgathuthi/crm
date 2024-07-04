@@ -253,6 +253,26 @@ class EmployeeView(ViewSet):
             serializer.save(provider=provider)
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 
+    def retrieve(self, request, pk=None):
+        if check_token_validation(header=request.META):
+            return Response(data={"error":"No token provided, proceed to login or register"},status=status.HTTP_403_FORBIDDEN)
+        employee = Employee.objects.get(id=pk)
+        serializer = EmployeeSerializer(employee, many=False)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+    
+    def partial_update(self, request, pk=None):
+        if check_token_validation(header=request.META):
+            return Response(data={"error":"No token provided, proceed to login or register"},status=status.HTTP_403_FORBIDDEN)
+        serializer = EmployeeSerializer(data=request.data)
+        
+        provider = get_provider_from_token(header=request.META)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(provider=provider)
+        return Response(data=serializer.data, status=status.HTTP_204_NO_CONTENT)
+
+
+
+
 class MaterialView(ViewSet):
 
     def create(self, request):

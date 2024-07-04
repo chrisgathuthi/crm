@@ -14,10 +14,11 @@ import SignupView from "../views/SignupView.vue";
 import PartnerSetup from "../views/PartnerSetupView.vue";
 import PaymentDetail from "../components/PaymentDetail.vue";
 import ServiceForm from "../components/ServiceForm.vue";
-import EmployeePage from "../components/Admin/Employee.vue";
+import EmployeePage from "../components/Admin/EmployeePage.vue";
 import SmsReport from "../components/Billing/SmsReport.vue";
 import Admin from "../views/AdminView.vue";
 import Staff from "../views/StaffView.vue";
+import EmployeeDetails from "../components/Admin/Employee/EmployeeDetails.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -127,6 +128,11 @@ const router = createRouter({
           name: "employee",
           component: EmployeePage,
         },
+        {
+          path: '/details/:id',
+          name: 'employeeDetail',
+          component: EmployeeDetails
+        }
       ],
     },
     {
@@ -137,7 +143,6 @@ const router = createRouter({
   ],
 });
 router.beforeEach((to, from, next) => {
-  console.log("router called");
 
   if (to.matched.some((record) => record.meta.requireAuth)) {
     // this route requires auth, check if logged in
