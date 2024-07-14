@@ -19,6 +19,8 @@ import SmsReport from "../components/Billing/SmsReport.vue";
 import Admin from "../views/AdminView.vue";
 import Staff from "../views/StaffView.vue";
 import EmployeeDetails from "../components/Admin/Employee/EmployeeDetails.vue";
+import InventoryPage from "../components/Inventory/InventoryPage.vue";
+import MaterialPage from "../components/Inventory/MaterialPage.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -75,6 +77,18 @@ const router = createRouter({
       path: "/inventory",
       name: "inventory",
       component: InventoryView,
+      children: [
+        {
+          path: "/store",
+          name: "inventoryStore",
+          component: InventoryPage
+        },
+        {
+          path: "/used-materials",
+          name: "materialsUsed",
+          component: MaterialPage
+        }
+      ]
     },
     {
       path: "/invoice",
