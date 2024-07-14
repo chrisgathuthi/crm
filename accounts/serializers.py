@@ -4,7 +4,7 @@ from rest_framework.authtoken.models import Token
 from .utilities import convert_iso_to_mmddyyyy
 from django.db import transaction
 from .models import (Bandwidth, Client, FieldWork, MpesaTransaction, Provider,
-                     ShortMessage, Bandwidth, Employee, Material, SmsGatewayResponse)
+                     ShortMessage, Bandwidth, Employee, Material, SmsGatewayResponse, Inventory)
 
 
 class MaterialSerializer(serializers.ModelSerializer):
@@ -221,5 +221,11 @@ class SmsGatewayResponseSerializer(serializers.ModelSerializer):
         model = SmsGatewayResponse
         fields = "__all__"
 
+class InventorySerializer(serializers.ModelSerializer):
 
 
+    """serialize the invetory objects"""
+    class Meta:
+        model = Inventory
+        exclude = ["provider"]
+        read_only_fields = ["opening_stock_date", "restocking_date"]

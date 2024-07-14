@@ -18,11 +18,11 @@ from rest_framework.viewsets import ModelViewSet, ViewSet
 from rest_framework.pagination import PageNumberPagination
 
 from .models import (Bandwidth, Client, FieldWork, MpesaTransaction, Provider,
-                     ShortMessage, Employee, Material, SmsGatewayResponse)
+                     ShortMessage, Employee, Material, SmsGatewayResponse, Inventory)
 from .serializers import (BandwidthSerializer, ClientSerializer,
                           FieldWorkSerializer, MpesaTransactionSerializer,
                           ProviderSerializer, ShortMessageSerializer,
-                          TokenSerializer, UserSerializer, AuthenticationSerializer, BandwidthSerializer,  MaterialSerializer, FieldWorkMaterialSerializer, SmsGatewayResponseSerializer, EmployeeSerializer)
+                          TokenSerializer, UserSerializer, AuthenticationSerializer, BandwidthSerializer,  MaterialSerializer, FieldWorkMaterialSerializer, SmsGatewayResponseSerializer, EmployeeSerializer, InventorySerializer)
 from .utilities import get_provider_from_token, save_mpesa_results,check_token_validation
 
 # Create your views here.
@@ -285,6 +285,31 @@ class MaterialView(ViewSet):
             serializer.save(provider=provider)
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
         
+class InventoryView(ViewSet):
+
+    queryset = Inventory.objects.all()
+
+    def create(self, request):
+        if check_token_validation(header=request.META):
+            return Response(data={"error":"No token provided, proceed to login or register"},status=status.HTTP_403_FORBIDDEN)
+
+        provider = get_provider_from_token(header=self.request.META)
+        serializer = InventorySerializer(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(provider=provider)
+            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+        # return Response(data=serializer.data, status=status.HTTP_400_BAD_REQUEST)
+    
+    def list(self, request):
+        if check_token_validation(header=request.META):
+            return Response(data={"error":"No token provided, proceed to login or register"},status=status.HTTP_403_FORBIDDEN)
+
+        provider = get_provider_from_token(header=self.request.META)
+        serializer = InventorySerializer(self.queryset, many=True)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)        
+
+        
+
 
 class SmsGatewayResponseView(ModelViewSet):
 

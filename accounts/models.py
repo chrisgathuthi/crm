@@ -104,6 +104,21 @@ class Material(models.Model):
     def __str__(self):
         return self.name
 
+class Inventory(models.Model):
+
+    """operational invetory"""
+    provider = models.ForeignKey(Provider, on_delete=models.SET_NULL, null=True)
+    name = models.CharField(max_length=100)
+    opening_stock = models.PositiveIntegerField()
+    additional_stock = models.PositiveIntegerField()
+    out_stock = models.PositiveIntegerField()
+    opening_stock_date = models.DateTimeField(auto_now=True)
+    restocking_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.name}"
+
+
 class ShortMessage(models.Model):
     """sms sent to clients"""
 
