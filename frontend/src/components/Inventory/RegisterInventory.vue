@@ -12,58 +12,37 @@ const dialog = ref(false)
 
 const { errors, values, handleSubmit, resetForm, setErrors } = useForm({
     validationSchema: yup.object({
-        username: yup.string().required(),
-        email: yup.string().required(),
-        password1: yup.string().min(6).required(),
-        firstName: yup.string().required(),
-        lastName: yup.string().required(),
-        password2: yup.string().min(6).required(),
-        identificationNumber: yup.number().required(),
-        jobTitle: yup.string().required(),
-        salary: yup.string().required(),
-
+        name: yup.string().required(),
+        openingStock: yup.string().required(),
+        additionalStock: yup.number().default(0),
+        outStock: yup.number().default(0),
     })
 })
-const username = useField('username')
-const email = useField('email')
-const firstName = useField('firstName')
-const lastName = useField('lastName')
-const password1 = useField('password1')
-const password2 = useField('password2')
-const identificationNumber = useField('identificationNumber')
-const jobTitle = useField('jobTitle')
-const salary = useField('salary')
+const name = useField('name')
+const openingStock = useField('openingStock')
+const additionalStock = useField('additionalStock')
+const outStock = useField('outStock')
 
 const submit = handleSubmit(async () => {
-    const data = {
-        employee: {
-            username: values.username,
-            email: values.email,
-            password: values.password1,
-            first_name: values.firstName,
-            last_name: values.lastName
-        },
-        identification_number: values.identificationNumber,
-        job_title: values.jobTitle,
-        salary: values.salary
-    }
     // api call
-    await axios.post("/accounts/staff/", data, { headers: { Authorization: `Token ${localStorage.getItem("token")}` } })
+    const data = {
+        name: values.name,
+        opening_stock: values.openingStock,
+        additional_stock: values.additionalStock,
+        out_stock: values.outStock
+    }
+    await axios.post("/accounts/inventory/", data, { headers: { Authorization: `Token ${localStorage.getItem("token")}` } })
         .then(() => {
-            toast.showToast(3000, "staff profile created successfully", "success")
+            toast.showToast(3000, "stock item created successfully", "success")
             resetForm()
         })
         .catch((errors) => {
             toast.showToast(5000, "An error occurred fill the form correctly", "warning")
             setErrors({
-                firstName: errors.data.response.firstName,
-                lastName: errors.data.response.lastName,
-                username: errors.data.response.username,
-                email: errors.data.response.email,
-                password1: errors.data.response.password,
-                identificationNumber: errors.data.response.identification_number,
-                jobTitle: errors.data.response.job_title,
-                salary: errors.data.response.salary,
+                name: errors.data.response.name,
+                openingStock: errors.data.response.openingStock,
+                additionalStock: errors.data.response.additionalStock,
+                outStock: errors.data.response.outStock,
             })
         })
 })
@@ -86,26 +65,14 @@ const submit = handleSubmit(async () => {
                                 variant="plain" @click="dialog = false"></v-btn>
                         </div>
                         <div>
-                            <v-text-field label="First Name*" :error-messages="errors.firstName"
-                                v-model="firstName.value.value" type="text" clearable required></v-text-field>
-                            <v-text-field label="Last Name*" :error-messages="errors.lastName"
-                                v-model="lastName.value.value" type="text" clearable required></v-text-field>
-                            <v-text-field label="Username*" :error-messages="errors.username"
-                                v-model="username.value.value" type="text" clearable required></v-text-field>
-                            <v-text-field label="E-mail" type="email" :error-messages="errors.email"
-                                v-model="email.value.value" clearable required></v-text-field>
-                            <v-text-field label="Password" type="password" :error-messages="errors.password1"
-                                v-model="password1.value.value" clearable required></v-text-field>
-                            <v-text-field label="Confirm Password*" type="password" :error-messages="errors.password2"
-                                v-model="password2.value.value" clearable required></v-text-field>
-                            <v-text-field label="ID /Passport no" type="text" required
-                                :error-messages="errors.identificationNumber" v-model="identificationNumber.value.value"
-                                clearable></v-text-field>
-                            <v-text-field label="Salary" type="text" required :error-messages="errors.salary"
-                                v-model="salary.value.value" clearable></v-text-field>
-                            <v-text-field label="Job Title" type="text" required :error-messages="errors.jobTitle"
-                                v-model="jobTitle.value.value" clearable></v-text-field>
-
+                            <v-text-field label="Item name*" :error-messages="errors.name" v-model="name.value.value"
+                                type="text" clearable required></v-text-field>
+                            <v-text-field label="Opening stock*" :error-messages="errors.openingStock"
+                                v-model="openingStock.value.value" type="text" clearable required></v-text-field>
+                            <v-text-field label="Additional stock*" :error-messages="additionalStock.username"
+                                v-model="additionalStock.value.value" type="text" clearable required></v-text-field>
+                            <v-text-field label="Out Stock" type="email" :error-messages="errors.outStock"
+                                v-model="outStock.value.value" clearable required></v-text-field>
                         </div>
 
                         <small class="text-caption text-medium-emphasis">*indicates required field</small>

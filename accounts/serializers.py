@@ -229,3 +229,11 @@ class InventorySerializer(serializers.ModelSerializer):
         model = Inventory
         exclude = ["provider"]
         read_only_fields = ["opening_stock_date", "restocking_date"]
+    
+    def to_representation(self, data):
+        representation = super().to_representation(data)
+        representation["opening_stock_date"] = convert_iso_to_mmddyyyy(str(data.opening_stock_date))
+        representation["restocking_date"] = convert_iso_to_mmddyyyy(str(data.restocking_date))
+        representation["remaining_stock"] = representation["opening_stock"] + representation["additional_stock"] - representation["out_stock"]
+        representation["status"] = "in stock " if representation["remaining_stock"] > 0 else "out stock"
+        return representation

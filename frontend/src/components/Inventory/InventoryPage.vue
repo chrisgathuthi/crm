@@ -1,7 +1,18 @@
 <script setup>
+import { onMounted, ref } from 'vue';
 import RegisterInventory from './RegisterInventory.vue';
+import axios from 'axios';
 
-
+const inventories = ref([])
+onMounted(async () => {
+    await axios.get("/accounts/inventories/", {headers: { Authorization: `Token ${localStorage.getItem("token")}` }})
+        .then((response) => {
+            inventories.value = response.data
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+})
 
 </script>
 <template>
@@ -27,26 +38,15 @@ import RegisterInventory from './RegisterInventory.vue';
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Ethernet cables</td>
-                    <td>100</td>
-                    <td>10</td>
-                    <td>50</td>
-                    <td>60</td>
-                    <td>available</td>
-                    <td>{{ new Date().toLocaleDateString() }}</td>
-                    <td>{{ new Date().toLocaleDateString() }}</td>
-
-                </tr>
-                <tr>
-                    <td>Routers</td>
-                    <td>100</td>
-                    <td>20</td>
-                    <td>30</td>
-                    <td>40</td>
-                    <td>unavailable</td>
-                    <td>{{ new Date().toLocaleDateString() }}</td>
-                    <td>{{ new Date().toLocaleDateString() }}</td>
+                <tr v-for="data in inventories" :key="data.id">
+                    <td>{{ data.name }}</td>
+                    <td>{{ data.opening_stock }}</td>
+                    <td>{{ data.additional_stock }}</td>
+                    <td>{{ data.out_stock }}</td>
+                    <td>{{ data.remaining_stock }}</td>
+                    <td>{{ data.status }}</td>
+                    <td>{{ data.opening_stock_date }}</td>
+                    <td>{{ data.restocking_date }}</td>
                 </tr>
             </tbody>
         </v-table>

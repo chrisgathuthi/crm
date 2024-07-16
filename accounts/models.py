@@ -109,9 +109,9 @@ class Inventory(models.Model):
     """operational invetory"""
     provider = models.ForeignKey(Provider, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=100)
-    opening_stock = models.PositiveIntegerField()
-    additional_stock = models.PositiveIntegerField()
-    out_stock = models.PositiveIntegerField()
+    opening_stock = models.PositiveIntegerField(default = 0)
+    additional_stock = models.PositiveIntegerField(default = 0)
+    out_stock = models.PositiveIntegerField(default = 0)
     opening_stock_date = models.DateTimeField(auto_now=True)
     restocking_date = models.DateTimeField(auto_now_add=True)
 
