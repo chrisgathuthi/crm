@@ -97,7 +97,8 @@ class Material(models.Model):
     """field work materils"""
 
     provider = models.ForeignKey(Provider, on_delete=models.SET_NULL, null=True)
-    name = models.CharField(max_length=50)
+    inventory = models.ForeignKey("Inventory",on_delete=models.SET_NULL, null=True)
+    staff = models.ForeignKey(to="Employee", on_delete=models.SET_NULL, null=True)
     quantity = models.PositiveIntegerField()
     fieldwork = models.ForeignKey(FieldWork, on_delete=models.SET_NULL, null=True)
 

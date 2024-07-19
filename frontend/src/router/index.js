@@ -21,6 +21,7 @@ import Staff from "../views/StaffView.vue";
 import EmployeeDetails from "../components/Admin/Employee/EmployeeDetails.vue";
 import InventoryPage from "../components/Inventory/InventoryPage.vue";
 import MaterialPage from "../components/Inventory/MaterialPage.vue";
+import InventoryUpdate from "../components/Inventory/InventoryUpdate.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -87,6 +88,11 @@ const router = createRouter({
           path: "/used-materials",
           name: "materialsUsed",
           component: MaterialPage
+        },
+        {
+          path: "/inventoryupdate/:id",
+          name: "inventoryUpdate",
+          component: InventoryUpdate
         }
       ]
     },

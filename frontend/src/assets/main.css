@@ -6,3 +6,6 @@ a{
     padding-left: 4px;
     background-color: white;
 }
+tr:hover{
+    cursor: pointer;
+}

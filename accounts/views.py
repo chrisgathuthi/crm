@@ -307,9 +307,41 @@ class InventoryView(ViewSet):
         provider = get_provider_from_token(header=self.request.META)
         serializer = InventorySerializer(self.queryset, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)        
+    
+    def retrieve(self, request, pk=None):
 
+        if check_token_validation(header=request.META):
+            return Response(data={"error":"No token provided, proceed to login or register"},status=status.HTTP_403_FORBIDDEN)
         
+        provider = get_provider_from_token(header=self.request.META)
 
+        try:
+            inventory = Inventory.objects.get(id = pk)
+        except inventory.DoesNotExist:
+            return Response(data={"error": "No inventory with such an id"}, status=status.HTTP_404_NOT_FOUND)
+        else: 
+            serializer = InventorySerializer(instance=inventory)
+            return Response(data=serializer.data, status=status.HTTP_200_OK)        
+    
+    def partial_update(self, request, pk=None):
+
+        if check_token_validation(header=request.META):
+            return Response(data={"error":"No token provided, proceed to login or register"},status=status.HTTP_403_FORBIDDEN)
+        
+        provider = get_provider_from_token(header=self.request.META)
+
+        try:
+            inventory = Inventory.objects.get(id = pk)
+        except inventory.DoesNotExist:
+            return Response(data={"error": "No inventory with such an id"}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            serializer = InventorySerializer(inventory, data=request.data, partial=True)
+            if serializer.is_valid(raise_exception=True):
+                inventory.additional_stock += serializer.instance.additional_stock
+                serializer_instance = serializer.save(provider=provider)
+                return Response(data=serializer.data, status=status.HTTP_200_OK)
+            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
 
 class SmsGatewayResponseView(ModelViewSet):
 

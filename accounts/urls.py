@@ -51,5 +51,7 @@ urlpatterns = [
     path("staff/change/<int:pk>/",EmployeeView.as_view({"patch":"partial_update"}),name="employee-detail"),
     path("material/",MaterialView.as_view({"post":"create"}),name="material"),
     path("inventory/",InventoryView.as_view({"post":"create"}),name="create-inventory"),
+    path("inventory/<int:pk>/",InventoryView.as_view({"get":"retrieve"}),name="create-inventory"),
+    path("inventory/<int:pk>/update/",InventoryView.as_view({"patch":"partial_update"}),name="create-inventory"),
     path("inventories/",InventoryView.as_view({"get":"list"}),name="inventory-list")
 ]
