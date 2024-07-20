@@ -16,13 +16,13 @@ from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
 from rest_framework.pagination import PageNumberPagination
-
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import (Bandwidth, Client, FieldWork, MpesaTransaction, Provider,
                      ShortMessage, Employee, Material, SmsGatewayResponse, Inventory)
 from .serializers import (BandwidthSerializer, ClientSerializer,
                           FieldWorkSerializer, MpesaTransactionSerializer,
                           ProviderSerializer, ShortMessageSerializer,
-                          TokenSerializer, UserSerializer, AuthenticationSerializer, BandwidthSerializer,  MaterialSerializer, FieldWorkMaterialSerializer, SmsGatewayResponseSerializer, EmployeeSerializer, InventorySerializer)
+                          TokenSerializer, UserSerializer, AuthenticationSerializer, BandwidthSerializer,  MaterialSerializer, SmsGatewayResponseSerializer, EmployeeSerializer, InventorySerializer)
 from .utilities import get_provider_from_token, save_mpesa_results,check_token_validation
 
 # Create your views here.
@@ -44,10 +44,18 @@ class FieldWorkView(ModelViewSet):
 
     queryset = FieldWork.objects.all()
     serializer_class = FieldWorkSerializer
-     
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['isclosed']
+
+
     def list(self, request):
+
+        import json
+        query_params = json.loads(request.query_params.get('isclosed'))
+
         provider = get_provider_from_token(header=self.request.META)
-        queryset = FieldWork.objects.filter(provider=provider).filter(isclosed=False)
+        queryset = FieldWork.objects.filter(provider=provider)
+        queryset = queryset.filter(isclosed=query_params)
         serializer = FieldWorkSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -280,7 +288,7 @@ class MaterialView(ViewSet):
             return Response(data={"error":"No token provided, proceed to login or register"},status=status.HTTP_403_FORBIDDEN)
 
         provider = get_provider_from_token(header=self.request.META)
-        serializer = FieldWorkMaterialSerializer(data=request.data)
+        serializer = MaterialSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save(provider=provider)
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)

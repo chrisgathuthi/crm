@@ -1,8 +1,7 @@
 
 <script setup>
-import { RouterView } from 'vue-router';
-import BaseLayout from '../components/Layout/BaseLayout.vue';
-import InventoryNavigation from '../components/Navigation/InventoryNavigation.vue';
+import BaseLayout from '@/components/Layout/BaseLayout.vue';
+import InventoryNavigation from '@/components/Navigation/InventoryNavigation.vue';
 
 </script>
 <template>
@@ -11,8 +10,7 @@ import InventoryNavigation from '../components/Navigation/InventoryNavigation.vu
         <template v-slot:pageMenu>
             <InventoryNavigation/>
         </template>
-        <template>
-            <RouterView/>
+        <template v-slot:childComponent>
         </template>
     </BaseLayout>
     

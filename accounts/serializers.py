@@ -122,16 +122,42 @@ class FieldWorkSerializer(serializers.ModelSerializer):
         model = FieldWork
         fields = "__all__"
         read_only_fields = ["provider"]
+    
+    def to_representation(self, data):
+        import json
+        representation = super().to_representation(data)
+        representation["isclosed"] = "pending" if json.dumps(representation["isclosed"]) else "closed"
+        return representation
 
 
-class FieldWorkMaterialSerializer(serializers.ModelSerializer):
+
+class InventorySerializer(serializers.ModelSerializer):
+
+
+    """serialize the invetory objects"""
+    class Meta:
+        model = Inventory
+        exclude = ["provider"]
+        read_only_fields = ["opening_stock_date", "restocking_date"]
+    
+    def to_representation(self, data):
+        representation = super().to_representation(data)
+        representation["opening_stock_date"] = convert_iso_to_mmddyyyy(str(data.opening_stock_date))
+        representation["restocking_date"] = convert_iso_to_mmddyyyy(str(data.restocking_date))
+        representation["remaining_stock"] = representation["opening_stock"] + representation["additional_stock"] - representation["out_stock"]
+        representation["status"] = "in stock " if representation["remaining_stock"] > 0 else "out stock"
+        return representation
+
+
+class MaterialSerializer(serializers.ModelSerializer):
     """serialier class for field workd"""
-
+    # inventory = InventorySerializer(many=True)
+    # staff = EmployeeSerializer(many=False)
+    # fieldwork = FieldWorkSerializer(many=False)
     class Meta:
         model = Material
-        fields = "__all__"
-        read_only_fields = ["provider"]
-
+        fields = ["quantity","inventory", "fieldwork", "staff"]
+        read_only_fields = ["provider", "inventory", "fieldwork", "staff", "usage_date"]
 
 class ShortMessageSerializer(serializers.ModelSerializer):
     """short message model serializer"""

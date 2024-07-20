@@ -100,7 +100,9 @@ class Material(models.Model):
     inventory = models.ForeignKey("Inventory",on_delete=models.SET_NULL, null=True)
     staff = models.ForeignKey(to="Employee", on_delete=models.SET_NULL, null=True)
     quantity = models.PositiveIntegerField()
-    fieldwork = models.ForeignKey(FieldWork, on_delete=models.SET_NULL, null=True)
+    fieldwork = models.OneToOneField(FieldWork, on_delete=models.SET_NULL, null=True)
+    usage_date = models.DateTimeField(auto_now=True)
+
 
     def __str__(self):
         return self.name

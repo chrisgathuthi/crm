@@ -1,21 +1,19 @@
 <script setup>
 import axios from 'axios';
 import { useField, useForm } from 'vee-validate';
-import { onBeforeMount, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { onMounted, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import * as yup from 'yup'
 
 const inventoryData = ref([])
-
-
-
+const router = useRouter()
 const route = useRoute()
-onBeforeMount(async () => {
+onMounted(async () => {
     await axios.get(`/accounts/inventory/${route.params.id}`, {
-            headers: { Authorization: `Token ${localStorage.getItem("token")}` },
-        })
-        .then((response) => {
-            this.inventories = response.data;
+        headers: { Authorization: `Token ${localStorage.getItem("token")}` },
+    })
+        .then(() => {
+            router.push({ name: 'inventoryStore' })
         })
         .catch();
 })

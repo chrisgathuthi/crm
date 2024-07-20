@@ -22,6 +22,9 @@ import EmployeeDetails from "../components/Admin/Employee/EmployeeDetails.vue";
 import InventoryPage from "../components/Inventory/InventoryPage.vue";
 import MaterialPage from "../components/Inventory/MaterialPage.vue";
 import InventoryUpdate from "../components/Inventory/InventoryUpdate.vue";
+import TicketForm from '../components/FieldWork/TicketForm.vue'
+import ClosedTickets from "../components/FieldWork/ClosedTickets.vue";
+import ActiveTickets from "../components/FieldWork/ActiveTickets.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -47,9 +50,6 @@ const router = createRouter({
     {
       path: "/billing",
       name: "billing",
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: BillingView,
       children: [
         {
@@ -73,6 +73,23 @@ const router = createRouter({
       path: "/field-work",
       name: "field-work",
       component: FieldView,
+      children: [
+        {
+          path: "/create-ticket",
+          name: "addTicket",
+          component: TicketForm
+        },
+        {
+          path: "/open-tickets",
+          name: "openTickets",
+          component: ActiveTickets
+        },
+        {
+          path: "/closed-tickets",
+          name: "closedTickets",
+          component: ClosedTickets
+        },
+      ]
     },
     {
       path: "/inventory",
@@ -90,7 +107,7 @@ const router = createRouter({
           component: MaterialPage
         },
         {
-          path: "/inventoryupdate/:id",
+          path: "/inventoryupdate/:id/update",
           name: "inventoryUpdate",
           component: InventoryUpdate
         }
