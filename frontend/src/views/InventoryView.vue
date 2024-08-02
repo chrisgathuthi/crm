@@ -5,7 +5,6 @@ import InventoryNavigation from '@/components/Navigation/InventoryNavigation.vue
 
 </script>
 <template>
-    <Navigation/>
     <BaseLayout>
         <template v-slot:pageMenu>
             <InventoryNavigation/>

@@ -3,6 +3,7 @@ from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from .utilities import convert_iso_to_mmddyyyy
 from django.db import transaction
+from django.db.models import Q
 from .models import (Bandwidth, Client, FieldWork, MpesaTransaction, Provider,
                      ShortMessage, Bandwidth, Employee, Material, SmsGatewayResponse, Inventory)
 
@@ -128,6 +129,23 @@ class FieldWorkSerializer(serializers.ModelSerializer):
         representation = super().to_representation(data)
         representation["isclosed"] = "pending" if json.dumps(representation["isclosed"]) else "closed"
         return representation
+        
+    def create(self, validated_data):
+        assigned_staff = self.context.get("assignee")
+        names = assigned_staff.split()
+
+        assignee = get_user_model().objects.get(
+            Q(first_name = names[0]) & Q(last_name = names[1])
+        )
+        employee = Employee.objects.get(employee=assignee)
+        fieldwork  = FieldWork.objects.create(
+            task_name=validated_data.get("task_name"),
+            location=validated_data.get("location"),
+            activities=validated_data.get("activities"),
+            assignee=employee,
+            date=validated_data.get("date")
+        )
+        return fieldwork
 
 
 

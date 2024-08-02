@@ -25,6 +25,10 @@ import InventoryUpdate from "../components/Inventory/InventoryUpdate.vue";
 import TicketForm from '../components/FieldWork/TicketForm.vue'
 import ClosedTickets from "../components/FieldWork/ClosedTickets.vue";
 import ActiveTickets from "../components/FieldWork/ActiveTickets.vue";
+import StaffTickets from "../components/Staff/ActiveTickets.vue";
+import TicketHistory from "../components/Staff/ActiveTickets.vue";
+import TicketDetails from "../components/Staff/TicketDetails.vue";
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -107,7 +111,7 @@ const router = createRouter({
           component: MaterialPage
         },
         {
-          path: "/inventoryupdate/:id/update",
+          path: "/change/:id/update",
           name: "inventoryUpdate",
           component: InventoryUpdate
         }
@@ -176,6 +180,23 @@ const router = createRouter({
       path: "/staff",
       name: "staff",
       component: Staff,
+      children: [
+        {
+          path: "/active-tickets",
+          name: "staffActiveTicket",
+          component: StaffTickets
+        },
+        {
+          path: "/ticket-details/:id",
+          name: "staffTicketDetails",
+          component: TicketDetails
+        },
+        {
+          path: "/ticket-history",
+          name: "staffTicketHistory",
+          component: TicketHistory
+        },
+      ]
     },
   ],
 });

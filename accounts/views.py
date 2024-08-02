@@ -59,10 +59,13 @@ class FieldWorkView(ModelViewSet):
         serializer = FieldWorkSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def perform_create(self, serializer):
+    def create(self, request):
         provider = get_provider_from_token(header=self.request.META)
-        serializer.save(provider=provider)
-    
+        serializer = FieldWorkSerializer(data = request.data, context={"assignee": request.data.get("assignee")})
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(provider = provider)
+            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+
     def partial_update(self, request,  pk):
         # provider = get_provider_from_token(header=self.request.META)
         instance = self.get_object()

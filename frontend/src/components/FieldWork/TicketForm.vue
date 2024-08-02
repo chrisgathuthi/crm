@@ -2,7 +2,6 @@
 import { useField, useForm } from 'vee-validate';
 import * as yup from 'yup';
 import { useToastStore } from '@/stores/toast';
-import { useFieldWorkStore } from '@/stores/fieldwork.js';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 
@@ -25,14 +24,12 @@ onMounted(() => {
             //   staff.value = response.data  
             staff.value = unpackObjectToArray(response.data)
         })
-        .catch((error) => {
-            console.log(error);
-            // toast.showToast(2000, `${error.response.data}`, 'warning')
+        .catch(() => {
+            toast.showToast(2000, "An error occured", 'warning')
         })
 })
 
-// fieldwork store
-const store = useFieldWorkStore()
+
 
 const { errors, values, resetForm, setErrors, handleSubmit } = useForm({
     validationSchema: yup.object({
@@ -64,11 +61,8 @@ const submit = handleSubmit(async () => {
         .then((resp) => {
             toast.showToast(3000, `${resp.data.task_name} created successfully`, 'success')
             resetForm()
-            store.getFieldWorkList()
-            // reload the page or update the DOM
         })
         .catch((errors) => {
-            console.log(errors.response.data)
             toast.showToast(3000, "An error occurred", "warning")
             setErrors({
                 taskname: errors.response.data.task_name,
@@ -106,7 +100,4 @@ const submit = handleSubmit(async () => {
 
         </v-col>
     </v-row>
-
-
-    <!-- data grid -->
 </template>
