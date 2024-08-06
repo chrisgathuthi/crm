@@ -281,3 +281,10 @@ class InventorySerializer(serializers.ModelSerializer):
         representation["remaining_stock"] = representation["opening_stock"] + representation["additional_stock"] - representation["out_stock"]
         representation["status"] = "in stock " if representation["remaining_stock"] > 0 else "out stock"
         return representation
+
+class SearchInventorySerializer(serializers.ModelSerializer):
+    """searializer search terms"""
+
+    class Meta:
+        model = Inventory
+        fields = ["id","name"]

@@ -16,13 +16,14 @@ from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, ViewSet
 from rest_framework.pagination import PageNumberPagination
+from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import (Bandwidth, Client, FieldWork, MpesaTransaction, Provider,
                      ShortMessage, Employee, Material, SmsGatewayResponse, Inventory)
 from .serializers import (BandwidthSerializer, ClientSerializer,
                           FieldWorkSerializer, MpesaTransactionSerializer,
                           ProviderSerializer, ShortMessageSerializer,
-                          TokenSerializer, UserSerializer, AuthenticationSerializer, BandwidthSerializer,  MaterialSerializer, SmsGatewayResponseSerializer, EmployeeSerializer, InventorySerializer)
+                          TokenSerializer, UserSerializer, AuthenticationSerializer, BandwidthSerializer,  MaterialSerializer, SmsGatewayResponseSerializer, EmployeeSerializer, InventorySerializer, SearchInventorySerializer)
 from .utilities import get_provider_from_token, save_mpesa_results,check_token_validation
 
 # Create your views here.
@@ -65,7 +66,13 @@ class FieldWorkView(ModelViewSet):
         if serializer.is_valid(raise_exception=True):
             serializer.save(provider = provider)
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
-
+    
+    def retrieve(self, request, pk=None):
+        fieldwork = FieldWork.objects.get(id=pk)
+        provider = get_provider_from_token(header=self.request.META)
+        serializer = FieldWorkSerializer(fieldwork)
+        return Response(data=serializer.data)
+        
     def partial_update(self, request,  pk):
         # provider = get_provider_from_token(header=self.request.META)
         instance = self.get_object()
@@ -295,10 +302,12 @@ class MaterialView(ViewSet):
         if serializer.is_valid(raise_exception=True):
             serializer.save(provider=provider)
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
-        
+
 class InventoryView(ViewSet):
 
     queryset = Inventory.objects.all()
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name']
 
     def create(self, request):
         if check_token_validation(header=request.META):
@@ -352,8 +361,20 @@ class InventoryView(ViewSet):
                 serializer_instance = serializer.save(provider=provider)
                 return Response(data=serializer.data, status=status.HTTP_200_OK)
             return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        
 
+class SearchInventory(APIView):
+
+    """searching through all the inventories"""
+    authentication_classes = [TokenAuthentication]
+
+    def get(self, request, format=None):
+        search_term = request.query_params.get("search")
+
+        if  search_term is None or search_term == "":
+            return Response(data={"data": "Invalid parameters"}, status=status.HTTP_400_BAD_REQUEST)        
+        queryset = Inventory.objects.filter(name__icontains=search_term)
+        serializer = SearchInventorySerializer(instance=queryset, many=True)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
 class SmsGatewayResponseView(ModelViewSet):
 
     queryset = SmsGatewayResponse.objects.all()

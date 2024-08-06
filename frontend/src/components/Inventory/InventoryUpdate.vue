@@ -12,9 +12,11 @@ onMounted(async () => {
     await axios.get(`/accounts/inventory/${route.params.id}`, {
         headers: { Authorization: `Token ${localStorage.getItem("token")}` },
     })
-        .then(() => {
-            router.push({ name: 'inventoryStore' })
+        .then((response) => {
+            inventoryData.value = response.data
+            resetForm()
         })
+
         .catch();
 })
 const { handleSubmit, values, errors, resetForm } = useForm({
@@ -26,9 +28,8 @@ const additionalStock = useField("additionalStock")
 const submit = handleSubmit(async () => {
     const data = { additional_stock: values.additionalStock }
     await axios.patch(`/accounts/inventory/${route.params.id}/update/`, data, { headers: { Authorization: `Token ${localStorage.getItem("token")}` } })
-        .then((response) => {
-            inventoryData.value = response.data
-            resetForm()
+        .then(() => {
+            router.push({ name: 'inventoryStore' })
         })
         .catch()
 })

@@ -2,7 +2,7 @@ from django.urls import include, path
 from rest_framework import routers
 from .views import (BandwidthView, ClientView, FieldWorkView,
                     MpesaTransactions, MpesaWebHook, ProviderView,
-                    ShortMessageView, UserView, UserAuthenticateView, SmsWebHook, EmployeeView, MaterialView, SmsGatewayResponseView, InventoryView)
+                    ShortMessageView, UserView, UserAuthenticateView, SmsWebHook, EmployeeView, MaterialView, SmsGatewayResponseView, InventoryView, SearchInventory)
 
 route = routers.DefaultRouter()
 route.register("client", ClientView, basename="client")
@@ -53,5 +53,6 @@ urlpatterns = [
     path("inventory/",InventoryView.as_view({"post":"create"}),name="create-inventory"),
     path("inventory/<int:pk>/",InventoryView.as_view({"get":"retrieve"}),name="create-inventory"),
     path("inventory/<int:pk>/update/",InventoryView.as_view({"patch":"partial_update"}),name="create-inventory"),
-    path("inventories/",InventoryView.as_view({"get":"list"}),name="inventory-list")
+    path("inventories/",InventoryView.as_view({"get":"list"}),name="inventory-list"),
+    path("search-inventories/",SearchInventory.as_view(),name="searching-inventories")
 ]

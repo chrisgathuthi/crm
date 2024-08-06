@@ -16,6 +16,7 @@ onMounted(async ()=>{
 })
 // routing
 const router = useRouter()
+
 </script>
 <template>
     <section>
@@ -26,7 +27,7 @@ const router = useRouter()
                     <th>Location</th>
                     <th>Date</th>
                     <th>Status</th>
-                    <th>Activites</th>
+                    <th>Assignee</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,7 +36,7 @@ const router = useRouter()
                     <td>{{ data.location }}</td>
                     <td>{{ data.date }}</td>
                     <td>{{ data.isclosed }}</td>
-                    <td> <p>{{ data.activities }}</p> </td>
+                    <td>{{ data.assignee }}</td>
                 </tr>
             </tbody>
             
