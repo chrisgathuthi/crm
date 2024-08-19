@@ -9,7 +9,6 @@ route.register("client", ClientView, basename="client")
 route.register("fieldwork", FieldWorkView, basename="fieldwork")
 route.register("sms", ShortMessageView, basename="sms")
 route.register("registration", UserView, basename="registration")
-route.register("sms-gateway-response",SmsGatewayResponseView, basename="smsgatewayresponse")
 urlpatterns = [
     path("", include(route.urls)),
     path("provider/", ProviderView.as_view({"post": "create"}), name="create-provider"),
@@ -54,5 +53,6 @@ urlpatterns = [
     path("inventory/<int:pk>/",InventoryView.as_view({"get":"retrieve"}),name="create-inventory"),
     path("inventory/<int:pk>/update/",InventoryView.as_view({"patch":"partial_update"}),name="create-inventory"),
     path("inventories/",InventoryView.as_view({"get":"list"}),name="inventory-list"),
-    path("search-inventories/",SearchInventory.as_view(),name="searching-inventories")
+    path("search-inventories/",SearchInventory.as_view(),name="searching-inventories"),
+    path("tiara-callback/",SmsGatewayResponseView.as_view(), name="smsgatewayresponse")
 ]

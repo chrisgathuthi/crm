@@ -375,8 +375,13 @@ class SearchInventory(APIView):
         queryset = Inventory.objects.filter(name__icontains=search_term)
         serializer = SearchInventorySerializer(instance=queryset, many=True)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
-class SmsGatewayResponseView(ModelViewSet):
 
-    queryset = SmsGatewayResponse.objects.all()
+
+class SmsGatewayResponseView(View):
+
+    def post(self, request):
+        print(request.body)
+        return HttpResponse(":)")
+
     
 
