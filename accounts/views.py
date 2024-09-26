@@ -62,9 +62,9 @@ class FieldWorkView(ModelViewSet):
 
     def create(self, request):
         provider = get_provider_from_token(header=self.request.META)
-        serializer = FieldWorkSerializer(data = request.data, context={"assignee": request.data.get("assignee")})
+        serializer = FieldWorkSerializer(data = request.data, context={"assignee": request.data.get("assignee"),"provider":provider})
         if serializer.is_valid(raise_exception=True):
-            serializer.save(provider = provider)
+            serializer.save()
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
     
     def retrieve(self, request, pk=None):

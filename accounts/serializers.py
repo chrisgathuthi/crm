@@ -132,6 +132,7 @@ class FieldWorkSerializer(serializers.ModelSerializer):
         
     def create(self, validated_data):
         assigned_staff = self.context.get("assignee")
+        provider = self.context.get("provider")
         names = assigned_staff.split()
 
         assignee = get_user_model().objects.get(
@@ -143,6 +144,7 @@ class FieldWorkSerializer(serializers.ModelSerializer):
             location=validated_data.get("location"),
             activities=validated_data.get("activities"),
             assignee=employee,
+            provider=provider,
             date=validated_data.get("date")
         )
         return fieldwork
