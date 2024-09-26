@@ -25,8 +25,8 @@ import InventoryUpdate from "../components/Inventory/InventoryUpdate.vue";
 import TicketForm from '../components/FieldWork/TicketForm.vue'
 import ClosedTickets from "../components/FieldWork/ClosedTickets.vue";
 import ActiveTickets from "../components/FieldWork/ActiveTickets.vue";
-import StaffTickets from "../components/Staff/ActiveTickets.vue";
-import TicketHistory from "../components/Staff/ActiveTickets.vue";
+import StaffActiveTickets from "../components/Staff/ActiveTickets.vue";
+import StaffTicketHistory from "../components/Staff/TicketHistory.vue";
 import TicketDetails from "../components/Staff/TicketDetails.vue";
 
 
@@ -184,7 +184,7 @@ const router = createRouter({
         {
           path: "/active-tickets",
           name: "staffActiveTicket",
-          component: StaffTickets
+          component: StaffActiveTickets
         },
         {
           path: "/ticket-details/:id",
@@ -194,7 +194,7 @@ const router = createRouter({
         {
           path: "/ticket-history",
           name: "staffTicketHistory",
-          component: TicketHistory
+          component: StaffTicketHistory
         },
       ]
     },

@@ -75,29 +75,29 @@ const submit = handleSubmit(async () => {
 })
 </script>
 <template>
-    <v-row align-center>
-        <v-col>
-            <v-form @submit.prevent="submit" max-width="700">
-                <v-text-field label="Task Name*" clearable :error-messages="errors.taskname"
+    <v-sheet class="mx-auto overflow-auto elevation-1 pa-5 mt-4" tag="div" width="600" >
+            <v-form @submit.prevent="submit" title="create field ticket">
+                <v-text-field label="Task Name*" variant="underlined" clearable :error-messages="errors.taskname"
                     v-model="taskname.value.value" required></v-text-field>
 
-                <v-text-field label="Location*" required clearable :error-messages="errors.location"
+                <v-text-field label="Location*" variant="underlined" required clearable :error-messages="errors.location"
                     v-model="location.value.value"></v-text-field>
-                <v-textarea clearable clear-icon="mdi-close-circle" label="Activites*" model-value="1. "
+                <v-textarea clearable variant="underlined" clear-icon="mdi-close-circle" label="Activites*" model-value="1. "
                     :error-messages="errors.activities" v-model="activities.value.value"></v-textarea>
-                <v-select :items="staff" label="Assignee*" required :error-messages="errors.assignee"
+                <v-select variant="underlined" :items="staff" label="Assignee*" required :error-messages="errors.assignee"
                     v-model="assignee.value.value"></v-select>
-                <v-text-field label="Date*" :error-messages="errors.date" v-model="date.value.value" type="date"
+                <v-text-field label="Date*" variant="underlined" :error-messages="errors.date" v-model="date.value.value" type="date"
                     required></v-text-field>
 
-                <small>*indicates required field</small>
+                <small>*indicates required field </small>
 
                 <v-spacer></v-spacer>
-                <v-btn color="blue-darken-1" type="submit">
+                <div class="text-center">
+                    <v-btn color="blue-darken-1" type="submit">
                     submit
                 </v-btn>
-            </v-form>
 
-        </v-col>
-    </v-row>
+                </div>
+            </v-form>
+    </v-sheet>
 </template>

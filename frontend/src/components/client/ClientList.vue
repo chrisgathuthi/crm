@@ -33,7 +33,7 @@ onMounted(async () => {
 
         </tr>
       </thead>
-      <tbody>
+      <tbody v-if="store.clients.length > 1">
         <tr v-for="client in store.clients" :key="client.id"
           @click="router.push({ name: 'client-detail', params: { id: client.id } })"
           @mouseover="style = { backgroundColor: 'green' }" class="pointer">
@@ -48,6 +48,14 @@ onMounted(async () => {
           <td>{{ Converter(client.registration_date) }}</td>
         </tr>
       </tbody>
+      <tbody v-else>
+        <tr>
+          <td colspan="9">
+            <p>No clients registered</p>
+          </td>
+        </tr>
+      </tbody>
+
     </v-table>
 
   </section>

@@ -1,7 +1,7 @@
 <script setup>
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
-import { SplitText } from '@/functions/SplitText';
+//import { SplitText } from '@/functions/SplitText';
 
 
 const closedTickets = ref([])
@@ -34,7 +34,7 @@ onMounted(async ()=>{
                     <td>{{ data.location }}</td>
                     <td>{{ data.date }}</td>
                     <td>{{ data.isclosed }}</td>
-                    <td>{{ SplitText(data.activities) }}</td>
+                    <!-- <td>{{ SplitText(data.activities) }}</td> -->
                 </tr>
             </tbody>
             

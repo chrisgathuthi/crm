@@ -4,7 +4,7 @@ import NavigationMenu from '../NavigationMenu.vue';
 
 </script>
 <template>
-    <section class="page-layout">
+    <section class="page-layout min-h-screen">
 
         <section class="side-navigation">
             <aside>

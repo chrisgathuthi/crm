@@ -9,6 +9,7 @@ onMounted(async ()=>{
     await axios.get("/accounts/fieldwork/?isclosed=false",{headers: {Authorization: `Token ${localStorage.getItem("token")}`}})
     .then((response)=>{
         openTickets.value = response.data
+        console.log(openTickets.value)
     })
     .catch((error)=>{
         console.log(error);
@@ -36,7 +37,7 @@ const router = useRouter()
                     <td>{{ data.location }}</td>
                     <td>{{ data.date }}</td>
                     <td>{{ data.isclosed }}</td>
-                    <td>{{ data.assignee }}</td>
+                    <td>{{ data.assignee?.employee.username }}</td>
                 </tr>
             </tbody>
             

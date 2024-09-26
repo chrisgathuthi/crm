@@ -21,7 +21,7 @@ onMounted(async ()=>{
                 <tr>
                     <th>Task Name</th>
                     <th>Location</th>
-                    <th>Date</th>
+                    <th>Nor Date</th>
                     <th>Status</th>
                     <th>Activites</th>
                 </tr>
