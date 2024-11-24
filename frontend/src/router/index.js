@@ -201,7 +201,7 @@ const router = createRouter({
   ],
 });
 router.beforeEach((to, from, next) => {
-
+  
   if (to.matched.some((record) => record.meta.requireAuth)) {
     // this route requires auth, check if logged in
     // if not, login page.
