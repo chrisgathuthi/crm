@@ -56,7 +56,6 @@ class TestBandwidthModel(TestCase):
             "provider": provider,
             "name": "poa plan",
             "size": 10,
-            "expiry": datetime.date.today(),
         }
         self.bandwidth = Bandwidth.objects.create(**data)
         return super().setUp()
@@ -70,7 +69,6 @@ class TestBandwidthModel(TestCase):
     def test_bandwidth_attributes(self):
         self.assertTrue(hasattr(self.bandwidth, "name"))
         self.assertTrue(hasattr(self.bandwidth, "size"))
-        self.assertTrue(hasattr(self.bandwidth, "expiry"))
 
 
 class TestClientModel(TestCase):
@@ -94,7 +92,6 @@ class TestClientModel(TestCase):
             "provider": provider,
             "name": "poa plan",
             "size": 10,
-            "expiry": datetime.date.today(),
         }
         self.bandwidth = Bandwidth.objects.create(**data)
 
