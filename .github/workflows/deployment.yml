@@ -45,7 +45,9 @@ jobs:
 
           chmod 600 ssh_key
 
-          scp -i ssh_key -r ./frontend/dist/* $SERVER_USER@$SERVER_IP:/var/www/crm.com/
+          scp -i ssh_key -r ./frontend/dist/* $SERVER_USER@$SERVER_IP:/var/www/crm/
+
+          scp -i ssh_key -r ./ $SERVER_USER@$SERVER_IP:~/crm
 
           ssh -i ssh_key $SERVER_USER@$SERVER_IP << EOF
 
@@ -53,7 +55,7 @@ jobs:
 
           python manage.py collectstatic --noinput
 
-          sudo service restart gunicorn
+          # sudo service restart gunicorn
 
           sudo chown -R www-data:www-data /var/www/crm
           
