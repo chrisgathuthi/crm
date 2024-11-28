@@ -1,0 +1,60 @@
+name: CI-CD Pipeline
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-lates
+    env:
+      SECRET_KEY: ""
+
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v4
+      - name: set up python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: Installing dependacies
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install -r requirements.txt
+      - name: Run tests
+        run: |
+          python manage.py test
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+      - name: install frontend dependecies
+        working-directory: ./frontend
+        run: npm install
+      - name: Build frontend frontend
+        run: npm run build
+
+      - name: Deploy to azure
+        env:
+          SSH_KEY: ${{secrets.SSH_KEY}}
+          SERVER_IP: ${{secrets.SERVER_IP}}
+          SERVER_USER: ${{secrets.SERVER_USER}}
+        run: |
+          echo "$SSH_KEY > ssh_key" 
+
+          chmod 600 ssh_key
+
+          scp -i ssh_key -r ./frontend/dist/* $SERVER_USER@$SERVER_IP:/var/www/crm.com/
+
+          ssh -i ssh_key $SERVER_USER@$SERVER_IP << EOF
+
+          pip install -r requirements.txt
+
+          python manage.py collectstatic --noinput
+
+          sudo service restart gunicorn
+
+          sudo chown -R www-data:www-data /var/www/crm
+          
+          EOF
