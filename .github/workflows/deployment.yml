@@ -5,8 +5,8 @@ on:
       - main
 
 jobs:
-  build:
-    runs-on: ubuntu-lates
+  test-and-deploy:
+    runs-on: ubuntu-latest
     env:
       SECRET_KEY: ""
 
