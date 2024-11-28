@@ -42,7 +42,6 @@ jobs:
           SERVER_IP: ${{secrets.SERVER_IP}}
           SERVER_USER: ${{secrets.SERVER_USER}}
         run: |
-          echo "$SSH_KEY"
           echo "$SSH_KEY" > ssh_key 
 
           chmod 600 ssh_key
